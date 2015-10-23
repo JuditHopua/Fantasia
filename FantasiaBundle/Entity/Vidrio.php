@@ -1,34 +1,29 @@
 <?php
-
 namespace Acme\FantasiaBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Vidrio
  *
- * @ORM\Table()
+ * @ORM\Table(name="Vidrio")
  * @ORM\Entity
  */
 class Vidrio
 {
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-
+	
     /**
-     * Get id
-     *
-     * @return integer 
+     * @ORM | Column(type="string", length=100)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+	protected $tipo;
+	
+	/**
+     * @ORM | Column(type="decimal", scale=2)
+     */
+	protected $precioxm2;
+
 }

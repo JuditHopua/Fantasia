@@ -1,34 +1,24 @@
 <?php
-
 namespace Acme\FantasiaBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Marca
  *
- * @ORM\Table()
+ * @ORM\Table(name="Marca")
  * @ORM\Entity
  */
 class Marca
 {
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-
+	
     /**
-     * Get id
-     *
-     * @return integer 
+     * @ORM | Column(type="string", length=100)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+	protected $nombre;
+
 }

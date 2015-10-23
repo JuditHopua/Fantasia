@@ -1,34 +1,44 @@
 <?php
-
 namespace Acme\FantasiaBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Presupuesto
  *
- * @ORM\Table()
+ * @ORM\Table(name="Presupuesto")
  * @ORM\Entity
  */
-class Presupuesto
+class Prespuesto
 {
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-
+	
     /**
-     * Get id
-     *
-     * @return integer 
+     * @ORM | Column(type="date")
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+	protected $fecha;
+	
+	/**
+     * @ORM | Column(type="decimal", scale=2)
+     */
+	protected $costoEnvio;
+	
+	/**
+     * @ORM | Column(type="decimal", scale=2)
+     */
+	protected $costoColocacion;
+	
+	/**
+     * @ORM | Column(type="integer")
+     */
+	protected $plazoEntrega;
+	
+	/**
+     * @ORM | Column(type="decimal", scale=2)
+     */
+	protected $montoTotalCarpinterias;
+	
 }
