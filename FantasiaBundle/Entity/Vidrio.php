@@ -1,29 +1,97 @@
 <?php
+
 namespace Acme\FantasiaBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Vidrio
  *
  * @ORM\Table(name="Vidrio")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Acme\FantasiaBundle\Entity\VidrioRepository")
  */
 class Vidrio
 {
     /**
+     * @var integer
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-	
-    /**
-     * @ORM | Column(type="string", length=100)
-     */
-	protected $tipo;
-	
-	/**
-     * @ORM | Column(type="decimal", scale=2)
-     */
-	protected $precioxm2;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo", type="string", length=100)
+     */
+    private $tipo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="precioxm2", type="decimal", scale=2)
+     */
+    private $precioxm2;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     *
+     * @return Vidrio
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return string
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Set precioxm2
+     *
+     * @param string $precioxm2
+     *
+     * @return Vidrio
+     */
+    public function setPrecioxm2($precioxm2)
+    {
+        $this->precioxm2 = $precioxm2;
+
+        return $this;
+    }
+
+    /**
+     * Get precioxm2
+     *
+     * @return string
+     */
+    public function getPrecioxm2()
+    {
+        return $this->precioxm2;
+    }
 }
+
