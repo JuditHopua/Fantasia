@@ -1,3 +1,0 @@
-acme_fantasia_homepage:
-    pattern:  /hello/{$name}
-    defaults: { _controller: AcmeFantasiaBundle:Default:index }
