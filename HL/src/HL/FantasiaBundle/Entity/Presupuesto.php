@@ -3,11 +3,11 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Presupuesto
  *
- * @ORM\Entity
  * @ORM\Table(name="Presupuesto")
  * @ORM\Entity(repositoryClass="HL\FantasiaBundle\Entity\PresupuestoRepository")
  */
@@ -56,12 +56,28 @@ class Presupuesto
      * @ORM\Column(name="montoTotalCarpinterias", type="decimal", scale=2)
      */
     private $montoTotalCarpinterias;
-
+	
+	/**
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="Presupuesto")
+     * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
+     */
+    protected $clientes;
+	
+	/**
+     * @ORM\ManyToOne(targetEntity="Carpinteria", inversedBy="Presupuesto")
+     * @ORM\JoinColumn(name="carpinteria_id", referencedColumnName="id")
+     */
+    protected $carpinterias;
+	
+	 public function __construct()
+    {
+        $this->carpinterias = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -72,7 +88,6 @@ class Presupuesto
      * Set fecha
      *
      * @param \DateTime $fecha
-     *
      * @return Presupuesto
      */
     public function setFecha($fecha)
@@ -85,7 +100,7 @@ class Presupuesto
     /**
      * Get fecha
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getFecha()
     {
@@ -96,7 +111,6 @@ class Presupuesto
      * Set costoEnvio
      *
      * @param string $costoEnvio
-     *
      * @return Presupuesto
      */
     public function setCostoEnvio($costoEnvio)
@@ -109,7 +123,7 @@ class Presupuesto
     /**
      * Get costoEnvio
      *
-     * @return string
+     * @return string 
      */
     public function getCostoEnvio()
     {
@@ -120,7 +134,6 @@ class Presupuesto
      * Set costoColocacion
      *
      * @param string $costoColocacion
-     *
      * @return Presupuesto
      */
     public function setCostoColocacion($costoColocacion)
@@ -133,7 +146,7 @@ class Presupuesto
     /**
      * Get costoColocacion
      *
-     * @return string
+     * @return string 
      */
     public function getCostoColocacion()
     {
@@ -144,7 +157,6 @@ class Presupuesto
      * Set plazoEntrega
      *
      * @param integer $plazoEntrega
-     *
      * @return Presupuesto
      */
     public function setPlazoEntrega($plazoEntrega)
@@ -157,7 +169,7 @@ class Presupuesto
     /**
      * Get plazoEntrega
      *
-     * @return integer
+     * @return integer 
      */
     public function getPlazoEntrega()
     {
@@ -168,7 +180,6 @@ class Presupuesto
      * Set montoTotalCarpinterias
      *
      * @param string $montoTotalCarpinterias
-     *
      * @return Presupuesto
      */
     public function setMontoTotalCarpinterias($montoTotalCarpinterias)
@@ -181,11 +192,10 @@ class Presupuesto
     /**
      * Get montoTotalCarpinterias
      *
-     * @return string
+     * @return string 
      */
     public function getMontoTotalCarpinterias()
     {
         return $this->montoTotalCarpinterias;
     }
 }
-

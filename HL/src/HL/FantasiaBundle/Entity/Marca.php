@@ -3,11 +3,11 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Marca
  *
- * @ORM\Entity
  * @ORM\Table(name="Marca")
  * @ORM\Entity(repositoryClass="HL\FantasiaBundle\Entity\MarcaRepository")
  */
@@ -29,11 +29,21 @@ class Marca
      */
     private $nombre;
 
+	/**
+     * @ORM\ManyToOne(targetEntity="AsignacionMarcaModelo", inversedBy="Marca")
+     * @ORM\JoinColumn(name="asignacion_id", referencedColumnName="id")
+     */
+    protected $asignaciones;
+	
+	 public function __construct()
+    {
+        $this->asignaciones = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -44,7 +54,6 @@ class Marca
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return Marca
      */
     public function setNombre($nombre)
@@ -57,11 +66,10 @@ class Marca
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
         return $this->nombre;
     }
 }
-

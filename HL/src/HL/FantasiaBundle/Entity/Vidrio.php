@@ -3,11 +3,11 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Vidrio
  *
- * @ORM\Entity
  * @ORM\Table(name="Vidrio")
  * @ORM\Entity(repositoryClass="HL\FantasiaBundle\Entity\VidrioRepository")
  */
@@ -35,12 +35,21 @@ class Vidrio
      * @ORM\Column(name="precioxm2", type="decimal", scale=2)
      */
     private $precioxm2;
-
+	
+	/**
+     * @ORM\OneToOne(targetEntity="Carpinteria", mappedBy="Vidrio")
+     */
+    protected $carpinterias;
+ 
+    public function __construct()
+    {
+        $this->carpinterias = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -51,7 +60,6 @@ class Vidrio
      * Set tipo
      *
      * @param string $tipo
-     *
      * @return Vidrio
      */
     public function setTipo($tipo)
@@ -64,7 +72,7 @@ class Vidrio
     /**
      * Get tipo
      *
-     * @return string
+     * @return string 
      */
     public function getTipo()
     {
@@ -75,7 +83,6 @@ class Vidrio
      * Set precioxm2
      *
      * @param string $precioxm2
-     *
      * @return Vidrio
      */
     public function setPrecioxm2($precioxm2)
@@ -88,11 +95,10 @@ class Vidrio
     /**
      * Get precioxm2
      *
-     * @return string
+     * @return string 
      */
     public function getPrecioxm2()
     {
         return $this->precioxm2;
     }
 }
-

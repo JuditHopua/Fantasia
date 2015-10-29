@@ -3,11 +3,11 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Cliente
  *
- * @ORM\Entity
  * @ORM\Table(name="Cliente")
  * @ORM\Entity(repositoryClass="HL\FantasiaBundle\Entity\ClienteRepository")
  */
@@ -63,12 +63,21 @@ class Cliente
      * @ORM\Column(name="observaciones", type="text")
      */
     private $observaciones;
-
+	
+	/**
+     * @ORM\OneToOne(targetEntity="Presupuesto", mappedBy="Cliente")
+     */
+    protected $presupuestos;
+ 
+    public function __construct()
+    {
+        $this->presupuestos = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -79,7 +88,6 @@ class Cliente
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return Cliente
      */
     public function setNombre($nombre)
@@ -92,7 +100,7 @@ class Cliente
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -103,7 +111,6 @@ class Cliente
      * Set apellido
      *
      * @param string $apellido
-     *
      * @return Cliente
      */
     public function setApellido($apellido)
@@ -116,7 +123,7 @@ class Cliente
     /**
      * Get apellido
      *
-     * @return string
+     * @return string 
      */
     public function getApellido()
     {
@@ -127,7 +134,6 @@ class Cliente
      * Set email
      *
      * @param string $email
-     *
      * @return Cliente
      */
     public function setEmail($email)
@@ -140,7 +146,7 @@ class Cliente
     /**
      * Get email
      *
-     * @return string
+     * @return string 
      */
     public function getEmail()
     {
@@ -151,7 +157,6 @@ class Cliente
      * Set telefono
      *
      * @param integer $telefono
-     *
      * @return Cliente
      */
     public function setTelefono($telefono)
@@ -164,7 +169,7 @@ class Cliente
     /**
      * Get telefono
      *
-     * @return integer
+     * @return integer 
      */
     public function getTelefono()
     {
@@ -175,7 +180,6 @@ class Cliente
      * Set domicilio
      *
      * @param string $domicilio
-     *
      * @return Cliente
      */
     public function setDomicilio($domicilio)
@@ -188,7 +192,7 @@ class Cliente
     /**
      * Get domicilio
      *
-     * @return string
+     * @return string 
      */
     public function getDomicilio()
     {
@@ -199,7 +203,6 @@ class Cliente
      * Set observaciones
      *
      * @param string $observaciones
-     *
      * @return Cliente
      */
     public function setObservaciones($observaciones)
@@ -212,11 +215,10 @@ class Cliente
     /**
      * Get observaciones
      *
-     * @return string
+     * @return string 
      */
     public function getObservaciones()
     {
         return $this->observaciones;
     }
 }
-

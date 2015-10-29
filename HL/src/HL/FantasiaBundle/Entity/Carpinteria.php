@@ -2,12 +2,11 @@
 
 namespace HL\FantasiaBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;    
 
 /**
  * Carpinteria
  *
- * @ORM\Entity
  * @ORM\Table(name="Carpinteria")
  * @ORM\Entity(repositoryClass="HL\FantasiaBundle\Entity\CarpinteriaRepository")
  */
@@ -25,7 +24,7 @@ class Carpinteria
     /**
      * @var string
      *
-     * @ORM\Column(name="alto", type="decimal",scale=2)
+     * @ORM\Column(name="alto", type="decimal", scale=2)
      */
     private $alto;
 
@@ -57,11 +56,28 @@ class Carpinteria
      */
     private $cantidad;
 
-
+	/**
+     * @ORM\ManyToOne(targetEntity="Vidrio", inversedBy="Carpinteria")
+     * @ORM\JoinColumn(name="vidrio_id", referencedColumnName="id")
+     */
+    protected $vidrios;
+	
+	/**
+     * @ORM\ManyToOne(targetEntity="AsignacionMarcaModelo", inversedBy="Carpinteria")
+     * @ORM\JoinColumn(name="asignacion_id", referencedColumnName="id")
+     */
+    protected $asignaciones;
+	
+	/**
+     * @ORM\OneToOne(targetEntity="Presupuesto", mappedBy="Carpinteria")
+     * @ORM\JoinColumn(name="presupuesto_id", referencedColumnName="id")
+     */
+    protected $presupuestos;
+	
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -72,7 +88,6 @@ class Carpinteria
      * Set alto
      *
      * @param string $alto
-     *
      * @return Carpinteria
      */
     public function setAlto($alto)
@@ -85,7 +100,7 @@ class Carpinteria
     /**
      * Get alto
      *
-     * @return string
+     * @return string 
      */
     public function getAlto()
     {
@@ -96,7 +111,6 @@ class Carpinteria
      * Set ancho
      *
      * @param string $ancho
-     *
      * @return Carpinteria
      */
     public function setAncho($ancho)
@@ -109,7 +123,7 @@ class Carpinteria
     /**
      * Get ancho
      *
-     * @return string
+     * @return string 
      */
     public function getAncho()
     {
@@ -120,7 +134,6 @@ class Carpinteria
      * Set premarco
      *
      * @param boolean $premarco
-     *
      * @return Carpinteria
      */
     public function setPremarco($premarco)
@@ -133,7 +146,7 @@ class Carpinteria
     /**
      * Get premarco
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getPremarco()
     {
@@ -144,7 +157,6 @@ class Carpinteria
      * Set contramarco
      *
      * @param boolean $contramarco
-     *
      * @return Carpinteria
      */
     public function setContramarco($contramarco)
@@ -157,7 +169,7 @@ class Carpinteria
     /**
      * Get contramarco
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getContramarco()
     {
@@ -168,7 +180,6 @@ class Carpinteria
      * Set cantidad
      *
      * @param integer $cantidad
-     *
      * @return Carpinteria
      */
     public function setCantidad($cantidad)
@@ -181,11 +192,10 @@ class Carpinteria
     /**
      * Get cantidad
      *
-     * @return integer
+     * @return integer 
      */
     public function getCantidad()
     {
         return $this->cantidad;
     }
 }
-

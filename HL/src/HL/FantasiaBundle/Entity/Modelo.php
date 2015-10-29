@@ -3,11 +3,11 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Modelo
  *
- * @ORM\Entity
  * @ORM\Table(name="Modelo")
  * @ORM\Entity(repositoryClass="HL\FantasiaBundle\Entity\ModeloRepository")
  */
@@ -29,11 +29,20 @@ class Modelo
      */
     private $nombre;
 
+		/**
+     * @ORM\OneToOne(targetEntity="AsignacionMarcaModelo", mappedBy="Modelo")
+     */
+    protected $asignaciones;
+ 
+    public function __construct()
+    {
+        $this->asignaciones = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -44,7 +53,6 @@ class Modelo
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return Modelo
      */
     public function setNombre($nombre)
@@ -57,11 +65,10 @@ class Modelo
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
         return $this->nombre;
     }
 }
-

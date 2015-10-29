@@ -3,6 +3,7 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * AsignacionMarcaModelo
@@ -56,11 +57,32 @@ class AsignacionMarcaModelo
      */
     private $foto;
 
+	/**
+     * @ORM\OneToOne(targetEntity="Carpinteria", mappedBy="AsignacionMarcaModelo")
+     */
+    protected $carpinterias;
+	
+	/**
+     * @ORM\ManyToOne(targetEntity="Modelo", inversedBy="AsignacionMarcaModelo")
+     * @ORM\JoinColumn(name="modelo_id", referencedColumnName="id")
+     */
+    protected $modelos;
+	
+	/**
+     * @ORM\ManyToOne(targetEntity="Marca", inversedBy="AsignacionMarcaModelo")
+	  * @ORM\JoinColumn(name="marca_id", referencedColumnName="id")
+     */
+    protected $marcas;
+ 
+    public function __construct()
+    {
+        $this->carpinterias = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -71,7 +93,6 @@ class AsignacionMarcaModelo
      * Set precioPremarcoML
      *
      * @param string $precioPremarcoML
-     *
      * @return AsignacionMarcaModelo
      */
     public function setPrecioPremarcoML($precioPremarcoML)
@@ -84,7 +105,7 @@ class AsignacionMarcaModelo
     /**
      * Get precioPremarcoML
      *
-     * @return string
+     * @return string 
      */
     public function getPrecioPremarcoML()
     {
@@ -95,7 +116,6 @@ class AsignacionMarcaModelo
      * Set precioContramarcoML
      *
      * @param string $precioContramarcoML
-     *
      * @return AsignacionMarcaModelo
      */
     public function setPrecioContramarcoML($precioContramarcoML)
@@ -108,7 +128,7 @@ class AsignacionMarcaModelo
     /**
      * Get precioContramarcoML
      *
-     * @return string
+     * @return string 
      */
     public function getPrecioContramarcoML()
     {
@@ -119,7 +139,6 @@ class AsignacionMarcaModelo
      * Set precioxML
      *
      * @param string $precioxML
-     *
      * @return AsignacionMarcaModelo
      */
     public function setPrecioxML($precioxML)
@@ -132,7 +151,7 @@ class AsignacionMarcaModelo
     /**
      * Get precioxML
      *
-     * @return string
+     * @return string 
      */
     public function getPrecioxML()
     {
@@ -143,7 +162,6 @@ class AsignacionMarcaModelo
      * Set descripcion
      *
      * @param string $descripcion
-     *
      * @return AsignacionMarcaModelo
      */
     public function setDescripcion($descripcion)
@@ -156,7 +174,7 @@ class AsignacionMarcaModelo
     /**
      * Get descripcion
      *
-     * @return string
+     * @return string 
      */
     public function getDescripcion()
     {
@@ -167,7 +185,6 @@ class AsignacionMarcaModelo
      * Set foto
      *
      * @param \stdClass $foto
-     *
      * @return AsignacionMarcaModelo
      */
     public function setFoto($foto)
@@ -180,11 +197,10 @@ class AsignacionMarcaModelo
     /**
      * Get foto
      *
-     * @return \stdClass
+     * @return \stdClass 
      */
     public function getFoto()
     {
         return $this->foto;
     }
 }
-
