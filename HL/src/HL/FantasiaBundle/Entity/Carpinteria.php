@@ -60,19 +60,19 @@ class Carpinteria
      * @ORM\ManyToOne(targetEntity="Vidrio", inversedBy="Carpinteria")
      * @ORM\JoinColumn(name="vidrio_id", referencedColumnName="id")
      */
-    protected $vidrios;
+    protected $vidrio;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="AsignacionMarcaModelo", inversedBy="Carpinteria")
      * @ORM\JoinColumn(name="asignacion_id", referencedColumnName="id")
      */
-    protected $asignaciones;
+    protected $asignacion;
 	
 	/**
-     * @ORM\OneToOne(targetEntity="Presupuesto", mappedBy="Carpinteria")
+     * @ORM\ManyToOne(targetEntity="Presupuesto", inversedBy="Carpinteria")
      * @ORM\JoinColumn(name="presupuesto_id", referencedColumnName="id")
      */
-    protected $presupuestos;
+    protected $presupuesto;
 	
     /**
      * Get id

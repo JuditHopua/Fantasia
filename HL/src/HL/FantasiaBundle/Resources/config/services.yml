@@ -2,3 +2,9 @@ services:
 #    fantasia.example:
 #        class: HL\FantasiaBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+#AGREGAMOS ESTE CODIGO!!!!!!!!!!
+    hl_user.registration.form.type:
+        class:     HL\FantasiaBundle\Form\Type\RegistrationFormType
+        arguments:     [%fos_user.model.user.class%]
+        tags:
+            - { name:     form.type, alias:     hl_user_registration }

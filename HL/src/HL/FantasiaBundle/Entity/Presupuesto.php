@@ -64,10 +64,14 @@ class Presupuesto
     protected $clientes;
 	
 	/**
-     * @ORM\ManyToOne(targetEntity="Carpinteria", inversedBy="Presupuesto")
-     * @ORM\JoinColumn(name="carpinteria_id", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="Presupuesto")
      */
     protected $carpinterias;
+	
+	/**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="Presupuesto")
+	 */
+    protected $usuario;
 	
 	 public function __construct()
     {
