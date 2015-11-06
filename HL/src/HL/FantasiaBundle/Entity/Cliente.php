@@ -73,6 +73,14 @@ class Cliente
     {
         $this->presupuestos = new ArrayCollection();
     }
+	
+	public function getPresupuestos() {
+		return $this->presupuestos;
+	}
+	
+	public function addPresupuestos(HL\FantasiaBundle\Entity\Presupuesto $presupuestos) {
+		$this->presupuestos[]=$presupuestos;
+	}
 
     /**
      * Get id

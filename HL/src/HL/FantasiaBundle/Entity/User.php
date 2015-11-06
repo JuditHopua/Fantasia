@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 
+
 /**
  * User
  *
@@ -58,6 +59,14 @@ class User extends BaseUser
     {
         $this->presupuestos = new ArrayCollection();
     }
+	
+	public function getPresupuestos() {
+		return $this->presupuestos;
+	}
+	
+	public function addPresupuestos(HL\FantasiaBundle\Entity\Presupuesto $presupuestos) {
+		$this->presupuestos[]=$presupuestos;
+	}
 	 
 	 /**
      * Get id

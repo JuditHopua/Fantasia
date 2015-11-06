@@ -39,7 +39,15 @@ class Marca
     {
         $this->asignaciones = new ArrayCollection();
     }
-
+	
+	public function getAsignaciones() {
+		return $this->asignaciones;
+	}
+	
+	public function addAsignaciones(HL\FantasiaBundle\Entity\AsignacionMarcaModelo $asignaciones) {
+		$this->asignaciones[]=$asignaciones;
+	}
+	
     /**
      * Get id
      *

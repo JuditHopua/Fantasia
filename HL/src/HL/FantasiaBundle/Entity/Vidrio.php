@@ -45,6 +45,14 @@ class Vidrio
     {
         $this->carpinterias = new ArrayCollection();
     }
+	
+	public function getCarpinterias() {
+		return $this->carpinterias;
+	}
+	
+	public function addCarpinterias(HL\FantasiaBundle\Entity\Carpinteria $carpinterias) {
+		$this->carpinterias[]=$carpinterias;
+	}
 
     /**
      * Get id

@@ -4,4 +4,7 @@ fantasia:
 
 app:
     resource: "@AppBundle/Controller/"
-    type:     annotation
+    type:     annotation	
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

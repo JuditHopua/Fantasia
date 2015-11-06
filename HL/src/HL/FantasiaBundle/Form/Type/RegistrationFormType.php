@@ -14,6 +14,8 @@ class RegistrationFormType extends BaseType
         $builder->add('nombre');
 	    $builder->add('apellido');
         $builder->add('dni');
+		//$builder->add('presupuestos', 'entity', array( 'class' => 'FantasiaBundle:Presupuesto ));
+		
     }
 
     public function getName()
