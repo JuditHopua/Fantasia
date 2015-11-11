@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 
-
 /**
  * User
  *
@@ -49,25 +48,11 @@ class User extends BaseUser
 	 */
     private $dni;
 
-	 /**
-     * @ORM\ManyToOne(targetEntity="Presupuesto", inversedBy="User")
-	 * @ORM\JoinColumn(name="presupuesto_id", referencedColumnName="id")
-     */
+    /**
+     * @ORM\OneToMany(targetEntity="Presupuesto", mappedBy="usuario")
+    */
     protected $presupuestos;
 	
-	 public function __construct()
-    {
-        $this->presupuestos = new ArrayCollection();
-    }
-	
-	public function getPresupuestos() {
-		return $this->presupuestos;
-	}
-	
-	public function addPresupuestos(HL\FantasiaBundle\Entity\Presupuesto $presupuestos) {
-		$this->presupuestos[]=$presupuestos;
-	}
-	 
 	 /**
      * Get id
      *

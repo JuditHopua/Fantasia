@@ -3,7 +3,6 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * AsignacionMarcaModelo
@@ -58,36 +57,23 @@ class AsignacionMarcaModelo
     private $foto;
 
 	/**
-     * @ORM\OneToOne(targetEntity="Carpinteria", mappedBy="AsignacionMarcaModelo")
+     * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="asignacion")
      */
     protected $carpinterias;
 	
 	/**
-     * @ORM\ManyToOne(targetEntity="Modelo", inversedBy="AsignacionMarcaModelo")
+     * @ORM\ManyToOne(targetEntity="Modelo", inversedBy="asignaciones")
      * @ORM\JoinColumn(name="modelo_id", referencedColumnName="id")
      */
     protected $modelos;
 	
 	/**
-     * @ORM\ManyToOne(targetEntity="Marca", inversedBy="AsignacionMarcaModelo")
+     * @ORM\ManyToOne(targetEntity="Marca", inversedBy="asignaciones")
 	  * @ORM\JoinColumn(name="marca_id", referencedColumnName="id")
      */
     protected $marcas;
  
-    public function __construct()
-    {
-        $this->carpinterias = new ArrayCollection();
-    }
-	
-	public function getCarpinterias() {
-		return $this->carpinterias;
-	}
-	
-	public function addCarpinterias(HL\FantasiaBundle\Entity\Carpinteria $carpinterias) {
-		$this->carpinterias[]=$carpinterias;
-	}
-
-    /**
+     /**
      * Get id
      *
      * @return integer 

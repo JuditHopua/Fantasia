@@ -58,33 +58,36 @@ class Presupuesto
     private $montoTotalCarpinterias;
 	
 	/**
-     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="Presupuesto")
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="presupuestos")
      * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
      */
     protected $clientes;
 	
 	/**
-     * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="Presupuesto")
+     * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="presupuesto")
      */
     protected $carpinterias;
 	
-	/**
-     * @ORM\OneToMany(targetEntity="User", mappedBy="Presupuesto")
-	 */
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="presupuestos")
+     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     */
     protected $usuario;
 	
-	 public function __construct()
+    public function __construct()
     {
         $this->carpinterias = new ArrayCollection();
     }
 	
-	public function getCarpinterias() {
-		return $this->carpinterias;
-	}
-	
-	public function addCarpinterias(HL\FantasiaBundle\Entity\Carpinteria $carpinterias) {
-		$this->carpinterias[]=$carpinterias;
-	}
+    public function getCarpinterias()
+    {
+        return $this->carpinterias;
+    }
+
+    public function addCarpinterias(HL\FantasiaBundle\Entity\Carpinteria $carpinterias) 
+    {
+        $this->carpinterias[]=$carpinterias;
+    }
 
     /**
      * Get id

@@ -3,7 +3,6 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Cliente
@@ -65,23 +64,10 @@ class Cliente
     private $observaciones;
 	
 	/**
-     * @ORM\OneToOne(targetEntity="Presupuesto", mappedBy="Cliente")
+     * @ORM\OneToMany(targetEntity="Presupuesto", mappedBy="clientes")
      */
     protected $presupuestos;
  
-    public function __construct()
-    {
-        $this->presupuestos = new ArrayCollection();
-    }
-	
-	public function getPresupuestos() {
-		return $this->presupuestos;
-	}
-	
-	public function addPresupuestos(HL\FantasiaBundle\Entity\Presupuesto $presupuestos) {
-		$this->presupuestos[]=$presupuestos;
-	}
-
     /**
      * Get id
      *

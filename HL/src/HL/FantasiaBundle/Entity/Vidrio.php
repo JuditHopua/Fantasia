@@ -3,7 +3,6 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Vidrio
@@ -37,22 +36,10 @@ class Vidrio
     private $precioxm2;
 	
 	/**
-     * @ORM\OneToOne(targetEntity="Carpinteria", mappedBy="Vidrio")
+     * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="vidrio")
      */
     protected $carpinterias;
  
-    public function __construct()
-    {
-        $this->carpinterias = new ArrayCollection();
-    }
-	
-	public function getCarpinterias() {
-		return $this->carpinterias;
-	}
-	
-	public function addCarpinterias(HL\FantasiaBundle\Entity\Carpinteria $carpinterias) {
-		$this->carpinterias[]=$carpinterias;
-	}
 
     /**
      * Get id
