@@ -3,7 +3,7 @@ fantasia:
     prefix:   /
 
 app:
-    resource: "@AppBundle/Controller/"
+    resource: "@FantasiaBundle/Controller/"
     type:     annotation	
 
 fos_user:

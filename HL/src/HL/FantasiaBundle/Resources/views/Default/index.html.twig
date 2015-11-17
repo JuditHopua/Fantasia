@@ -3,23 +3,27 @@
 <head>
 	{%block head%}
 	<meta charset=UTF-8>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    {%endblock%}
-	
+	{%endblock%}
 </head>
-
-   
-<body> 
-   <header> 
-	<div class="principal"> 
-		<h1> FantasiaBundle </h1> 
-		<img alt="Relativo" src="HLFantasiaBundle:Resouces:public/images/logo3-305x220.jpeg"> 
-	</div> 
-	{%block contenido%} {%endblock%} 
-	{%block imagen%} {%endblock%} 
-  </header> 
+<body>
+	<header>	
+		<div class="principal">
+			<h1>Fantasia Bundle</h1>
+			
+			
+			
+		</div>	
+		{%block contenido%}{%endblock%}
+		{%block imagen%}
+		
+		{%  image  '@FantasiaBundle/Resources/public/img/logo3-305x220.jpeg'  %} 
+		<img  src= " {{  asset_url  }} "  alt= "Example"  /> 
+		{%  endimage  %}
+		
+		
+		{%endblock%}
+	</header>	
 	
-  <footer> {%block footer%} {%endblock%} </footer> 
- </body> 
-
+	<footer>{%block footer%}{%endblock%}</footer> 
+</body>
 </html>

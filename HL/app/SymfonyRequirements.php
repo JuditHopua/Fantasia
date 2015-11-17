@@ -447,12 +447,6 @@ class SymfonyRequirements extends RequirementCollection
         }
 
         $this->addRequirement(
-            function_exists('iconv'),
-            'iconv() must be available',
-            'Install and enable the <strong>iconv</strong> extension.'
-        );
-
-        $this->addRequirement(
             function_exists('json_encode'),
             'json_encode() must be available',
             'Install and enable the <strong>JSON</strong> extension.'
@@ -552,10 +546,10 @@ class SymfonyRequirements extends RequirementCollection
             require_once __DIR__.'/../vendor/autoload.php';
 
             try {
-                $r = new ReflectionClass('Sensio\Bundle\DistributionBundle\SensioDistributionBundle');
+                $r = new \ReflectionClass('Sensio\Bundle\DistributionBundle\SensioDistributionBundle');
 
                 $contents = file_get_contents(dirname($r->getFileName()).'/Resources/skeleton/app/SymfonyRequirements.php');
-            } catch (ReflectionException $e) {
+            } catch (\ReflectionException $e) {
                 $contents = '';
             }
             $this->addRecommendation(
@@ -644,20 +638,20 @@ class SymfonyRequirements extends RequirementCollection
         }
 
         $this->addRecommendation(
-            extension_loaded('intl'),
+            class_exists('Locale'),
             'intl extension should be available',
             'Install and enable the <strong>intl</strong> extension (used for validators).'
         );
 
-        if (extension_loaded('intl')) {
-            // in some WAMP server installations, new Collator() returns null
+        if (class_exists('Collator')) {
             $this->addRecommendation(
                 null !== new Collator('fr_FR'),
                 'intl extension should be correctly configured',
                 'The intl extension does not behave properly. This problem is typical on PHP 5.3.X x64 WIN builds.'
             );
+        }
 
-            // check for compatible ICU versions (only done when you have the intl extension)
+        if (class_exists('Locale')) {
             if (defined('INTL_ICU_VERSION')) {
                 $version = INTL_ICU_VERSION;
             } else {
@@ -675,14 +669,6 @@ class SymfonyRequirements extends RequirementCollection
                 version_compare($version, '4.0', '>='),
                 'intl ICU version should be at least 4+',
                 'Upgrade your <strong>intl</strong> extension with a newer ICU version (4+).'
-            );
-
-            $this->addPhpIniRecommendation(
-                'intl.error_level',
-                create_function('$cfgValue', 'return (int) $cfgValue === 0;'),
-                true,
-                'intl.error_level should be 0 in php.ini',
-                'Set "<strong>intl.error_level</strong>" to "<strong>0</strong>" in php.ini<a href="#phpini">*</a> to inhibit the messages when an error occurs in ICU functions.'
             );
         }
 
