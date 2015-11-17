@@ -1,1 +1,25 @@
-Hello {{ name }}!
+<!DOCTYPE html>
+<html>
+<head>
+	{%block head%}
+	<meta charset=UTF-8>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    {%endblock%}
+	
+</head>
+
+   
+<body> 
+   <header> 
+	<div class="principal"> 
+		<h1> FantasiaBundle </h1> 
+		<img alt="Relativo" src="HLFantasiaBundle:Resouces:public/images/logo3-305x220.jpeg"> 
+	</div> 
+	{%block contenido%} {%endblock%} 
+	{%block imagen%} {%endblock%} 
+  </header> 
+	
+  <footer> {%block footer%} {%endblock%} </footer> 
+ </body> 
+
+</html>
