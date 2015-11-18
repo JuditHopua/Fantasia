@@ -57,7 +57,7 @@ class AsignacionMarcaModelo
     private $foto;
 
 	/**
-     * @ORM\OneToOne(targetEntity="Carpinteria", mappedBy="asignacion")
+     * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="asignacion")
      */
     protected $carpinterias;
 	
@@ -73,7 +73,7 @@ class AsignacionMarcaModelo
      */
     protected $marcas;
  
-    /**
+     /**
      * Get id
      *
      * @return integer 

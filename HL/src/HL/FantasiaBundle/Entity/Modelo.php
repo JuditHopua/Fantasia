@@ -28,7 +28,7 @@ class Modelo
      */
     private $nombre;
 
-	/**
+		/**
      * @ORM\OneToOne(targetEntity="AsignacionMarcaModelo", mappedBy="modelos")
      */
     protected $asignaciones;

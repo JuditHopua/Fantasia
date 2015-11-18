@@ -1,3 +1,3 @@
 fantasia_homepage:
-    path:     /Fantasia 
+    path:     /Fantasia
     defaults: { _controller: FantasiaBundle:Default:index }
