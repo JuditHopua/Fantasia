@@ -1,15 +1,20 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Cliente creation</h1>
+{% block title %} Nuevo Cliente {% endblock %}
 
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('cliente') }}">
+{% block body-%}
+    <h1>Agregar Cliente</h1>
+    <div class="FormAutogenerado">
+		<div id="ClienteNuevo">
+			{{ form(form) }}
+		</div>
+    </div>
+    <ul class="record_actions">
+		<li>
+			<a href="{{ path('cliente') }}">
             Back to the list
-        </a>
-    </li>
-</ul>
+			</a>
+		</li>
+	</ul>
 {% endblock %}
+

@@ -1,7 +1,15 @@
 fantasia_homepage:
-    path:     /Fantasia
-    defaults: { _controller: FantasiaBundle:Security:login }
-login_check:
-    pattern: /login_check
-logout:
-    pattern: /logout
+    path:     /Fantasia 
+    defaults: { _controller: FantasiaBundle:Default:index }
+
+_login:
+    path:    /
+    defaults: { _controller: FantasiaBundle:Default:login }	
+
+_logout:
+    path:    /
+    defaults: { _controller: FantasiaBundle:Default:logout }	
+
+FantasiaBundle_cliente:
+    resource: "@FantasiaBundle/Resources/config/routing/cliente.yml"
+    prefix:   /cliente

@@ -1,13 +1,37 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends "FantasiaBundle:Default:base.html.twig" %}
 
-  
-  {%block fos_user_content%}
-  {%  image  '@FantasiaBundle/Resources/public/images/logo3-305x220.jpg'  %} 
-  <img  src= "{{  asset_url  }}"  alt= "Example"  /> 
-  
-  {%  endimage  %}
-  <input type="text" name="username">
-  <input type="password" name="password">
-  
-  
-   {% endblock fos_user_content %}
+{% block title %} {{mensaje}} {% endblock %}
+{%block contenido%}
+	{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} 
+	    <div class="container" id="logueado_menu">
+		<div class="col-md-9 col-sm-9 col-xs-12" id="logueado">
+		<span>Usuario:</span> {{ app.user.username}} |
+        <a href="{{ path('fos_user_security_logout') }}">
+            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+        </a>
+		</div>
+		<</div>
+		{% include 'FantasiaBundle:Default:menu.html.twig' %}
+	
+	{% else %}
+			<div class="container" id="login"> 
+			    <div class="container" id="centro">
+				{%  image  '@FantasiaBundle/Resources/public/images/logo.jpg'  %} 
+				     <img  src= "{{  asset_url  }}"  alt= "Example" id="imagen"/> 
+			    {%  endimage  %}
+				</div>
+			{% block fos_user_content %}
+				{% render controller("FOSUserBundle:Security:login") %}
+			{% endblock fos_user_content %}
+			</div>
+	{% endif %}	 
+{%endblock%}
+
+		
+		
+		
+		
+		
+		
+		
+		

@@ -33,7 +33,7 @@ class Marca
      * @ORM\JoinColumn(name="asignacion_id", referencedColumnName="id")
      */
     protected $asignaciones;
-	
+		
     /**
      * Get id
      *

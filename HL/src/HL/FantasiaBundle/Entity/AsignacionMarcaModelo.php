@@ -73,7 +73,7 @@ class AsignacionMarcaModelo
      */
     protected $marcas;
  
-     /**
+    /**
      * Get id
      *
      * @return integer 

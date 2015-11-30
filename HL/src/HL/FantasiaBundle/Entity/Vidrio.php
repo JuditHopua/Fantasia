@@ -40,7 +40,6 @@ class Vidrio
      */
     protected $carpinterias;
  
-
     /**
      * Get id
      *
