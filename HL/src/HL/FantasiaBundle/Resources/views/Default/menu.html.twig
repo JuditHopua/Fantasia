@@ -1,0 +1,84 @@
+<!-- <header class="col-md-12 col-sm-12 col-xs-12"> -->
+<div class="container" id="logo_menu">
+	<div class="col-md-3 col-sm-3 col-xs-12" id="logo">
+		{%  image  '@FantasiaBundle/Resources/public/images/logo.jpg'  %} 
+			<img  src= "{{  asset_url  }}"  alt= "Example" /> 
+		{%  endimage  %}
+	</div>
+</div>
+<!-- </header> -->
+
+<div class="container">
+	<div class="col col-sm-12" id="menu">
+		<nav class="navbar navbar-default" role="navigation"> 
+			<div class="container-fluid"> 
+  				<div class="navbar-header">
+    				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      					<span class="sr-only">Desplegar navegación</span>
+      					<span class="icon-bar"></span>
+      					<span class="icon-bar"></span>
+      					<span class="icon-bar"></span>
+    				</button>
+    				<a class="navbar-brand" href="#">
+    					<span class="glyphicon glyphicon-home"> Inicio </span>
+    				</a>
+  				</div>
+   				<div class="collapse navbar-collapse navbar-ex1-collapse">
+    				<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								Clientes <b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="{{ path('cliente_new') }}" >Agregar Cliente</a></li>
+								<li><a href="#">Filtrar Cliente </a></li>
+							</ul>
+						</li>
+							
+							<li class="dropdown"> 
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Aberturas <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">	
+									<li><a href="#">Agregar Abertura</a></li>
+									<li><a href="#">Filtrar Abertura</a></li>
+									<li><a href="#">Catalogo Aberturas</a></li>
+									<li><a href="#">Agregar Asignacion</a></li>
+								</ul>
+							</li>
+							<li class="dropdown"> 
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Vidrios <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">	
+									<li><a href="#">Agregar Vidrio</a></li>
+									<li><a href="#">Filtrar Vidrio</a></li>
+									<li><a href="#">Catalogo Vidrios</a></li>
+								</ul>
+							</li>
+							<li class="dropdown"> 
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Presupuestos <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">	
+									<li><a href="#">Agregar Presupuesto</a></li>
+									<li><a href="#">Filtrar Presupuesto</a></li>
+								</ul>
+							</li>
+							<li class="dropdown"> 
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Contacto <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">	
+									<li><a href="#">Datos</a></li>
+									<li><a href="#">Dump de Datos</a></li>								
+								</ul>
+							</li>
+								
+    				</ul>
+  				</div>
+  			</div>		
+		</nav>
+	</div>
+</div>
+		

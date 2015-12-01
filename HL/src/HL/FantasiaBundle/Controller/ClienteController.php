@@ -92,11 +92,10 @@ class ClienteController extends Controller
     {
         $entity = new Cliente();
         $form   = $this->createCreateForm($entity);
-
-        return array(
+		return $this->render('FantasiaBundle:Cliente:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**

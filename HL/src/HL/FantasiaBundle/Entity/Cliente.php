@@ -215,4 +215,26 @@ class Cliente
     {
         return $this->observaciones;
     }
+
+    /**
+     * Set presupuestos
+     *
+     * @param integer $presupuestos
+     * @return Cliente
+     */
+    public function setPresupuestos($presupuestos)
+    {
+        $this->presupuestos = $presupuestos;
+        return $this;
+    }
+    /**
+     * Get presupuestos
+     *
+     * @return integer 
+     */
+    public function getPresupuestos()
+    {
+        return $this->presupuestos;
+    }
+
 }

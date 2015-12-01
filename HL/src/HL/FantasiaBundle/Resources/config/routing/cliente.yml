@@ -1,0 +1,33 @@
+cliente:
+    path:     /
+    defaults: { _controller: "FantasiaBundle:Cliente:index" }
+
+cliente_show_Array:
+    path:     /show
+    defaults: { _controller: "FantasiaBundle:Cliente:showArray" }
+
+cliente_new:
+    path:     /new
+    defaults: { _controller: "FantasiaBundle:Cliente:new" }
+
+cliente_agregar:
+    path:     /agregar
+    defaults: { _controller: "FantasiaBundle:Cliente:agregar" }
+    requirements: { _method: post }
+
+cliente_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FantasiaBundle:Cliente:edit" }
+
+cliente_update:
+    path:     /{id}/update
+    defaults: { _controller: "FantasiaBundle:Cliente:update" }
+    requirements: { _method: post|put }
+
+cliente_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FantasiaBundle:Cliente:delete" }
+
+cliente_filtro:
+    path:     /filtro/{filtro}
+    defaults: { _controller: "FantasiaBundle:Cliente:filtro" }

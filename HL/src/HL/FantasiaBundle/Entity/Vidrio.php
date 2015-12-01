@@ -36,7 +36,7 @@ class Vidrio
     private $precioxm2;
 	
 	/**
-     * @ORM\OneToOne(targetEntity="Carpinteria", mappedBy="vidrio")
+     * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="vidrio")
      */
     protected $carpinterias;
  

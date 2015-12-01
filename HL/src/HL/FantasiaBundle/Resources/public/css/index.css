@@ -1,0 +1,27 @@
+#centro #imagen
+{margin-top: 10%;}
+#centro
+{margin-top: 10%;
+margin-bottom: 5%;
+width: 40%;}
+#login
+ {margin-top: 10%;
+ width:40%;}
+body
+{background-color: black;}
+#menu
+{margin-bottom:5%;
+color: white;}
+#logo
+{float: left;
+width: 50%;}
+#logueado
+{color:white;
+float: right;
+width: 70%;
+margin-top: 5%;}
+#logueado_menu
+{float: right;
+width: 50%;}
+#logo_menu
+{width: 50%;}

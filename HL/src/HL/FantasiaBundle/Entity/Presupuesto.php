@@ -83,7 +83,7 @@ class Presupuesto
 		return $this->carpinterias;
 	}
 	
-	public function addCarpinterias(HL\FantasiaBundle\Entity\Carpinteria $carpinterias) {
+	public function addCarpinterias(Carpinteria $carpinterias) {
 		$this->carpinterias[]=$carpinterias;
 	}
 
