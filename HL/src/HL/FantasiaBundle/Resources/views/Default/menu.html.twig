@@ -1,15 +1,22 @@
 <!-- <header class="col-md-12 col-sm-12 col-xs-12"> -->
-<div class="container" id="logo_menu">
-	<div class="col-md-3 col-sm-3 col-xs-12" id="logo">
+
+<div class="container">
 		{%  image  '@FantasiaBundle/Resources/public/images/logo.jpg'  %} 
 			<img  src= "{{  asset_url  }}"  alt= "Example" /> 
 		{%  endimage  %}
+		<div id="user">
+		<span>Usuario: {{ app.user.username}} | </span>
+			<a href="{{ path('fos_user_security_logout') }}">
+				{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+			</a>
+		</div>
 	</div>
-</div>
+
+
 <!-- </header> -->
 
 <div class="container">
-	<div class="col col-sm-12" id="menu">
+	<div class="col col-sm-12">
 		<nav class="navbar navbar-default" role="navigation"> 
 			<div class="container-fluid"> 
   				<div class="navbar-header">
@@ -81,4 +88,3 @@
 		</nav>
 	</div>
 </div>
-		

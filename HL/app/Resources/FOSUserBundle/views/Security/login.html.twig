@@ -1,7 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% if error %}
-<span class="hidden" id="fosuserbundle-errors">{{ error|trans }}</span>
+	<div class="alert alert-danger">{{ 'Bad credentials'|trans }}</div>
 {% endif %}
 
 <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin" role="form">

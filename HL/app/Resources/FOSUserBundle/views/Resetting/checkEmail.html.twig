@@ -1,9 +1,15 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
-
+{% extends "FantasiaBundle:Default:base.html.twig" %}
+{% block title %} ¡Atenci&oacute;n! {% endblock %}
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
+<div class="alert alert-info">
 <p>
 {{ 'resetting.check_email'|trans({'%email%': email}) }}
+
+<a class="btn btn-primary" href= "{{ path('_login') }}" >Volver</a> 
 </p>
+
+ 
+</div>
 {% endblock %}

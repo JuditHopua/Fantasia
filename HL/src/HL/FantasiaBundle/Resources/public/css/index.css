@@ -1,27 +1,46 @@
-#centro #imagen
-{margin-top: 10%;}
-#centro
-{margin-top: 10%;
-margin-bottom: 5%;
-width: 40%;}
-#login
- {margin-top: 10%;
- width:40%;}
-body
-{background-color: black;}
-#menu
-{margin-bottom:5%;
-color: white;}
-#logo
-{float: left;
-width: 50%;}
-#logueado
-{color:white;
-float: right;
-width: 70%;
-margin-top: 5%;}
-#logueado_menu
-{float: right;
-width: 50%;}
-#logo_menu
-{width: 50%;}
+img {
+    display: table-cell;
+    margin: 0 auto;
+}
+
+#login {
+	margin-top: 10%;
+    width: 40%;
+}
+
+body {
+	background-color:black;
+}
+
+#user {
+	color:white;
+	float:right;
+}
+
+.formAutogenerado h1 form input{
+	margin-left:5px;
+	margin-bottom:10px;
+}
+
+.formAutogenerado {
+	width:50%;
+}
+
+.formAutogenerado select{
+	margin-left:5px;
+}
+
+.formAutogenerado label{
+	display:block;
+	font-weight: bold;
+}
+
+.formAutogenerado{
+	margin-top:20px;
+	margin-left:20px;
+}
+
+.formAutogenerado div{
+	margin-top:5px;
+}
+

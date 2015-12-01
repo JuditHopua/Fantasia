@@ -1,20 +1,16 @@
-{% extends '::base.html.twig' %}
+{% extends 'FantasiaBundle:Default:base.html.twig' %}
 
 {% block title %} Nuevo Cliente {% endblock %}
 
-{% block body-%}
+{% block contenido %}
+	{% include 'FantasiaBundle:Default:menu.html.twig' %}
     <h1>Agregar Cliente</h1>
-    <div class="FormAutogenerado">
-		<div id="ClienteNuevo">
+    <div class="formAutogenerado">
+		
 			{{ form(form) }}
 		</div>
-    </div>
+ 
     <ul class="record_actions">
-		<li>
-			<a href="{{ path('cliente') }}">
-            Back to the list
-			</a>
-		</li>
+		
 	</ul>
 {% endblock %}
-

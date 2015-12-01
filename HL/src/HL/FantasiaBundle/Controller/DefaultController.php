@@ -8,12 +8,12 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('FantasiaBundle:Default:index.html.twig', array('mensaje'=>'Iniciar sesion'));
+        return $this->render('FantasiaBundle:Default:index.html.twig', array('mensaje'=>'Inicio'));
     }
 	
 	public function loginAction()
     {
-        return $this->render('FantasiaBundle:Default:index.html.twig', array('mensaje'=>'Inicio'));
+        return $this->render('FantasiaBundle:Default:index.html.twig', array('mensaje'=>'Iniciar sesión'));
     }
 
     public function logoutAction()

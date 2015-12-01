@@ -1,13 +1,13 @@
 fantasia_homepage:
-    path:     /Fantasia 
+    path:     /
     defaults: { _controller: FantasiaBundle:Default:index }
 
 _login:
-    path:    /
+    path:    /login
     defaults: { _controller: FantasiaBundle:Default:login }	
 
 _logout:
-    path:    /
+    path:    /logout
     defaults: { _controller: FantasiaBundle:Default:logout }	
 
 FantasiaBundle_cliente:

@@ -21,7 +21,7 @@ class ClienteType extends AbstractType
             ->add('telefono')
             ->add('domicilio')
             ->add('observaciones')
-            ->add('presupuestos')
+          //  ->add('presupuestos')
         ;
     }
     

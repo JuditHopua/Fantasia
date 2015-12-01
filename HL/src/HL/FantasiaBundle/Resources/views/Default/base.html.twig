@@ -1,23 +1,24 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="{{ asset('bundles/fantasia/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('bundles/fantasia/css/bootstrap-theme.css') }}" rel="stylesheet" type="text/css" />	
-<link href="{{ asset('bundles/fantasia/css/index.css') }}" rel="stylesheet" type="text/css" />
-<script src="{{ asset('bundles/fantasia/js/jquery-1.11.1.js') }}"></script>
-<script src="{{ asset('bundles/fantasia/js/bootstrap.js' ) }}"></script>
-<script src="{{ asset('bundles/fantasia/js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>
-	
+	<meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{{ asset('bundles/fantasia/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('bundles/fantasia/css/bootstrap-theme.css') }}" rel="stylesheet" type="text/css" />	
+	<link href="{{ asset('bundles/fantasia/css/index.css') }}" rel="stylesheet" type="text/css" />
+	<script src="{{ asset('bundles/fantasia/js/jquery-1.11.1.js') }}"></script>
+	<script src="{{ asset('bundles/fantasia/js/bootstrap.js' ) }}"></script>
+	<script src="{{ asset('bundles/fantasia/js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>
 	{% block stylesheets %}{% endblock %}
 	{% block javascripts %}{% endblock %}
 	<title>{% block title %}{% endblock %} | Fantas&iacute;a S.A.</title>
 </head>
 <body>
+	<div class="container">
 	{%block contenido%}
 		{%block fos_user_content%} {% endblock fos_user_content %}
 	{%endblock%}
+	</div>
 </body>
 <footer>{%block footer%}{%endblock%}</footer>
 </html>	
