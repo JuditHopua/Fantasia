@@ -13,7 +13,6 @@ body {
 }
 
 #user {
-	color:white;
 	float:right;
 }
 
@@ -22,8 +21,9 @@ body {
 	margin-bottom:10px;
 }
 
-.formAutogenerado {
-	width:50%;
+.formAutogenerado form{
+	width: 40%;
+    margin-left: 30%;
 }
 
 .formAutogenerado select{
@@ -44,3 +44,15 @@ body {
 	margin-top:5px;
 }
 
+#titulo {
+	margin-left:40%;
+}
+
+#divbase {
+	color:white;
+}
+
+#tabla {
+	background-color: white;
+    color: black;
+}

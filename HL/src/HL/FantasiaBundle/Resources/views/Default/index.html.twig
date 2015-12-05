@@ -5,7 +5,7 @@
 	{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} 
 		
 		{% include 'FantasiaBundle:Default:menu.html.twig' %}
-	
+		{% include 'FantasiaBundle:Default:carousel.html.twig' %}
 	{% else %}
 			<div class="container" id="login">
 			{%  image  '@FantasiaBundle/Resources/public/images/logo.jpg'  %} 

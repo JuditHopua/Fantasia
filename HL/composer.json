@@ -6,7 +6,7 @@
     "autoload": {
         "psr-4": { "": "src/", "SymfonyStandard\\": "app/" }
     },
-	 "repositories": [
+    "repositories": [
         {
             "type": "package",
             "package": {
@@ -33,13 +33,14 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "twbs/bootstrap": "3.0.*",
-        "jquery/jquery":  "1.11.*",
-		"braincrafted/bootstrap-bundle": "~2.0",
+		"braincrafted/bootstrap-bundle":"~2.0",
+		"jquery/jquery":"1.11.*",
         "knplabs/knp-menu-bundle": "~2",
         "knplabs/knp-paginator-bundle": "^2.5"
-	},
+    },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "doctrine/doctrine-fixtures-bundle": "^2.3"
     },
     "scripts": {
         "post-root-package-install": [
@@ -63,7 +64,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
-			"Braincrafted\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::install"
+			 "Braincrafted\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::install"
         ]
     },
     "config": {

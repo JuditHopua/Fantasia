@@ -31,8 +31,9 @@ class ClienteController extends Controller
 
         $entities = $em->getRepository('FantasiaBundle:Cliente')->findAll();
 
-        return array(
+		return array(
             'entities' => $entities,
+			
         );
     }
     /**
@@ -53,7 +54,7 @@ class ClienteController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('cliente_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('cliente'));
         }
 
         return array(
@@ -76,7 +77,7 @@ class ClienteController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Crear'));
 
         return $form;
     }
@@ -93,10 +94,10 @@ class ClienteController extends Controller
         $entity = new Cliente();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('FantasiaBundle:Cliente:new.html.twig', array(
+        return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        ));
+        );
     }
 
     /**
@@ -106,7 +107,7 @@ class ClienteController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -138,16 +139,16 @@ class ClienteController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Cliente')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Cliente entity.');
+            throw $this->createNotFoundException('No se pudo encontrar el cliente');
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+       // $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+          //  'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -162,19 +163,17 @@ class ClienteController extends Controller
     {
         $form = $this->createForm(new ClienteType(), $entity, array(
             'action' => $this->generateUrl('cliente_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
+            'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Modificar'));
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
 
         return $form;
     }
     /**
      * Edits an existing Cliente entity.
      *
-     * @Route("/{id}", name="cliente_update")
-     * @Method("PUT")
-     * @Template("FantasiaBundle:Cliente:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -183,49 +182,42 @@ class ClienteController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Cliente')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Cliente entity.');
+            throw $this->createNotFoundException('No se pudo encontrar el cliente');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('cliente_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('cliente'));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
-    /**
+   /**
      * Deletes a Cliente entity.
      *
-     * @Route("/{id}", name="cliente_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="cliente_delete")
+     * @Template("FantasiaBundle:Cliente:index.html.twig")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('FantasiaBundle:Cliente')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FantasiaBundle:Cliente')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Cliente entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Cliente entity.');
         }
 
-        return $this->redirect($this->generateUrl('cliente'));
+        $em->remove($entity);
+        $em->flush();
+       
+		return $this->redirect($this->generateUrl('cliente'));
     }
 
     /**
@@ -237,11 +229,12 @@ class ClienteController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('cliente_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+         return $this->createFormBuilder(array('id' => $id))
+
+            ->add('id', 'hidden')
+
             ->getForm()
-        ;
+			;
     }
 }
+

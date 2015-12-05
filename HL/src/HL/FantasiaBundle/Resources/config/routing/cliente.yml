@@ -2,9 +2,9 @@ cliente:
     path:     /
     defaults: { _controller: "FantasiaBundle:Cliente:index" }
 
-cliente_show_Array:
-    path:     /show
-    defaults: { _controller: "FantasiaBundle:Cliente:showArray" }
+cliente_show:
+    path:     /{id}/show
+    defaults: { _controller: "FantasiaBundle:Cliente:show" }
 
 cliente_new:
     path:     /new
