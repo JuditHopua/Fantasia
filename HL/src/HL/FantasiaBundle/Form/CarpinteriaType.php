@@ -20,9 +20,16 @@ class CarpinteriaType extends AbstractType
             ->add('premarco')
             ->add('contramarco')
             ->add('cantidad')
-            ->add('vidrio')
-            ->add('asignacion')
-            ->add('presupuesto')
+            ->add('vidrio','entity',array(   'label'=>'Vidrio: ',
+                                                'class'=>'FantasiaBundle:Vidrio',
+                                                'property'=>'tipo',
+                                                'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
+			->add('asignacion','entity',array(  'label'=>'Abertura: ',
+                                               'class'=>'FantasiaBundle:AsignacionMarcaModelo',
+                                            'property'=>'id',
+											'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
+									  			
+		    //->add('presupuesto')
         ;
     }
     

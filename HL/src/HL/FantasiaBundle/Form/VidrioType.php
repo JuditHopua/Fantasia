@@ -17,7 +17,7 @@ class VidrioType extends AbstractType
         $builder
             ->add('tipo')
             ->add('precioxm2')
-            ->add('carpinterias')
+           // ->add('carpinterias')
         ;
     }
     

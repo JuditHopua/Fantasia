@@ -1,12 +1,24 @@
-{% extends '::base.html.twig' %}
+{% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block body -%}
-    <h1>Carpinteria list</h1>
+{% block title %} Listado Carpinter&iacute;as {% endblock %}
 
-    <table class="records_list">
+{% block contenido %}
+<script type="text/javascript">
+    $( document ).ready(function() {
+	    $('#tabla').dataTable( {
+		"language": {
+             "url": "//cdn.datatables.net/plug-ins/1.10.10/i18n/Spanish.json"
+        },
+		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
+		} );
+	});
+</script>	
+	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+    <h1>Listado de carpinter&iacute;as</h1>
+	
+    <table class="table table-striped" id="tabla">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Alto</th>
                 <th>Ancho</th>
                 <th>Premarco</th>
@@ -18,32 +30,20 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('carpinteria_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+               
                 <td>{{ entity.alto }}</td>
                 <td>{{ entity.ancho }}</td>
                 <td>{{ entity.premarco }}</td>
                 <td>{{ entity.contramarco }}</td>
                 <td>{{ entity.cantidad }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('carpinteria_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('carpinteria_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+					<a href="{{ path('carpinteria_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
+				
+					<a href="{{ path('carpinteria_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash"></span></a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('carpinteria_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

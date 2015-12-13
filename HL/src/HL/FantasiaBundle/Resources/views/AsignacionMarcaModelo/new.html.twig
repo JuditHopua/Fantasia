@@ -1,15 +1,15 @@
-{% extends '::base.html.twig' %}
+{% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block body -%}
-    <h1>AsignacionMarcaModelo creation</h1>
+{% block title %} Nueva Abertura {% endblock %}
 
-    {{ form(form) }}
+{% block contenido %}
+	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+    <h1 id="titulo">Agregar Abertura</h1>
+    <div class="formAutogenerado">
+		{{form(form)}}
+	
+		
+	
+		</div>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('asignacionmarcamodelo') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
 {% endblock %}

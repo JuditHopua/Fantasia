@@ -211,7 +211,7 @@ class ClienteController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Cliente')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Cliente entity.');
+            throw $this->createNotFoundException('No se pudo encontrar al cliente');
         }
 
         $em->remove($entity);

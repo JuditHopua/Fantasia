@@ -211,4 +211,25 @@ class Presupuesto
     {
         return $this->montoTotalCarpinterias;
     }
+	
+	/**
+     * Set clientes
+     *
+     * @param integer $clientes
+     * @return Presupuesto
+     */
+    public function setClientes($clientes)
+    {
+        $this->clientes = $clientes;
+        return $this;
+    }
+    /**
+     * Get clientes
+     *
+     * @return integer 
+     */
+    public function getClientes()
+    {
+        return $this->clientes;
+    }
 }

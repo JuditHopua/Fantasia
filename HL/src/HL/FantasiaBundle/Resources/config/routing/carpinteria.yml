@@ -1,0 +1,24 @@
+carpinteria:
+    path:     /
+    defaults: { _controller: "FantasiaBundle:Carpinteria:index" }
+
+carpinteria_show:
+    path:     /{id}/show
+    defaults: { _controller: "FantasiaBundle:Carpinteria:show" }
+
+carpinteria_new:
+    path:     /new
+    defaults: { _controller: "FantasiaBundle:Carpinteria:new" }
+
+carpinteria_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FantasiaBundle:Carpinteria:edit" }
+
+carpinteria_update:
+    path:     /{id}/update
+    defaults: { _controller: "FantasiaBundle:Carpinteria:update" }
+    requirements: { _method: post|put }
+
+carpinteria_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FantasiaBundle:Carpinteria:delete" }

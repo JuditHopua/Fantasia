@@ -3,6 +3,8 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * AsignacionMarcaModelo
@@ -48,13 +50,16 @@ class AsignacionMarcaModelo
      * @ORM\Column(name="descripcion", type="text")
      */
     private $descripcion;
-
-    /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="foto", type="object")
+	
+	 /**
+	* @ORM\Column(type="string", length=255, nullable=true)
+	*/
+	public $path;
+	
+	 /**
+     * @Assert\File(maxSize="6000000")
      */
-    private $foto;
+    private $file;
 
 	/**
      * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="asignacion")
@@ -72,6 +77,52 @@ class AsignacionMarcaModelo
 	  * @ORM\JoinColumn(name="marca_id", referencedColumnName="id")
      */
     protected $marcas;
+ 
+	/**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+	
+	public function getAbsolutePath()
+	{
+		return null === $this->path
+		? null
+		: $this->getUploadRootDir().’/’.$this->path;
+	}
+		
+	public function getWebPath()
+	{
+		return null === $this->path
+		? null 
+		: $this->getUploadDir().'/'.$this->path;
+	}
+			
+	protected function getUploadRootDir()
+	{
+		// la ruta absoluta al directorio donde se deben guardar los documentos cargados
+		return __DIR__.'/../../../../web/'.$this->getUploadDir();
+	}
+	
+	protected function getUploadDir()
+	{
+		//se libera del __DIR__ para no desviarse al mostrar 'doc/image' en la vista.
+		return 'bundles/fantasia/images';
+	}
  
     /**
      * Get id
@@ -174,27 +225,71 @@ class AsignacionMarcaModelo
     {
         return $this->descripcion;
     }
-
-    /**
-     * Set foto
+	
+	/**
+     * Set modelos
      *
-     * @param \stdClass $foto
+     * @param integer $modelos
      * @return AsignacionMarcaModelo
      */
-    public function setFoto($foto)
+    public function setModelos($modelos)
     {
-        $this->foto = $foto;
-
+        $this->modelos = $modelos;
         return $this;
     }
-
     /**
-     * Get foto
+     * Get modelos
      *
-     * @return \stdClass 
+     * @return integer 
      */
-    public function getFoto()
+    public function getModelos()
     {
-        return $this->foto;
+        return $this->modelos;
     }
+	
+	/**
+     * Set marcas
+     *
+     * @param integer $marcas
+     * @return AsignacionMarcaModelo
+     */
+    public function setMarcas($marcas)
+    {
+        $this->marcas = $marcas;
+        return $this;
+    }
+    /**
+     * Get marcas
+     *
+     * @return integer 
+     */
+    public function getMarcas()
+    {
+        return $this->marcas;
+    }
+	
+	public function upload()
+    {  
+		 // the file property can be empty if the field is not required
+    if (null === $this->getFile()) {
+        return;
+    }
+
+    // aquí usa el nombre de archivo original pero lo debes
+    // sanear al menos para evitar cualquier problema de seguridad
+
+    // move takes the target directory and then the
+    // target filename to move to
+    $this->getFile()->move(
+        $this->getUploadRootDir(),
+        $this->getFile()->getClientOriginalName()
+    );
+
+    // set the path property to the filename where you've saved the file
+    $this->path = $this->getFile()->getClientOriginalName();
+
+    // limpia la propiedad «file» ya que no la necesitas más
+    $this->file = null;
+	}
+
 }

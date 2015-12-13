@@ -1,24 +1,24 @@
-{% extends '::base.html.twig' %}
+{% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block body -%}
-    <h1>AsignacionMarcaModelo</h1>
+{% block title %} Ver Abertura {% endblock %}
+
+{% block contenido %}
+ 
+	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+    <h1>Ver Abertura</h1>
 
     <table class="record_properties">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Preciopremarcoml</th>
+                <th>Precio Premarco m.lineal</th>
                 <td>{{ entity.precioPremarcoML }}</td>
             </tr>
             <tr>
-                <th>Preciocontramarcoml</th>
+                <th>Precio Contramarco m.lineal</th>
                 <td>{{ entity.precioContramarcoML }}</td>
             </tr>
             <tr>
-                <th>Precioxml</th>
+                <th>Precio m.lineal</th>
                 <td>{{ entity.precioxML }}</td>
             </tr>
             <tr>
@@ -27,22 +27,25 @@
             </tr>
             <tr>
                 <th>Foto</th>
-                <td>{{ entity.foto }}</td>
+                <td> 
+		
+		<img src="{{ asset('bundles/fantasia/images/'~ entity.path) }}" > 
+				
+				</td>
             </tr>
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('asignacionmarcamodelo') }}">
-            Back to the list
+        <ul class="record_actions" id="listaopciones">
+    
+        <a href="{{ path('abertura') }}" class="btn btn-primary">
+            Volver a la lista
         </a>
-    </li>
-    <li>
-        <a href="{{ path('asignacionmarcamodelo_edit', { 'id': entity.id }) }}">
-            Edit
+   
+        <a href="{{ path('abertura_edit', { 'id': entity.id }) }}" class="btn btn-primary">
+            Modificar
         </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
+    
+ 
 </ul>
 {% endblock %}

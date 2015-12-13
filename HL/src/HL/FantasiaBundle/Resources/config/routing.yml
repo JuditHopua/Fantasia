@@ -13,3 +13,27 @@ _logout:
 FantasiaBundle_cliente:
     resource: "@FantasiaBundle/Resources/config/routing/cliente.yml"
     prefix:   /cliente
+
+FantasiaBundle_marca:
+    resource: "@FantasiaBundle/Resources/config/routing/marca.yml"
+    prefix:   /marca
+
+FantasiaBundle_modelo:
+    resource: "@FantasiaBundle/Resources/config/routing/modelo.yml"
+    prefix:   /modelo	
+
+FantasiaBundle_abertura:
+    resource: "@FantasiaBundle/Resources/config/routing/abertura.yml"
+    prefix:   /abertura
+
+FantasiaBundle_vidrio:
+    resource: "@FantasiaBundle/Resources/config/routing/vidrio.yml"
+    prefix:   /vidrio
+
+FantasiaBundle_carpinteria:
+    resource: "@FantasiaBundle/Resources/config/routing/carpinteria.yml"
+    prefix:   /carpinteria
+
+FantasiaBundle_presupuesto:
+    resource: "@FantasiaBundle/Resources/config/routing/presupuesto.yml"
+    prefix:   /presupuesto

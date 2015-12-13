@@ -1,15 +1,14 @@
-{% extends '::base.html.twig' %}
+{% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block body -%}
-    <h1>Vidrio creation</h1>
+{% block title %} Nuevo Vidrio {% endblock %}
 
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('vidrio') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% block contenido %}
+	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+    <h1 id="titulo">Agregar Vidrio</h1>
+	<div class="formAutogenerado">
+	
+		{{ form(form) }}
+		
+	</div>
+    
 {% endblock %}

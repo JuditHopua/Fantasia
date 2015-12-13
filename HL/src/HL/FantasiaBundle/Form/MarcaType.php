@@ -16,7 +16,7 @@ class MarcaType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('asignaciones')
+            //->add('asignaciones')
         ;
     }
     

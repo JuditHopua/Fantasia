@@ -38,7 +38,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li><a href="{{ path('cliente_new') }}" >Agregar Cliente</a></li>
-								<li><a href="{{ path('cliente') }}">Filtrar Cliente </a></li>
+								<li><a href="{{ path('cliente') }}">Listado de Clientes</a></li>
 							</ul>
 						</li>
 							
@@ -47,10 +47,13 @@
 									Aberturas <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">	
-									<li><a href="#">Agregar Abertura</a></li>
-									<li><a href="#">Filtrar Abertura</a></li>
+									<li><a href="{{ path('marca_new') }}">Agregar Marca</a></li>
+									<li><a href="{{ path('marca') }}">Listado de Marcas</a></li>
+									<li><a href="{{ path('modelo_new') }}">Agregar Modelo</a></li>
+									<li><a href="{{ path('modelo') }}">Listado de Modelos</a></li>
+									<li><a href="{{ path('abertura_new') }}">Agregar Abertura</a></li>
+									<li><a href="{{ path('abertura') }}">Listado de Aberturas</a></li>
 									<li><a href="#">Catalogo Aberturas</a></li>
-									<li><a href="#">Agregar Asignacion</a></li>
 								</ul>
 							</li>
 							<li class="dropdown"> 
@@ -58,8 +61,8 @@
 									Vidrios <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">	
-									<li><a href="#">Agregar Vidrio</a></li>
-									<li><a href="#">Filtrar Vidrio</a></li>
+									<li><a href="{{ path('vidrio_new') }}">Agregar Vidrio</a></li>
+									<li><a href="{{ path('vidrio') }}">Listado de Vidrios</a></li>
 									<li><a href="#">Catalogo Vidrios</a></li>
 								</ul>
 							</li>
@@ -68,7 +71,7 @@
 									Presupuestos <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">	
-									<li><a href="#">Agregar Presupuesto</a></li>
+									<li><a href="{{ path('presupuesto_new') }}">Agregar Presupuesto</a></li>
 									<li><a href="#">Filtrar Presupuesto</a></li>
 								</ul>
 							</li>

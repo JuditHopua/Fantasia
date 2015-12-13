@@ -53,7 +53,7 @@ class VidrioController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('vidrio_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('vidrio'));
         }
 
         return array(
@@ -76,7 +76,7 @@ class VidrioController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Crear'));
 
         return $form;
     }
@@ -138,16 +138,16 @@ class VidrioController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Vidrio')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Vidrio entity.');
+            throw $this->createNotFoundException('No se pudo encontrar el vidrio seleccionado');
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        //$deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+         //   'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -165,9 +165,10 @@ class VidrioController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
+        $form->add('submit', 'submit', array('label' => 'Modificar'));
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+        
+		return $form;
     }
     /**
      * Edits an existing Vidrio entity.
@@ -183,47 +184,42 @@ class VidrioController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Vidrio')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Vidrio entity.');
+            throw $this->createNotFoundException('No se pudo encontrar el vidrio seleccionado');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        //$deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('vidrio_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('vidrio'));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
         );
     }
     /**
      * Deletes a Vidrio entity.
      *
-     * @Route("/{id}", name="vidrio_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="vidrio_delete")
+     * @Template("FantasiaBundle:Vidrio:index.html.twig")
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('FantasiaBundle:Vidrio')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FantasiaBundle:Vidrio')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Vidrio entity.');
+        if (!$entity) {
+            throw $this->createNotFoundException('No se pudo encontrar el vidrio seleccionado');
             }
 
-            $em->remove($entity);
-            $em->flush();
-        }
+        $em->remove($entity);
+        $em->flush();
 
         return $this->redirect($this->generateUrl('vidrio'));
     }
@@ -237,10 +233,10 @@ class VidrioController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('vidrio_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+        return $this->createFormBuilder(array('id' => $id))
+
+            ->add('id', 'hidden')
+
             ->getForm()
         ;
     }

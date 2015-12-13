@@ -1,15 +1,58 @@
-{% extends '::base.html.twig' %}
+{% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block body -%}
-    <h1>Carpinteria creation</h1>
+{% block title %} Nueva Carpinter&iacute;a {% endblock %}
 
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('carpinteria') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% block contenido %}
+	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+    <h1 id="titulo">Agregar Carpinter&iacute;a</h1>
+    <div class="formAutogenerado">
+			{{ form(form) }}
+		
+	
+	<script type="text/javascript">
+    $( document ).ready(function() {
+	    $('#tabla').dataTable( {
+		"language": {
+             "url": "//cdn.datatables.net/plug-ins/1.10.10/i18n/Spanish.json"
+        },
+		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
+		} );
+	});
+</script>	
+	
+    <table class="table table-striped" id="tabla">
+        <thead>
+            <tr>
+				<th> </th>
+				<th>Numero</th>
+                <th>Modelo</th>
+				<th>Marca</th>
+                <th>Preciopremarcoml</th>
+                <th>Preciocontramarcoml</th>
+                <th>Precioxml</th>
+                <th>Descripcion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in aberturas %}
+            <tr>
+				<td><input type="checkbox" value="entity.id"></td>
+				<td> {{ entity.id}}</td>
+                <td>{{ entity.modelos.nombre }}</td>
+				<td>{{ entity.marcas.nombre }}</td>
+                <td>{{ entity.precioPremarcoML }}</td>
+                <td>{{ entity.precioContramarcoML }}</td>
+                <td>{{ entity.precioxML }}</td>
+                <td>{{ entity.descripcion }}</td>
+                <td>		
+					<a href="{{ path('abertura_show', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-eye-open"></span></a>
+				
+				</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+	
+</div>
 {% endblock %}

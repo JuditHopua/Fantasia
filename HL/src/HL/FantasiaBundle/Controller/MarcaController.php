@@ -53,7 +53,7 @@ class MarcaController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('marca_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('marca'));
         }
 
         return array(
@@ -76,7 +76,7 @@ class MarcaController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Crear'));
 
         return $form;
     }
@@ -138,16 +138,16 @@ class MarcaController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Marca')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Marca entity.');
+            throw $this->createNotFoundException('No se pudo encontrar la marca seleccionada');
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        //$deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+           // 'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -165,8 +165,9 @@ class MarcaController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
+        $form->add('submit', 'submit', array('label' => 'Modificar'));
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+		
         return $form;
     }
     /**
@@ -183,7 +184,7 @@ class MarcaController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Marca')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Marca entity.');
+            throw $this->createNotFoundException('No se pudo encontrar la marca seleccionada');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -193,38 +194,32 @@ class MarcaController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('marca_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('marca'));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
     /**
      * Deletes a Marca entity.
      *
-     * @Route("/{id}", name="marca_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="marca_delete")
+     * @Template("FantasiaBundle:Marca:index.html.twig")
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FantasiaBundle:Marca')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Marca entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('FantasiaBundle:Marca')->find($id);
+       
+	   if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Marca entity.');
+		}
+            
+		$em->remove($entity);
+        $em->flush();
+        
         return $this->redirect($this->generateUrl('marca'));
     }
 
@@ -237,10 +232,10 @@ class MarcaController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('marca_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+        return $this->createFormBuilder(array('id' => $id))
+
+            ->add('id', 'hidden')
+
             ->getForm()
         ;
     }

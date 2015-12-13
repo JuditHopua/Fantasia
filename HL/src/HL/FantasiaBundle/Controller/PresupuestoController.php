@@ -53,7 +53,7 @@ class PresupuestoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('presupuesto_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('presupuesto'));
         }
 
         return array(
@@ -75,8 +75,9 @@ class PresupuestoController extends Controller
             'action' => $this->generateUrl('presupuesto_create'),
             'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
+		$url=$this->generateUrl('carpinteria_new');
+        $form->add('submit', 'submit', array('label' => 'Crear'));
+		$form->add('button', 'button', array('label' => 'Agregar Carpinteria','attr'=>array('formnovalidate'=>'formnovalidate','location.href'=>$url,'class'=>'btn btn-primary')));
 
         return $form;
     }

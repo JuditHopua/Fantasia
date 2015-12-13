@@ -56,3 +56,28 @@ body {
 	background-color: white;
     color: black;
 }
+
+#tabla_filter {
+	color:white;
+}
+
+#tabla_length {
+	color: white;
+}
+
+#tabla_info {
+	color:white;
+}
+
+#tabla_previous {
+	background-color:white;
+}
+
+#tabla_next {
+	background-color:white;
+}
+
+#listaopciones {
+	margin-top: 5%;
+    margin-left: 10%;
+}

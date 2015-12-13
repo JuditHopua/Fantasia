@@ -198,4 +198,67 @@ class Carpinteria
     {
         return $this->cantidad;
     }
+	
+	/**
+     * Set vidrio
+     *
+     * @param integer $vidrio
+     * @return Carpinteria
+     */
+    public function setVidrio($vidrio)
+    {
+        $this->vidrio = $vidrio;
+        return $this;
+    }
+    /**
+     * Get vidrio
+     *
+     * @return integer 
+     */
+    public function getVidrio()
+    {
+        return $this->vidrio;
+    }
+	
+	/**
+     * Set asignacion
+     *
+     * @param integer $asignacion
+     * @return Carpinteria
+     */
+    public function setAsignacion($asignacion)
+    {
+        $this->asignacion = $asignacion;
+        return $this;
+    }
+    /**
+     * Get asignacion
+     *
+     * @return integer 
+     */
+    public function getAsignacion()
+    {
+        return $this->asignacion;
+    }
+	
+	/**
+     * Set presupuesto
+     *
+     * @param integer $presupuesto
+     * @return Carpinteria
+     */
+    public function setPresupuesto($presupuesto)
+    {
+        $this->presupuesto = $presupuesto;
+        return $this;
+    }
+    /**
+     * Get presupuesto
+     *
+     * @return integer 
+     */
+    public function getPresupuesto()
+    {
+        return $this->presupuesto;
+    }
 }

@@ -10,11 +10,6 @@ cliente_new:
     path:     /new
     defaults: { _controller: "FantasiaBundle:Cliente:new" }
 
-cliente_agregar:
-    path:     /agregar
-    defaults: { _controller: "FantasiaBundle:Cliente:agregar" }
-    requirements: { _method: post }
-
 cliente_edit:
     path:     /{id}/edit
     defaults: { _controller: "FantasiaBundle:Cliente:edit" }
@@ -27,7 +22,3 @@ cliente_update:
 cliente_delete:
     path:     /{id}/delete
     defaults: { _controller: "FantasiaBundle:Cliente:delete" }
-
-cliente_filtro:
-    path:     /filtro/{filtro}
-    defaults: { _controller: "FantasiaBundle:Cliente:filtro" }

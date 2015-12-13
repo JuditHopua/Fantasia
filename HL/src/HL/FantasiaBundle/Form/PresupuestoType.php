@@ -20,7 +20,10 @@ class PresupuestoType extends AbstractType
             ->add('costoColocacion')
             ->add('plazoEntrega')
             ->add('montoTotalCarpinterias')
-            ->add('clientes')
+            ->add('clientes','entity',array(   'label'=>'Cliente: ',
+                                                'class'=>'FantasiaBundle:Cliente',
+                                                'property'=>'apellido',
+                                                'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
         ;
     }
     

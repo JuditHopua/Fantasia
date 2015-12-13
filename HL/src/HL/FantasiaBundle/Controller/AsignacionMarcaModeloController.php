@@ -44,20 +44,21 @@ class AsignacionMarcaModeloController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new AsignacionMarcaModelo();
-        $form = $this->createCreateForm($entity);
+        $document = new AsignacionMarcaModelo();
+        $form = $this->createCreateForm($document);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+			$em = $this->getDoctrine()->getManager();
+			$document->upload();
+            $em->persist($document);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('asignacionmarcamodelo_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('abertura'));
         }
 
         return array(
-            'entity' => $entity,
+            'entity' => $document,
             'form'   => $form->createView(),
         );
     }
@@ -76,7 +77,7 @@ class AsignacionMarcaModeloController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Crear'));
 
         return $form;
     }
@@ -113,7 +114,7 @@ class AsignacionMarcaModeloController extends Controller
         $entity = $em->getRepository('FantasiaBundle:AsignacionMarcaModelo')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find AsignacionMarcaModelo entity.');
+            throw $this->createNotFoundException('No se pudo encontrar la abertura seleccionada');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -138,16 +139,16 @@ class AsignacionMarcaModeloController extends Controller
         $entity = $em->getRepository('FantasiaBundle:AsignacionMarcaModelo')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find AsignacionMarcaModelo entity.');
+            throw $this->createNotFoundException('No se pudo encontrar la abertura seleccionada');
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        //$deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+          //  'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -160,13 +161,17 @@ class AsignacionMarcaModeloController extends Controller
     */
     private function createEditForm(AsignacionMarcaModelo $entity)
     {
+		
         $form = $this->createForm(new AsignacionMarcaModeloType(), $entity, array(
-            'action' => $this->generateUrl('asignacionmarcamodelo_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('abertura_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
+	
+		
+		
+        $form->add('submit', 'submit', array('label' => 'Modificar'));
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+		
         return $form;
     }
     /**
@@ -186,46 +191,39 @@ class AsignacionMarcaModeloController extends Controller
             throw $this->createNotFoundException('Unable to find AsignacionMarcaModelo entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('asignacionmarcamodelo_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('abertura'));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
     /**
      * Deletes a AsignacionMarcaModelo entity.
      *
-     * @Route("/{id}", name="asignacionmarcamodelo_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="abertura_delete")
+     * @Template("FantasiaBundle:AsignacionMarcaModelo:index.html.twig")
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('FantasiaBundle:AsignacionMarcaModelo')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FantasiaBundle:AsignacionMarcaModelo')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find AsignacionMarcaModelo entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+		if (!$entity) {
+            throw $this->createNotFoundException('No se pudo encontrar la abertura seleccionada');
         }
 
-        return $this->redirect($this->generateUrl('asignacionmarcamodelo'));
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('abertura'));
     }
 
     /**
@@ -237,11 +235,12 @@ class AsignacionMarcaModeloController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('asignacionmarcamodelo_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+        return $this->createFormBuilder(array('id' => $id))
+
+            ->add('id', 'hidden')
+
             ->getForm()
         ;
     }
+   
 }

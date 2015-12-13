@@ -1,0 +1,24 @@
+marca:
+    path:     /
+    defaults: { _controller: "FantasiaBundle:Marca:index" }
+
+marca_show:
+    path:     /{id}/show
+    defaults: { _controller: "FantasiaBundle:Marca:show" }
+
+marca_new:
+    path:     /new
+    defaults: { _controller: "FantasiaBundle:Marca:new" }
+
+marca_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FantasiaBundle:Marca:edit" }
+
+marca_update:
+    path:     /{id}/update
+    defaults: { _controller: "FantasiaBundle:Marca:update" }
+    requirements: { _method: post|put }
+
+marca_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FantasiaBundle:Marca:delete" }

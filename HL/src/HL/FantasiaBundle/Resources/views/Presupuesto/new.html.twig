@@ -1,15 +1,11 @@
-{% extends '::base.html.twig' %}
+{% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block body -%}
-    <h1>Presupuesto creation</h1>
+{% block title %} Nueva Carpinter&iacute;a {% endblock %}
 
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('presupuesto') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% block contenido %}
+	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+    <h1 id="titulo">Crear Presupuesto</h1>
+    <div class="formAutogenerado">
+			{{ form(form) }}
+	</div>
 {% endblock %}
