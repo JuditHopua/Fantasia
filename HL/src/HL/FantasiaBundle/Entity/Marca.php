@@ -3,6 +3,7 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Marca
@@ -29,8 +30,7 @@ class Marca
     private $nombre;
 
 	/**
-     * @ORM\ManyToOne(targetEntity="AsignacionMarcaModelo", inversedBy="marcas")
-     * @ORM\JoinColumn(name="asignacion_id", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="AsignacionMarcaModelo", mappedBy="marca")
      */
     protected $asignaciones;
 		
@@ -66,4 +66,17 @@ class Marca
     {
         return $this->nombre;
     }
+
+    public function __construct()
+    {
+        $this->asignaciones = new ArrayCollection();
+    }	
+
+    public function getAsignaciones() {
+        return $this->asignaciones;
+    }
+
+    public function addAsignaciones($asignaciones) {
+	    $this->asignaciones[]=$asignaciones;}
+
 }

@@ -15,11 +15,11 @@ class AsignacionMarcaModeloType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-			->add('modelos','entity',array(   'label'=>'Modelo: ',
+			->add('modelo','entity',array(   'label'=>'Modelo: ',
                                                 'class'=>'FantasiaBundle:Modelo',
                                                 'property'=>'nombre',
                                                 'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
-            ->add('marcas','entity',array(   'label'=>'Marcas: ',
+            ->add('marca','entity',array(   'label'=>'Marcas: ',
                                                 'class'=>'FantasiaBundle:Marca',
                                                 'property'=>'nombre',
                                                 'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))

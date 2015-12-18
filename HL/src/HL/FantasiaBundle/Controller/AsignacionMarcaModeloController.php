@@ -49,7 +49,8 @@ class AsignacionMarcaModeloController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
+		    $em = $this->getDoctrine()->getManager();
+			
 			$document->upload();
             $em->persist($document);
             $em->flush();

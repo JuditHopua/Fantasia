@@ -2,7 +2,10 @@
 
 namespace HL\FantasiaBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;    
+use Doctrine\ORM\Mapping as ORM;
+use HL\FantasiaBundle\Entity\Vidrio;
+use HL\FantasiaBundle\Entity\AsignacionMarcaModelo;
+use HL\FantasiaBundle\Entity\Presupuesto;
 
 /**
  * Carpinteria
@@ -203,12 +206,11 @@ class Carpinteria
      * Set vidrio
      *
      * @param integer $vidrio
-     * @return Carpinteria
+     * @return Vidrio
      */
-    public function setVidrio($vidrio)
+    public function setVidrio(Vidrio $vidrio)
     {
         $this->vidrio = $vidrio;
-        return $this;
     }
     /**
      * Get vidrio
@@ -218,18 +220,16 @@ class Carpinteria
     public function getVidrio()
     {
         return $this->vidrio;
-    }
-	
+    }	
 	/**
      * Set asignacion
      *
      * @param integer $asignacion
-     * @return Carpinteria
+     * @return AsignacionMarcaModelo
      */
-    public function setAsignacion($asignacion)
+    public function setAsignacion(AsignacionMarcaModelo $asignacion)
     {
         $this->asignacion = $asignacion;
-        return $this;
     }
     /**
      * Get asignacion
@@ -245,12 +245,11 @@ class Carpinteria
      * Set presupuesto
      *
      * @param integer $presupuesto
-     * @return Carpinteria
+     * @return Presupuesto
      */
-    public function setPresupuesto($presupuesto)
+    public function setPresupuesto(Presupuesto $presupuesto)
     {
         $this->presupuesto = $presupuesto;
-        return $this;
     }
     /**
      * Get presupuesto

@@ -4,6 +4,9 @@ namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use HL\FantasiaBundle\Entity\Cliente;
+use HL\FantasiaBundle\Entity\User;
+
 
 /**
  * Presupuesto
@@ -61,7 +64,7 @@ class Presupuesto
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="presupuestos")
      * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
      */
-    protected $clientes;
+    protected $cliente;
 	
 	/**
      * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="presupuesto")
@@ -213,23 +216,42 @@ class Presupuesto
     }
 	
 	/**
-     * Set clientes
+     * Set cliente
      *
-     * @param integer $clientes
-     * @return Presupuesto
+     * @param integer $cliente
+     * @return Cliente
      */
-    public function setClientes($clientes)
+    public function setCliente(Cliente $cliente)
     {
-        $this->clientes = $clientes;
-        return $this;
+        $this->cliente = $cliente;
     }
     /**
-     * Get clientes
+     * Get cliente
      *
      * @return integer 
      */
-    public function getClientes()
+    public function getCliente()
     {
-        return $this->clientes;
+        return $this->cliente;
+    }
+
+	/**
+     * Set usuario
+     *
+     * @param integer $usuario
+     * @return User
+     */
+    public function setUser(User $usuario)
+    {
+        $this->usuario = $usuario;
+    }
+    /**
+     * Get usuario
+     *
+     * @return integer 
+     */
+    public function getUser()
+    {
+        return $this->usuario;
     }
 }

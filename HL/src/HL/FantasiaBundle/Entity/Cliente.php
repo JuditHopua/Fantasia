@@ -3,6 +3,7 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Cliente
@@ -64,7 +65,7 @@ class Cliente
     private $observaciones;
 	
 	/**
-     * @ORM\OneToMany(targetEntity="Presupuesto", mappedBy="clientes")
+     * @ORM\OneToMany(targetEntity="Presupuesto", mappedBy="cliente")
      */
     protected $presupuestos;
  
@@ -216,25 +217,17 @@ class Cliente
         return $this->observaciones;
     }
 	
-	  /**
-     * Set presupuestos
-     *
-     * @param integer $presupuestos
-     * @return Cliente
-     */
-    public function setPresupuestos($presupuestos)
+    public function __construct()
     {
-        $this->presupuestos = $presupuestos;
-        return $this;
+        $this->presupuestos = new ArrayCollection();
     }
-    /**
-     * Get presupuestos
-     *
-     * @return integer 
-     */
-    public function getPresupuestos()
-    {
+
+    public function getPresupuestos() {
         return $this->presupuestos;
+    }
+
+    public function addPresupuestos(Presupuesto $presupuestos) {
+	    $this->presupuestos[]=$presupuestos;
     }
 
 }

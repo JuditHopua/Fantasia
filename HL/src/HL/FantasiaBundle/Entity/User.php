@@ -54,18 +54,18 @@ class User extends BaseUser
      */
     protected $presupuestos;
 	
-	 //public function __construct()
-    //{
-        //$this->presupuestos = new ArrayCollection();
-	//}	
+	public function __construct()
+    {
+        $this->presupuestos = new ArrayCollection();
+	}	
 	
-	////public function getPresupuestos() {
-	//	return $this->presupuestos;
-	//}
+	public function getPresupuestos() {
+		return $this->presupuestos;
+	}
 	
-	//public function addPresupuestos(Presupuesto $presupuestos) {
-	//	$this->presupuestos[]=$presupuestos;
-	//}
+	public function addPresupuestos(Presupuesto $presupuestos) {
+	    $this->presupuestos[]=$presupuestos;
+	}
 	 
 	 /**
      * Get id

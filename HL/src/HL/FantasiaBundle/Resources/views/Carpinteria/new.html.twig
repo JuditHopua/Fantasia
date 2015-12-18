@@ -6,53 +6,20 @@
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
     <h1 id="titulo">Agregar Carpinter&iacute;a</h1>
     <div class="formAutogenerado">
-			{{ form(form) }}
+	        {{ form_row(form.asignacion.modelo) }} 
+	        {{ form_row(form.asignacion.marca) }}
+			{{ form_row(form.asignacion.precioPremarcoML)}}
+			{{ form_row(form.asignacion.precioContramarcoML) }}
+			{{ form_row(form.asignacion.precioxML) }}
+	        {{ form_row(form.asignacion.descripcion) }}
+			{{ form_row(form.alto)}}
+			{{ form_row(form.ancho)}}
+			{{ form_row(form.premarco)}}
+			{{ form_row(form.contramarco)}}
+			{{ form_row(form.cantidad)}}
+	        <button type="submit" value="Agregar">Agregar</button>
+            <button type="button" value="Volver">Volver al Presupuesto</button>
+			<!-- {{ form(form) }} -->
 		
-	
-	<script type="text/javascript">
-    $( document ).ready(function() {
-	    $('#tabla').dataTable( {
-		"language": {
-             "url": "//cdn.datatables.net/plug-ins/1.10.10/i18n/Spanish.json"
-        },
-		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
-		} );
-	});
-</script>	
-	
-    <table class="table table-striped" id="tabla">
-        <thead>
-            <tr>
-				<th> </th>
-				<th>Numero</th>
-                <th>Modelo</th>
-				<th>Marca</th>
-                <th>Preciopremarcoml</th>
-                <th>Preciocontramarcoml</th>
-                <th>Precioxml</th>
-                <th>Descripcion</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in aberturas %}
-            <tr>
-				<td><input type="checkbox" value="entity.id"></td>
-				<td> {{ entity.id}}</td>
-                <td>{{ entity.modelos.nombre }}</td>
-				<td>{{ entity.marcas.nombre }}</td>
-                <td>{{ entity.precioPremarcoML }}</td>
-                <td>{{ entity.precioContramarcoML }}</td>
-                <td>{{ entity.precioxML }}</td>
-                <td>{{ entity.descripcion }}</td>
-                <td>		
-					<a href="{{ path('abertura_show', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-eye-open"></span></a>
-				
-				</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-	
-</div>
+	</div>
 {% endblock %}

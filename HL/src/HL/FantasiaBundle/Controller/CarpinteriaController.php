@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use HL\FantasiaBundle\Entity\Carpinteria;
-use HL\FantasiaBundle\Entity\AsignacionMarcaModelo;
 use HL\FantasiaBundle\Form\CarpinteriaType;
+use HL\FantasiaBundle\Form\AsignacionMarcaModelo;
 
 /**
  * Carpinteria controller.
@@ -46,7 +46,6 @@ class CarpinteriaController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Carpinteria();
-		
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -57,9 +56,8 @@ class CarpinteriaController extends Controller
 
             return $this->redirect($this->generateUrl('carpinteria'));
         }
-		
+
         return array(
-			
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -88,17 +86,15 @@ class CarpinteriaController extends Controller
      * Displays a form to create a new Carpinteria entity.
      *
      * @Route("/new", name="carpinteria_new")
-     * @Method("GET")
+     * @Method("POST")
      * @Template()
      */
     public function newAction()
     {
         $entity = new Carpinteria();
         $form   = $this->createCreateForm($entity);
-		$em = $this->getDoctrine()->getManager();
-		$aberturas = $em->getRepository('FantasiaBundle:AsignacionMarcaModelo')->findAll();
+        
         return array(
-			'aberturas' => $aberturas,
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -118,7 +114,7 @@ class CarpinteriaController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Carpinteria')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Carpinteria entity.');
+            throw $this->createNotFoundException('No pudo encontrar la carpinteria.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -143,16 +139,16 @@ class CarpinteriaController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Carpinteria')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('No se encontro la carpintería');
+            throw $this->createNotFoundException('No pudo encontrar la carpinteria.');
         }
 
         $editForm = $this->createEditForm($entity);
-       // $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-           // 'delete_form' => $deleteForm->createView(),
+            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -170,8 +166,7 @@ class CarpinteriaController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
@@ -189,43 +184,44 @@ class CarpinteriaController extends Controller
         $entity = $em->getRepository('FantasiaBundle:Carpinteria')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Carpinteria entity.');
+            throw $this->createNotFoundException('No pudo encontrar la carpinteria.');
         }
 
-        //$deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('carpinteria'));
+            return $this->redirect($this->generateUrl('carpinteria_edit', array('id' => $id)));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            //'delete_form' => $deleteForm->createView(),
+            'delete_form' => $deleteForm->createView(),
         );
     }
     /**
+	 *
      * Deletes a Carpinteria entity.
      *
-     * @Route("/{id}/delete", name="carpinteria_delete")
+     ** @Route("/{id}/delete", name="carpinteria_delete")
      * @Template("FantasiaBundle:Carpinteria:index.html.twig")
      */
     public function deleteAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('FantasiaBundle:Carpinteria')->find($id);
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('FantasiaBundle:Carpinteria')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Carpinteria entity.');
-        }
+            if (!$entity) {
+                throw $this->createNotFoundException('No pudo encontrar la carpinteria.');
+            }
 
-        $em->remove($entity);
-        $em->flush();
-
+            $em->remove($entity);
+            $em->flush();
+        
 
         return $this->redirect($this->generateUrl('carpinteria'));
     }
@@ -240,10 +236,10 @@ class CarpinteriaController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-
+            
             ->add('id', 'hidden')
-
             ->getForm()
         ;
     }
+
 }

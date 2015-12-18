@@ -77,7 +77,7 @@ class PresupuestoController extends Controller
         ));
 		$url=$this->generateUrl('carpinteria_new');
         $form->add('submit', 'submit', array('label' => 'Crear'));
-		$form->add('button', 'button', array('label' => 'Agregar Carpinteria','attr'=>array('formnovalidate'=>'formnovalidate','location.href'=>$url,'class'=>'btn btn-primary')));
+		$form->add('button', 'submit', array('label' => 'Agregar Carpinteria','attr'=>array('formaction'=>$url,'formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
 
         return $form;
     }

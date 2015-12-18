@@ -3,6 +3,7 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Modelo
@@ -29,7 +30,7 @@ class Modelo
     private $nombre;
 
 	/**
-     * @ORM\OneToOne(targetEntity="AsignacionMarcaModelo", mappedBy="modelos")
+     * @ORM\OneToMany(targetEntity="AsignacionMarcaModelo", mappedBy="modelo")
      */
     protected $asignaciones;
  
@@ -65,4 +66,17 @@ class Modelo
     {
         return $this->nombre;
     }
+
+    public function __construct()
+    {
+        $this->asignaciones = new ArrayCollection();
+    }	
+
+    public function getAsignaciones() {
+        return $this->asignaciones;
+    }
+
+    public function addAsignaciones($asignaciones) {
+	    $this->asignaciones[]=$asignaciones;}
+
 }

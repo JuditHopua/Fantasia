@@ -5,6 +5,9 @@ namespace HL\FantasiaBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use HL\FantasiaBundle\Entity\Modelo;
+use HL\FantasiaBundle\Entity\Marca;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * AsignacionMarcaModelo
@@ -70,13 +73,13 @@ class AsignacionMarcaModelo
      * @ORM\ManyToOne(targetEntity="Modelo", inversedBy="asignaciones")
      * @ORM\JoinColumn(name="modelo_id", referencedColumnName="id")
      */
-    protected $modelos;
+    protected $modelo;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Marca", inversedBy="asignaciones")
 	  * @ORM\JoinColumn(name="marca_id", referencedColumnName="id")
      */
-    protected $marcas;
+    protected $marca;
  
 	/**
      * Sets file.
@@ -227,45 +230,43 @@ class AsignacionMarcaModelo
     }
 	
 	/**
-     * Set modelos
+     * Set modelo
      *
-     * @param integer $modelos
-     * @return AsignacionMarcaModelo
+     * @param integer $modelo
+     * @return Modelo
      */
-    public function setModelos($modelos)
+    public function setModelo(Modelo $modelo)
     {
-        $this->modelos = $modelos;
-        return $this;
+        $this->modelo = $modelo;
     }
     /**
-     * Get modelos
+     * Get modelo
      *
      * @return integer 
      */
-    public function getModelos()
+    public function getModelo()
     {
-        return $this->modelos;
+        return $this->modelo;
     }
 	
 	/**
-     * Set marcas
+     * Set marca
      *
-     * @param integer $marcas
-     * @return AsignacionMarcaModelo
+     * @param integer $marca
+     * @return Marca
      */
-    public function setMarcas($marcas)
+    public function setMarca(Marca $marca)
     {
-        $this->marcas = $marcas;
-        return $this;
+        $this->marca = $marca;
     }
     /**
-     * Get marcas
+     * Get marca
      *
      * @return integer 
      */
-    public function getMarcas()
+    public function getMarca()
     {
-        return $this->marcas;
+        return $this->marca;
     }
 	
 	public function upload()
@@ -292,4 +293,16 @@ class AsignacionMarcaModelo
     $this->file = null;
 	}
 
+    public function __construct()
+    {
+        $this->carpinterias = new ArrayCollection();
+    }	
+
+    public function getCarpinterias() {
+        return $this->carpinterias;
+    }
+
+    public function addCarpinterias(Carpinteria $carpinterias) {
+        $this->carpinterias[]=$carpinterias;}
+ 
 }
