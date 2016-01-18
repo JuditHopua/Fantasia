@@ -49,12 +49,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('asignacionmarcamodelo_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+	<ul>
+		<a href="{{ path('abertura') }}imprimirlistado.pdf" target="_blank" class="btn btn-default botonTabla">Imprimir</a>
+	</ul>
     {% endblock %}

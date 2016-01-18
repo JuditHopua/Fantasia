@@ -13,18 +13,18 @@ class CarpinteriaType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {       $builder ->add( 'asignacion', new AsignacionMarcaModeloType())
-             
-	                 ->add('vidrio','entity',array(   'label'=>'Vidrio: ',
-                                                'class'=>'FantasiaBundle:Vidrio',
-                                                'property'=>'tipo',
-                                                'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
-                     ->add('alto')
-                     ->add('ancho')
-                     ->add('premarco')
-                     ->add('contramarco')
-                     ->add('cantidad')						
-                     // ->add('presupuesto')
+    {
+        $builder
+			->add('vidrio','entity',array(   'label'=>'Vidrio: ',
+                                              'class'=>'FantasiaBundle:Vidrio',
+                                              'property'=>'tipo',
+                                               'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
+            ->add('alto')
+            ->add('ancho')
+            ->add('premarco')
+            ->add('contramarco')
+            ->add('cantidad')
+           
         ;
     }
     

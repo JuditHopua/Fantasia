@@ -1,9 +1,14 @@
 {% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block title %} Listado Carpinter&iacute;as {% endblock %}
+{% block title %} Crear Presupuesto {% endblock %}
 
 {% block contenido %}
-<script type="text/javascript">
+	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+    <h1 id="titulo">Crear Presupuesto</h1>
+	<div class="formAutogenerado">
+    {{ form(crear_form) }}
+	
+	<script type="text/javascript">
     $( document ).ready(function() {
 	    $('#tabla').dataTable( {
 		"language": {
@@ -13,10 +18,10 @@
 		} );
 	});
 </script>	
-	{% include 'FantasiaBundle:Default:menu.html.twig' %}
-    <h1>Listado de carpinter&iacute;as</h1>
-	
-    <table class="table table-striped" id="tabla">
+    <h1>Carpinter&iacute;as</h1>
+	{% set suma = 0 %}
+	{% set total = 0 %}
+   <table class="table table-striped" id="tabla">
         <thead>
             <tr>
 				<th>Modelo</th>
@@ -26,27 +31,33 @@
                 <th>Premarco</th>
                 <th>Contramarco</th>
                 <th>Cantidad</th>
+				<th>Precio</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+        {% for entity in carpinterias %}
             <tr>
                 <td>{{ entity.asignacion.modelo.nombre }}</td>
 				<td>{{ entity.asignacion.marca.nombre }}</td>
                 <td>{{ entity.alto }}</td>
                 <td>{{ entity.ancho }}</td>
+				
 				{% if entity.premarco==1 %}
 					<td>Si</td>
 				{% else %}
 					<td>No</td>
 				{% endif %}
-				{% if entity.contramarco==1%}
+				{% if entity.contramarco==1 %}
 					<td>Si</td>
 				{% else %}
 					<td>No</td>
 				{% endif %}
                 <td>{{ entity.cantidad }}</td>
+				{% set suma = (((entity.alto+entity.ancho)*entity.asignacion.precioxML)*entity.cantidad)+
+				(((entity.alto*entity.ancho)*entity.vidrio.precioxm2)*entity.cantidad)|number_format(2) %}
+				<td>$ {{suma}}</td>
+				{% set total = (total + suma) %}
                 <td>
 					<a href="{{ path('carpinteria_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
 				
@@ -55,6 +66,21 @@
             </tr>
         {% endfor %}
         </tbody>
+		<tfoot>
+			<tr>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th>Total:</th>
+				<td>$ {{total|number_format(2)}}</td>
+				<th></th>
+			</tr>
+		</tfoot>
     </table>
+	
+	</div>
+{% endblock %}
 
-    {% endblock %}

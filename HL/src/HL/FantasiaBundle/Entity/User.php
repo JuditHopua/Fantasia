@@ -54,7 +54,7 @@ class User extends BaseUser
      */
     protected $presupuestos;
 	
-	public function __construct()
+	 public function __construct()
     {
         $this->presupuestos = new ArrayCollection();
 	}	
@@ -64,7 +64,7 @@ class User extends BaseUser
 	}
 	
 	public function addPresupuestos(Presupuesto $presupuestos) {
-	    $this->presupuestos[]=$presupuestos;
+		$this->presupuestos[]=$presupuestos;
 	}
 	 
 	 /**

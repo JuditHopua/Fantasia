@@ -22,3 +22,12 @@ presupuesto_update:
 presupuesto_delete:
     path:     /{id}/delete
     defaults: { _controller: "FantasiaBundle:Presupuesto:delete" }
+
+presupuesto_crear:
+    path:     /{id}/crear
+    defaults: { _controller: "FantasiaBundle:Presupuesto:crear" }
+
+presupuesto_creando:
+    path:     /{id}/creando
+    defaults: { _controller: "FantasiaBundle:Presupuesto:creando" }
+    requirements: { _method: post|put }

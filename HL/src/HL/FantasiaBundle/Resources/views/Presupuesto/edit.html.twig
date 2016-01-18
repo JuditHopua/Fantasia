@@ -1,16 +1,89 @@
-{% extends '::base.html.twig' %}
+{% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block body -%}
-    <h1>Presupuesto edit</h1>
+{% block title %} Editar Presupuesto {% endblock %}
 
+{% block contenido %}
+	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+    <h1 id="titulo">Editar Presupuesto</h1>
+	<div class="formAutogenerado">
     {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('presupuesto') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+	
+	<script type="text/javascript">
+    $( document ).ready(function() {
+	    $('#tabla').dataTable( {
+		"language": {
+             "url": "//cdn.datatables.net/plug-ins/1.10.10/i18n/Spanish.json"
+        },
+		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
+		} );
+	});
+</script>	
+    <h1>Carpinter&iacute;as</h1>
+	
+	{% set total = 0 %}
+   <table class="table table-striped" id="tabla">
+        <thead>
+            <tr>
+				<th>Modelo</th>
+				<th>Marca</th>
+                <th>Alto</th>
+                <th>Ancho</th>
+                <th>Premarco</th>
+                <th>Contramarco</th>
+                <th>Cantidad</th>
+				<th>Precio</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in carpinterias %}
+			{% set suma = 0 %}
+            <tr>
+                <td>{{ entity.asignacion.modelo.nombre }}</td>
+				<td>{{ entity.asignacion.marca.nombre }}</td>
+                <td>{{ entity.alto }}</td>
+                <td>{{ entity.ancho }}</td>
+				{% if entity.premarco==1 %}
+					{% set suma = (((entity.alto+entity.ancho)*entity.asignacion.precioPremarcoML)*entity.cantidad) %}
+					<td>Si</td>
+				{% else %}
+					<td>No</td>
+				{% endif %}
+				{% if entity.contramarco==1 %}
+					{% set suma = suma + (((entity.alto+entity.ancho)*entity.asignacion.precioContramarcoML)*entity.cantidad) %}
+					<td>Si</td>
+				{% else %}
+					<td>No</td>
+				{% endif %}
+                <td>{{ entity.cantidad }}</td>
+				
+				{% set suma = suma + (((entity.alto+entity.ancho)*entity.asignacion.precioxML)*entity.cantidad)%}
+				{% set suma = suma + (((entity.alto*entity.ancho)*entity.vidrio.precioxm2)*entity.cantidad) %}
+				<td>$ {{suma|number_format(2)}}</td>
+				{% set total = (total + suma) %}
+                <td>
+					<a href="{{ path('carpinteria_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
+				
+					<a href="{{ path('carpinteria_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+        {% endfor %}
+			
+        </tbody>
+		<tfoot>
+			<tr>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th>Total:</th>
+				<td>$ {{total|number_format(2)}}</td>
+				<th></th>
+			</tr>
+		</tfoot>
+    </table>
+	
+	</div>
 {% endblock %}

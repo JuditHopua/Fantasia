@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use HL\FantasiaBundle\Entity\Vidrio;
 use HL\FantasiaBundle\Form\VidrioType;
+use Ps\PdfBundle\Annotation\Pdf;
+use PHPPdf\Core\FacadeBuilder;
 
 /**
  * Vidrio controller.
@@ -240,4 +242,15 @@ class VidrioController extends Controller
             ->getForm()
         ;
     }
+	
+	/**
+	* @Pdf()
+	*/
+	public function imprimirAction()
+	{
+		$em=$this->getDoctrine()->getManager();
+		$entities= $em->getRepository('FantasiaBundle:Vidrio')->findAll();
+		$formato=$this->get('request')->get('_format');
+		return $this->render(sprintf('FantasiaBundle:Vidrio:imprimirlistado.%s.twig', $formato), array('entities'=>$entities));
+	}
 }

@@ -22,3 +22,10 @@ abertura_update:
 abertura_delete:
     path:     /{id}/delete
     defaults: { _controller: "FantasiaBundle:AsignacionMarcaModelo:delete" }
+
+abertura_imprimir:
+    path:     /{listado}.{_format}
+    defaults: { _controller: FantasiaBundle:AsignacionMarcaModelo:imprimir, _format: pdf }
+#    param:    { module: listado, action: imprimir}
+    requirements:
+        _format: html|pdf

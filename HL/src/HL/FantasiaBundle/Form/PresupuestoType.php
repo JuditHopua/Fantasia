@@ -14,17 +14,21 @@ class PresupuestoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+		$fechaActual=new \DateTime();
+        $fechaActual->format('Y-m-d');
         $builder
-            ->add('fecha')
-            ->add('costoEnvio')
-            ->add('costoColocacion')
-            ->add('plazoEntrega')
-            ->add('montoTotalCarpinterias')
+            ->add('fecha','date', ['widget' => 'single_text', 
+									'format' => 'dd-MM-yyyy','attr' => ['class' => 'form-control input-inline datepicker',
+																		'data-provide' => 'datepicker',
+																		'data-date-format' => 'dd-mm-yyyy' ] ] )
+																										
             ->add('cliente','entity',array(   'label'=>'Cliente: ',
                                                 'class'=>'FantasiaBundle:Cliente',
-                                                'property'=>'apellido',
-                                                'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
-        ;
+                                                'property'=>'apellido'+'nombre',
+                                                'attr'=>array( 'required'=>'true','class'=>"chzn-select") ));	
+			
+		
+        
     }
     
     /**

@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use HL\FantasiaBundle\Entity\AsignacionMarcaModelo;
 use HL\FantasiaBundle\Form\AsignacionMarcaModeloType;
+use Ps\PdfBundle\Annotation\Pdf;
+use PHPPdf\Core\FacadeBuilder;
 
 /**
  * AsignacionMarcaModelo controller.
@@ -49,8 +51,7 @@ class AsignacionMarcaModeloController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-		    $em = $this->getDoctrine()->getManager();
-			
+			$em = $this->getDoctrine()->getManager();
 			$document->upload();
             $em->persist($document);
             $em->flush();
@@ -243,5 +244,16 @@ class AsignacionMarcaModeloController extends Controller
             ->getForm()
         ;
     }
+	
+	/**
+	* @Pdf()
+	*/
+	public function imprimirAction()
+	{
+		$em=$this->getDoctrine()->getManager();
+		$entities= $em->getRepository('FantasiaBundle:AsignacionMarcaModelo')->findAll();
+		$formato=$this->get('request')->get('_format');
+		return $this->render(sprintf('FantasiaBundle:AsignacionMarcaModelo:imprimirlistado.%s.twig', $formato), array('entities'=>$entities));
+	}
    
 }

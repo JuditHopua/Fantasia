@@ -2,10 +2,7 @@
 
 namespace HL\FantasiaBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use HL\FantasiaBundle\Entity\Vidrio;
-use HL\FantasiaBundle\Entity\AsignacionMarcaModelo;
-use HL\FantasiaBundle\Entity\Presupuesto;
+use Doctrine\ORM\Mapping as ORM;    
 
 /**
  * Carpinteria
@@ -57,7 +54,7 @@ class Carpinteria
      *
      * @ORM\Column(name="cantidad", type="integer")
      */
-    private $cantidad;
+    private $cantidad=1;
 
 	/**
      * @ORM\ManyToOne(targetEntity="Vidrio", inversedBy="carpinterias")
@@ -206,11 +203,12 @@ class Carpinteria
      * Set vidrio
      *
      * @param integer $vidrio
-     * @return Vidrio
+     * @return Carpinteria
      */
-    public function setVidrio(Vidrio $vidrio)
+    public function setVidrio($vidrio)
     {
         $this->vidrio = $vidrio;
+        return $this;
     }
     /**
      * Get vidrio
@@ -220,16 +218,18 @@ class Carpinteria
     public function getVidrio()
     {
         return $this->vidrio;
-    }	
+    }
+	
 	/**
      * Set asignacion
      *
      * @param integer $asignacion
-     * @return AsignacionMarcaModelo
+     * @return Carpinteria
      */
-    public function setAsignacion(AsignacionMarcaModelo $asignacion)
+    public function setAsignacion($asignacion)
     {
         $this->asignacion = $asignacion;
+        return $this;
     }
     /**
      * Get asignacion
@@ -245,11 +245,12 @@ class Carpinteria
      * Set presupuesto
      *
      * @param integer $presupuesto
-     * @return Presupuesto
+     * @return Carpinteria
      */
-    public function setPresupuesto(Presupuesto $presupuesto)
+    public function setPresupuesto($presupuesto)
     {
         $this->presupuesto = $presupuesto;
+        return $this;
     }
     /**
      * Get presupuesto

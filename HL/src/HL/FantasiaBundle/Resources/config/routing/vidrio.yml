@@ -22,3 +22,10 @@ vidrio_update:
 vidrio_delete:
     path:     /{id}/delete
     defaults: { _controller: "FantasiaBundle:Vidrio:delete" }
+
+vidrio_imprimir:
+    path:     /{listado}.{_format}
+    defaults: { _controller: FantasiaBundle:Vidrio:imprimir, _format: pdf }
+#    param:    { module: listado, action: imprimir}
+    requirements:
+        _format: html|pdf

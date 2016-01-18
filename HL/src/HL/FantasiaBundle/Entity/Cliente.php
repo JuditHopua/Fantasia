@@ -217,17 +217,21 @@ class Cliente
         return $this->observaciones;
     }
 	
-    public function __construct()
+	 public function __construct()
     {
         $this->presupuestos = new ArrayCollection();
     }
-
     public function getPresupuestos() {
         return $this->presupuestos;
     }
-
     public function addPresupuestos(Presupuesto $presupuestos) {
 	    $this->presupuestos[]=$presupuestos;
     }
+
+		
+	public function __toString()
+	{
+		return $this->getApellido() . ' ' .  $this->getNombre();
+	}
 
 }

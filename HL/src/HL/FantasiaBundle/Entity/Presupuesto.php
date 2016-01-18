@@ -4,9 +4,6 @@ namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use HL\FantasiaBundle\Entity\Cliente;
-use HL\FantasiaBundle\Entity\User;
-
 
 /**
  * Presupuesto
@@ -26,9 +23,9 @@ class Presupuesto
     private $id;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="fecha", type="datetime")
+     * @ORM\Column(name="fecha", type="date")
      */
     private $fecha;
 
@@ -37,28 +34,28 @@ class Presupuesto
      *
      * @ORM\Column(name="costoEnvio", type="decimal", scale=2)
      */
-    private $costoEnvio;
+    private $costoEnvio=0.00;
 
     /**
      * @var string
      *
      * @ORM\Column(name="costoColocacion", type="decimal", scale=2)
      */
-    private $costoColocacion;
+    private $costoColocacion=0.00;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="plazoEntrega", type="integer")
      */
-    private $plazoEntrega;
+    private $plazoEntrega=15;
 
     /**
      * @var string
      *
      * @ORM\Column(name="montoTotalCarpinterias", type="decimal", scale=2)
      */
-    private $montoTotalCarpinterias;
+    private $montoTotalCarpinterias=0.00;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="presupuestos")
@@ -70,12 +67,6 @@ class Presupuesto
      * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="presupuesto")
      */
     protected $carpinterias;
-	
-	/**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="presupuestos")
-	 * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-	 */
-    protected $usuario;
 	
 	 public function __construct()
     {
@@ -219,11 +210,12 @@ class Presupuesto
      * Set cliente
      *
      * @param integer $cliente
-     * @return Cliente
+     * @return Presupuesto
      */
-    public function setCliente(Cliente $cliente)
+    public function setCliente($cliente)
     {
         $this->cliente = $cliente;
+        return $this;
     }
     /**
      * Get cliente
@@ -235,23 +227,4 @@ class Presupuesto
         return $this->cliente;
     }
 
-	/**
-     * Set usuario
-     *
-     * @param integer $usuario
-     * @return User
-     */
-    public function setUser(User $usuario)
-    {
-        $this->usuario = $usuario;
-    }
-    /**
-     * Get usuario
-     *
-     * @return integer 
-     */
-    public function getUser()
-    {
-        return $this->usuario;
-    }
 }

@@ -47,13 +47,15 @@ class PresupuestoController extends Controller
         $entity = new Presupuesto();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
+		
         if ($form->isValid()) {
+			
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('presupuesto'));
+			$_SESSION['id_presup']=$entity->getId();
+			$_SESSION['editando']=0;
+            return $this->redirect($this->generateUrl('carpinteria_new'));
         }
 
         return array(
@@ -75,9 +77,8 @@ class PresupuestoController extends Controller
             'action' => $this->generateUrl('presupuesto_create'),
             'method' => 'POST',
         ));
-		$url=$this->generateUrl('carpinteria_new');
-        $form->add('submit', 'submit', array('label' => 'Crear'));
-		$form->add('button', 'submit', array('label' => 'Agregar Carpinteria','attr'=>array('formaction'=>$url,'formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+    
+		$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria'));
 
         return $form;
     }
@@ -86,7 +87,7 @@ class PresupuestoController extends Controller
      * Displays a form to create a new Presupuesto entity.
      *
      * @Route("/new", name="presupuesto_new")
-     * @Method("GET")
+    
      * @Template()
      */
     public function newAction()
@@ -128,6 +129,120 @@ class PresupuestoController extends Controller
     /**
      * Displays a form to edit an existing Presupuesto entity.
      *
+     * @Route("/{id}/crear", name="presupuesto_crear")
+     * @Method("GET")
+     * @Template()
+     */
+    public function crearAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
+		
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Presupuesto entity.');
+        }
+		
+		$query = $em->createQuery("SELECT c
+                           FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
+					
+        $carpinterias = $query->getResult();
+		$entity->setMontoTotalCarpinterias($this->calcularMonto($carpinterias));
+		$_SESSION['id_presup']=$id;
+        $crearForm = $this->createCrearForm($entity, false);
+
+        return array(
+			'carpinterias' => $carpinterias,
+            'entity'      => $entity,
+            'crear_form'   => $crearForm->createView(),
+        );
+    }
+
+    /**
+    * Creates a form to crear a Presupuesto entity.
+    *
+    * @param Presupuesto $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createCrearForm(Presupuesto $entity, $boolean)
+    {
+        $form = $this->createForm(new PresupuestoType(), $entity, array(
+            'action' => $this->generateUrl('presupuesto_creando', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+		if ($boolean) {
+        $form->add('costoEnvio');
+		$form->add('costoColocacion');
+		$form->add('plazoEntrega');
+		$form->add('crear', 'submit', array('label' => 'Crear'));
+		$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria','attr'=>array('style'=>'display:none')));
+		$form->add('finalizar', 'submit', array('label' => 'Finalizar','attr'=>array('style'=>'display:none')));
+		}
+		else {
+			$form->add('costoEnvio', 'text', array('label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true)));
+			$form->add('costoColocacion', 'text', array('label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true)));
+			$form->add('plazoEntrega', 'text', array('label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true))); 
+			$form->add('crear', 'submit', array('label' => 'Crear','attr'=>array('style'=>'display:none')));
+			$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria'));
+			$form->add('finalizar', 'submit', array('label' => 'Finalizar'));
+		}
+        return $form;
+    }
+    /**
+     *
+     * @Route("/{id}/creando", name="presupuesto_creando")
+     * @Method("PUT")
+     * @Template("FantasiaBundle:Presupuesto:crear.html.twig")
+     */
+    public function creandoAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
+		
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Presupuesto entity.');
+        }
+
+        $crearForm = $this->createCrearForm($entity, false);
+        $crearForm->handleRequest($request);
+	
+		$query = $em->createQuery("SELECT c
+                           FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
+					
+		$carpinterias = $query->getResult();
+		if ($crearForm->isValid()) {
+			if ($crearForm->get('finalizar')->isClicked()){
+			$crearForm = $this->createCrearForm($entity, true);
+			
+			return array(
+			'carpinterias' => $carpinterias,
+            'entity'      => $entity,
+            'crear_form'   => $crearForm->createView(),
+			);
+				
+			} elseif ($crearForm->get('crear')->isClicked()){
+				$entity->setMontoTotalCarpinterias($this->calcularMonto($carpinterias));
+				$em->flush();
+				return $this->redirect($this->generateUrl('presupuesto'));
+			} elseif ($crearForm->get('agregar')->isClicked()) {
+				$_SESSION['editando']=0;	
+				$em->flush();
+				return $this->redirect($this->generateUrl('carpinteria_new'));
+			}
+     }
+
+       return array(
+			'carpinterias' => $carpinterias,
+            'entity'      => $entity,
+            'crear_form'   => $crearForm->createView(),
+        );
+    }
+	
+	/**
+     * Displays a form to edit an existing Presupuesto entity.
+     *
      * @Route("/{id}/edit", name="presupuesto_edit")
      * @Method("GET")
      * @Template()
@@ -137,18 +252,23 @@ class PresupuestoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
-
+		
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Presupuesto entity.');
         }
-
+		
+		$query = $em->createQuery("SELECT c
+                           FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
+					
+        $carpinterias = $query->getResult();
+		$entity->setMontoTotalCarpinterias($this->calcularMonto($carpinterias));
+		$_SESSION['id_presup']=$id;
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return array(
+			'carpinterias' => $carpinterias,
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -165,9 +285,13 @@ class PresupuestoController extends Controller
             'action' => $this->generateUrl('presupuesto_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
+		
+        $form->add('costoEnvio');
+		$form->add('costoColocacion');
+		$form->add('plazoEntrega');	
+		$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria'));
+		$form->add('finalizar', 'submit', array('label' => 'Modificar'));
+		
         return $form;
     }
     /**
@@ -182,50 +306,56 @@ class PresupuestoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
+		
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Presupuesto entity.');
+        }
+
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
+	
+		$query = $em->createQuery("SELECT c
+                           FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
+					
+		$carpinterias = $query->getResult();
+		if ($editForm->isValid()) {
+			if ($editForm->get('finalizar')->isClicked()){			
+				$entity->setMontoTotalCarpinterias($this->calcularMonto($carpinterias));
+				$em->flush();
+				return $this->redirect($this->generateUrl('presupuesto'));
+			} elseif ($editForm->get('agregar')->isClicked()) {
+				
+            $em->flush();
+			$_SESSION['editando']=1;
+            return $this->redirect($this->generateUrl('carpinteria_new'));
+			}
+     }
+
+       return array(
+			'carpinterias' => $carpinterias,
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+        );
+    }
+	
+    /**
+     * Deletes a Presupuesto entity.
+     *
+     * @Route("/{id}/delete", name="presupuesto_delete")
+     * @Template("FantasiaBundle:Presupuesto:index.html.twig")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Presupuesto entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('presupuesto_edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-    /**
-     * Deletes a Presupuesto entity.
-     *
-     * @Route("/{id}", name="presupuesto_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Presupuesto entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
+        $em->remove($entity);
+        $em->flush();
+        
         return $this->redirect($this->generateUrl('presupuesto'));
     }
 
@@ -238,11 +368,38 @@ class PresupuestoController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('presupuesto_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+        return $this->createFormBuilder(array('id' => $id))
+
+            ->add('id', 'hidden')
+
             ->getForm()
         ;
     }
+	
+	public function calcularMonto($carpinterias){
+		$montoTotalCarpinterias=0;
+		foreach($carpinterias as $carpinterias)
+				{
+					$ancho = $carpinterias->getAncho();
+					$alto = $carpinterias->getAlto();
+					$premarco = $carpinterias->getPremarco();
+					$contramarco = $carpinterias->getContramarco();
+					$cantidad = $carpinterias->getCantidad();
+					$asignacion = $carpinterias->getAsignacion();
+					$precioxML=$asignacion->getPrecioxML();
+					$vidrio=$carpinterias->getVidrio();
+					$precioxm2=$vidrio->getPrecioxm2();
+					$montoTotalCarpinterias=$montoTotalCarpinterias+((($alto+$ancho)*$precioxML)*$cantidad)+((($alto*$ancho)*$precioxm2)*$cantidad);
+					if ($premarco==1){
+						$precioPremarco=$asignacion->getPrecioPremarcoML();
+						$montoTotalCarpinterias=$montoTotalCarpinterias+((($alto+$ancho)*$precioPremarco)*$cantidad);
+						}
+					if ($contramarco==1){
+						$precioContramarco=$asignacion->getPrecioContramarcoML();
+						$montoTotalCarpinterias=$montoTotalCarpinterias+((($alto+$ancho)*$precioContramarco)*$cantidad);
+						}
+				}
+				
+		return $montoTotalCarpinterias;
+	}
 }

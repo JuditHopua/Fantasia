@@ -22,3 +22,9 @@ marca_update:
 marca_delete:
     path:     /{id}/delete
     defaults: { _controller: "FantasiaBundle:Marca:delete" }
+
+marca_imprimir:
+    path: /imprimir
+    defaults:  {_controller: "FantasiaBundle:Marca:imprimir", _format:pdf}
+    requirements:
+      _format: html|pdf

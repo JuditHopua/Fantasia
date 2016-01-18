@@ -1,0 +1,27 @@
+<pdf>
+	<dynamic-page page-size="letter-landscape">
+	<img margin="0 auto" src="{{pdf_image('FantasiaBundle:logo.jpg')}}"></img>
+	<h1>CATALOGO DE ABERTURAS</h1>
+	<h1>     </h1>
+		
+		{% for entity in entities %}
+		<div float="left">
+		
+		<h3>Modelo: {{entity.modelo.nombre}}</h3>
+		<h3>Marca: {{entity.marca.nombre}}</h3>
+		<h3>Precio Premarco M.Lineal: {{ entity.precioPremarcoML }}</h3>
+        <h3>Precio Contramarco M.Lineal: {{ entity.precioContramarcoML }}</h3>
+        <h3>Precio M.Lineal: {{ entity.precioxML }}</h3>
+        <h3>Descipción: {{ entity.descripcion }}</h3>	
+		
+		</div>
+		<img width="30%" float="rigth" src="{{pdf_image('FantasiaBundle:')}}{{entity.path}}"></img>
+		<br></br>
+		<h1></h1>
+		{%endfor%}
+		
+	    <h3 text-align="center" float="right">Fecha de impresión: {{"now"|date('d/m/Y')}} </h3>
+	
+	</dynamic-page>
+	
+</pdf>

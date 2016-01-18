@@ -40,19 +40,17 @@ class Vidrio
      * @ORM\OneToMany(targetEntity="Carpinteria", mappedBy="vidrio")
      */
     protected $carpinterias;
-
-    public function __construct()
+	
+	public function __construct()
     {
         $this->carpinterias = new ArrayCollection();
     }	
-
     public function getCarpinterias() {
         return $this->carpinterias;
     }
-
     public function addCarpinterias(Carpinteria $carpinterias) {
         $this->carpinterias[]=$carpinterias;}
-
+ 
     /**
      * Get id
      *

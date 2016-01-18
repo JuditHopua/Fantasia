@@ -35,8 +35,7 @@
         "twbs/bootstrap": "3.0.*",
 		"braincrafted/bootstrap-bundle":"~2.0",
 		"jquery/jquery":"1.11.*",
-        "knplabs/knp-menu-bundle": "~2",
-        "knplabs/knp-paginator-bundle": "^2.5"
+        "psliwa/pdf-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

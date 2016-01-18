@@ -5,8 +5,6 @@ namespace HL\FantasiaBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
-use HL\FantasiaBundle\Entity\Modelo;
-use HL\FantasiaBundle\Entity\Marca;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -233,11 +231,12 @@ class AsignacionMarcaModelo
      * Set modelo
      *
      * @param integer $modelo
-     * @return Modelo
+     * @return AsignacionMarcaModelo
      */
-    public function setModelo(Modelo $modelo)
+    public function setModelo($modelo)
     {
         $this->modelo = $modelo;
+        return $this;
     }
     /**
      * Get modelo
@@ -253,11 +252,12 @@ class AsignacionMarcaModelo
      * Set marca
      *
      * @param integer $marca
-     * @return Marca
+     * @return AsignacionMarcaModelo
      */
-    public function setMarca(Marca $marca)
+    public function setMarca($marca)
     {
         $this->marca = $marca;
+        return $this;
     }
     /**
      * Get marca
@@ -292,17 +292,15 @@ class AsignacionMarcaModelo
     // limpia la propiedad «file» ya que no la necesitas más
     $this->file = null;
 	}
-
-    public function __construct()
+	
+	 public function __construct()
     {
         $this->carpinterias = new ArrayCollection();
     }	
-
     public function getCarpinterias() {
         return $this->carpinterias;
     }
-
     public function addCarpinterias(Carpinteria $carpinterias) {
         $this->carpinterias[]=$carpinterias;}
- 
+
 }

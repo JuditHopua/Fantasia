@@ -37,3 +37,7 @@ FantasiaBundle_carpinteria:
 FantasiaBundle_presupuesto:
     resource: "@FantasiaBundle/Resources/config/routing/presupuesto.yml"
     prefix:   /presupuesto
+
+_dump:
+    path:     /dump
+    defaults: { _controller: FantasiaBundle:Default:dump }

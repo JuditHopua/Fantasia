@@ -66,16 +66,14 @@ class Marca
     {
         return $this->nombre;
     }
-
-    public function __construct()
+	
+	  public function __construct()
     {
         $this->asignaciones = new ArrayCollection();
     }	
-
     public function getAsignaciones() {
         return $this->asignaciones;
     }
-
     public function addAsignaciones($asignaciones) {
 	    $this->asignaciones[]=$asignaciones;}
 

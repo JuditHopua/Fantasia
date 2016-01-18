@@ -3,23 +3,53 @@
 {% block title %} Nueva Carpinter&iacute;a {% endblock %}
 
 {% block contenido %}
+	<script language="javascript">
+            $(document).ready(function(){
+                 $("#modelo").change(function () {
+                       $("#modelo option:selected").each(function () {
+							id_modelo=$(this).val();
+							$.post("{{ asset('bundles/fantasia/marca.php' ) }}", { id_modelo: id_modelo }, function(data){
+								$("#marca").html(data);
+								$("#datos").html('');
+								$("#marca").change(function () {
+									$("#marca option:selected").each(function () {
+										id_marca = $(this).val();
+										$.post("{{ asset('bundles/fantasia/datos.php' ) }}", { id_marca: id_marca, id_modelo: id_modelo }, function(data){
+											$("#datos").html(data);
+										});			
+									});
+								})
+							});            
+						});
+					})
+				});
+    </script>
+
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
     <h1 id="titulo">Agregar Carpinter&iacute;a</h1>
-    <div class="formAutogenerado">
-	        {{ form_row(form.asignacion.modelo) }} 
-	        {{ form_row(form.asignacion.marca) }}
-			{{ form_row(form.asignacion.precioPremarcoML)}}
-			{{ form_row(form.asignacion.precioContramarcoML) }}
-			{{ form_row(form.asignacion.precioxML) }}
-	        {{ form_row(form.asignacion.descripcion) }}
-			{{ form_row(form.alto)}}
-			{{ form_row(form.ancho)}}
-			{{ form_row(form.premarco)}}
-			{{ form_row(form.contramarco)}}
-			{{ form_row(form.cantidad)}}
-	        <button type="submit" value="Agregar">Agregar</button>
-            <button type="button" value="Volver">Volver al Presupuesto</button>
-			<!-- {{ form(form) }} -->
-		
+	<div class="form-group" id="addForm">
+	<label>Modelos</label>
+	<select name="modelo" id="modelo" class="form-control input-sm">
+		<option value=”” disabled selected>Seleccione modelo...</option>
+	{%for mod in modelos%}
+		<option value="{{mod.id}}">{{mod.nombre}}</option>
+	{%endfor%}
+	</select>
 	</div>
+	<div class="form-group" id="addForm">
+	<label>Marcas</label>
+	<select name="marca" id="marca" class="form-control input-sm">
+		<option value=”” disabled selected>Seleccione marca...</option>
+	</select>
+	</div>
+	<div class="form-group" id="addForm">
+	<label>Datos</label>
+	<table id="datos" name="datos">
+	</table>
+	</div>
+	
+    <div class="formAutogenerado">
+		{{ form(form) }}
+	</div>
+	
 {% endblock %}

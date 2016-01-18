@@ -1,0 +1,23 @@
+<pdf>
+	<dynamic-page page-size="letter-landscape">
+	
+	<h1>Vidrios</h1>
+	
+	<table text-align="center" margin-top="10px">
+		<tr background.color="#E3680B" color="white">
+		<td width="130px" font-style="bold" padding="8px">Tipo</td>
+		<td width="130px" font-style="bold" padding="8px">Precio por m2</td>
+		</tr>
+		{% for entity in entities %}
+		<tr>
+			<td padding="8px" color="black">{{entity.tipo}}</td>
+			<td>{{entity.precioxm2}}</td>
+		</tr>
+		
+		{%endfor%}
+		
+	</table>
+	
+	</dynamic-page>
+	
+</pdf>

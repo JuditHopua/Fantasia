@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use HL\FantasiaBundle\Entity\Marca;
 use HL\FantasiaBundle\Form\MarcaType;
+use Ps\PdfBundle\Annotation\Pdf;
 
 /**
  * Marca controller.
@@ -239,4 +240,12 @@ class MarcaController extends Controller
             ->getForm()
         ;
     }
+	
+	public function imprimirAction()
+	{
+		$em=$this->getDoctrine()->getManager();
+		$entities= $em->getRepository('FantasiaBundle:Marca')->findAll();
+		$formato=$this->get('request')->get('_format');
+		return $this->render(sprintf('FantasiaBundle:Marca:imprimirlistado.pdf.twig', $formato), array('entities'=>$entities));
+	}
 }

@@ -1,8 +1,18 @@
 {% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block title %} Nueva Carpinter&iacute;a {% endblock %}
+{% block title %} Nuevo Presupuesto {% endblock %}
 
 {% block contenido %}
+<script type="text/javascript">
+          
+            $(document).ready(function () {
+                
+                $('.bootstrap-date').datepicker({
+                    format: "dd/mm/yyyy"
+                });  
+            
+            });
+        </script>
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
     <h1 id="titulo">Crear Presupuesto</h1>
     <div class="formAutogenerado">
