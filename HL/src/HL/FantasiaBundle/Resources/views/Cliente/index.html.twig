@@ -12,20 +12,38 @@
 		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
 		} );
 	});
+	 function confirmar(){
+        if (confirm("¿Realmente desea borrar el cliente?") == true) {
+            if (confirm("Usted va a borrar todos los presepuestos asociados a este cliente. Confirma la acción?")){
+			return true
+			}
+			else{
+				return false;
+			}
+        }
+		else
+		{
+          return false;
+        }
+      }
 </script>	
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
     <h1>Listado de clientes</h1>
 	
+	<div id="dialog" style="display:none;">
+		<p>Usted va a borrar el cliente y todos sus presupuestos guardados. Confirma la acción?</p>
+    </div>
+	
     <table class="table table-striped" id="tabla">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-                <th>Telefono</th>
-                <th>Domicilio</th>
-                <th>Observaciones</th>
-                <th>Acci&oacute;n</th>
+                <th id="thcenter">Nombre</th>
+                <th id="thcenter">Apellido</th>
+                <th id="thcenter">Email</th>
+                <th id="thcenter">Telefono</th>
+                <th id="thcenter">Domicilio</th>
+                <th id="thcenter">Observaciones</th>
+                <th id="sinaccion"></th>
             </tr>
         </thead>
         <tbody>
@@ -38,14 +56,17 @@
                 <td>{{ entity.domicilio }}</td>
                 <td>{{ entity.observaciones }}</td>
 				<td>
-					<a href="{{ path('cliente_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="{{ path('cliente_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
 				
-					<a href="{{ path('cliente_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash"></span></a>
+					<a href="{{ path('cliente_delete', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-trash" onclick="return confirmar()"></span></a>
 				
 				</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+	<a href="{{ path('cliente_new') }}" class="btn btn-primary" >
+                Agregar Cliente
+    </a>
 	
     {% endblock %}

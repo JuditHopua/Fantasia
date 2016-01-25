@@ -15,15 +15,20 @@ class CarpinteriaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-			->add('vidrio','entity',array(   'label'=>'Vidrio: ',
-                                              'class'=>'FantasiaBundle:Vidrio',
-                                              'property'=>'tipo',
-                                               'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
-            ->add('alto')
-            ->add('ancho')
+			->add('vidrio','entity',array(   'label'=>'Vidrio',
+                                             'class'=>'FantasiaBundle:Vidrio',
+											 'query_builder' => function(\HL\FantasiaBundle\Entity\VidrioRepository $vidrios) {
+																 return $vidrios->createQueryBuilder('v')
+																->orderBy('v.tipo', 'ASC');
+																},
+                                             'property'=>'tipo',
+											 'placeholder'=>'Seleccione un vidrio...',
+                                             'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
+            ->add('alto')//,'integer',array ('label'=>'Alto (mts)', 'attr'=>array('step'=>'0.01', 'min'=>'0.01', 'formnovalidate'=>'formnovalidate')))
+            ->add('ancho')//,'integer',array ('label'=>'Ancho (mts)', 'attr'=>array('step'=>'0.01', 'min'=>'0.01', 'formnovalidate'=>'formnovalidate')))
             ->add('premarco')
             ->add('contramarco')
-            ->add('cantidad')
+            ->add('cantidad','integer',array ('label'=>'Cantidad', 'attr'=>array('min'=>'1')))
            
         ;
     }

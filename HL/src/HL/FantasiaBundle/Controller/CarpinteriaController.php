@@ -51,11 +51,13 @@ class CarpinteriaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+			if (isset($_SESSION['asignacion'])){
 			 $em = $this->getDoctrine()->getManager();
 			$presup = $em->getRepository('FantasiaBundle:Presupuesto')->find($_SESSION['id_presup']);
 			$entity->setPresupuesto($presup);
 			$asign = $em->getRepository('FantasiaBundle:AsignacionMarcaModelo')->find($_SESSION['asignacion']);
 			$entity->setAsignacion($asign);
+			unset($_SESSION['asignacion']);
             $em->persist($entity);
             $em->flush();
 			if ($_SESSION['editando'] == 0){
@@ -65,9 +67,16 @@ class CarpinteriaController extends Controller
 					return $this->redirect($this->generateUrl('presupuesto_edit', array('id'=>$_SESSION['id_presup'])));
 				}
         }
+		}
+		
+		$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery("SELECT DISTINCT m.id, m.nombre FROM FantasiaBundle:AsignacionMarcaModelo a, FantasiaBundle:Modelo m
+									WHERE m.id=a.modelo ORDER BY m.nombre ASC"); 
+		$modelos = $query->getResult();
 		
         return array(
-			
+			'mensaje' =>'Todos los campos deben ser completados',
+			'modelos' => $modelos,
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -109,6 +118,7 @@ class CarpinteriaController extends Controller
 		$modelos = $query->getResult();
 
         return array(
+			'mensaje' =>'',
 			'modelos' => $modelos,
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -182,8 +192,9 @@ class CarpinteriaController extends Controller
         ));
 
         $form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
-
+		
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+		
         return $form;
     }
     /**
@@ -203,14 +214,18 @@ class CarpinteriaController extends Controller
             throw $this->createNotFoundException('Unable to find Carpinteria entity.');
         }
 
-        //$deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('carpinteria'));
+           if ($_SESSION['editando'] == 0){
+				return $this->redirect($this->generateUrl('presupuesto_crear', array('id'=>$_SESSION['id_presup'])));
+				}
+				elseif ($_SESSION['editando'] == 1)  {
+					return $this->redirect($this->generateUrl('presupuesto_edit', array('id'=>$_SESSION['id_presup'])));
+				}
         }
 
         return array(
@@ -238,7 +253,12 @@ class CarpinteriaController extends Controller
         $em->flush();
 
 
-        return $this->redirect($this->generateUrl('carpinteria'));
+        if ($_SESSION['editando'] == 0){
+				return $this->redirect($this->generateUrl('presupuesto_crear', array('id'=>$_SESSION['id_presup'])));
+				}
+				elseif ($_SESSION['editando'] == 1)  {
+					return $this->redirect($this->generateUrl('presupuesto_edit', array('id'=>$_SESSION['id_presup'])));
+				}
     }
 
     /**

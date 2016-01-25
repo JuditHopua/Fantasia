@@ -48,19 +48,28 @@ class ClienteController extends Controller
         $entity = new Cliente();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('cliente'));
-        }
-
+		if ($this::noExisteCliente($entity)){
+			if ($form->isValid()) {
+				$em = $this->getDoctrine()->getManager();
+				$em->persist($entity);
+				$em->flush();
+				return $this->redirect($this->generateUrl('cliente'));
+			}
+			else {
+				return array(
+				'mensaje'=>null,
+				'entity' => $entity,
+				'form'   => $form->createView(),
+				);
+			}
+		}
+		else {
         return array(
+		    'mensaje' => 'Ya existe el cliente',
             'entity' => $entity,
             'form'   => $form->createView(),
         );
+		}
     }
 
     /**
@@ -95,6 +104,7 @@ class ClienteController extends Controller
         $form   = $this->createCreateForm($entity);
 
         return array(
+			'mensaje' => null,
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -137,18 +147,17 @@ class ClienteController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('FantasiaBundle:Cliente')->find($id);
-
+		
         if (!$entity) {
             throw $this->createNotFoundException('No se pudo encontrar el cliente');
         }
 
         $editForm = $this->createEditForm($entity);
-       // $deleteForm = $this->createDeleteForm($id);
-
+		$_SESSION['entity_original']=$entity;
         return array(
+			'mensaje' => null,
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-          //  'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -163,41 +172,53 @@ class ClienteController extends Controller
     {
         $form = $this->createForm(new ClienteType(), $entity, array(
             'action' => $this->generateUrl('cliente_update', array('id' => $entity->getId())),
-            'method' => 'POST',
+            'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+        $form->add('submit', 'submit', array('label' => 'Modificar', 'attr'=>array('onclick'=>'return confirmar()')));
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
 
         return $form;
     }
     /**
      * Edits an existing Cliente entity.
      *
+	 * @Route("/{id}", name="cliente_update")
+     * @Method("PUT")
+     * @Template("FantasiaBundle:Cliente:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('FantasiaBundle:Cliente')->find($id);
-
+		
         if (!$entity) {
             throw $this->createNotFoundException('No se pudo encontrar el cliente');
         }
-
+		
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('cliente'));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-        );
+		if ($this::noExisteClienteEdit($_SESSION['entity_original'], $entity)){
+			if ($editForm->isValid()) {
+				$em->flush();
+				return $this->redirect($this->generateUrl('cliente'));
+			}
+			else {
+				return array(
+					'mensaje'=> null,
+					'entity' => $entity,
+					'edit_form'   => $editForm->createView(),
+				);
+			}
+		}
+		else {
+			return array(
+				'mensaje' => 'Ya existe el cliente. Ingrese uno diferente.',
+				'entity' => $entity,
+				'edit_form'   => $editForm->createView(),
+			);
+		}
     }
    /**
      * Deletes a Cliente entity.
@@ -236,5 +257,43 @@ class ClienteController extends Controller
             ->getForm()
 			;
     }
+	
+	private function noExisteCliente($entity){
+		$em = $this->getDoctrine()->getManager();
+		$nombre=$entity->getNombre();
+		$apellido=$entity->getApellido();
+		$email=$entity->getEmail();
+		$domicilio=$entity->getDomicilio();
+		
+		$query=$em->createQuery("SELECT c FROM FantasiaBundle:Cliente c WHERE c.nombre='$nombre' AND c.apellido='$apellido' AND c.email='$email'
+								AND c.domicilio='$domicilio'");
+		$cliente=$query->getResult();
+		if (empty($cliente)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private function noExisteClienteEdit($entity_orginal, $entity)
+	{
+		$nombre=$entity->getNombre();
+		$apellido=$entity->getApellido();
+		$email=$entity->getEmail();
+		$domicilio=$entity->getDomicilio();
+		
+		$nombre_original=$entity_original->getNombre();
+		$apellido_original=$entity_original->getApellido();
+		$email_original=$entity_original->getEmail();
+		$domicilio_original=$entity_original->getDomicilio();
+		
+		if (($nombre<>$nombre_original) or ($apellido<>$apellido_original) or ($email<>$email_original) or ($domicilio<>$domicilio_original)) {
+			return $this::noExisteCliente($entity);
+		}
+		else {
+			return true;
+		}
+	}
 }
 

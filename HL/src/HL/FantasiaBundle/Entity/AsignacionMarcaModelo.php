@@ -49,16 +49,16 @@ class AsignacionMarcaModelo
      * @var string
      *
      * @ORM\Column(name="descripcion", type="text")
-     */
+    */
     private $descripcion;
 	
-	 /**
+	/**
 	* @ORM\Column(type="string", length=255, nullable=true)
 	*/
 	public $path;
 	
 	 /**
-     * @Assert\File(maxSize="6000000")
+     * @Assert\File(maxSize="6000000" , maxSizeMessage = "Imagen muy grande, selecciona otra")
      */
     private $file;
 
@@ -103,7 +103,7 @@ class AsignacionMarcaModelo
 	{
 		return null === $this->path
 		? null
-		: $this->getUploadRootDir().’/’.$this->path;
+		: $this->getUploadRootDir().'/'.$this->path;
 	}
 		
 	public function getWebPath()

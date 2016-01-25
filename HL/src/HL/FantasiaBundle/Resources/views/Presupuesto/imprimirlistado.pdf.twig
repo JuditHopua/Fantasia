@@ -1,0 +1,27 @@
+<pdf>
+	<dynamic-page page-size="letter-landscape">
+	<img margin="0 auto" src="{{pdf_image('FantasiaBundle:logo.jpg')}}"></img>
+	
+	<h1>Sr. {{entity.cliente.apellido}} {{entity.cliente.nombre}}</h1><h1 float="rigth">{{entity.fecha|date('d/m/Y')}}</h1>
+	
+	<h1>PRESUPUESTO</h1>
+	<h4>Detalle de aberturas</h4>
+		
+		{% for carpinteria in carpinterias %}
+		
+		<h3>Cantidad: {{carpinteria.cantidad}}</h3>
+		<h3>{{carpinteria.asignacion.modelo.nombre}} {{carpinteria.asignacion.descripcion}} 
+		 {{carpinteria.ancho}} x {{carpinteria.alto}} mts. {{carpinteria.asignacion.marca.nombre}}</h3>
+		<h3>Vidrio: {{carpinteria.vidrio.tipo}}</h3>
+       
+		
+		<img width="30%" src="{{pdf_image('FantasiaBundle:')}}{{carpinteria.asignacion.path}}"></img>
+		
+		
+		{%endfor%}
+		
+	    <h3 text-align="center" >Fecha de impresión: {{"now"|date('d/m/Y')}} </h3>
+	
+	</dynamic-page>
+	
+</pdf>

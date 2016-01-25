@@ -28,12 +28,10 @@ class DefaultController extends Controller
         $dbuser=$this->container->getParameter('database_user');
         $dbpass=$this->container->getParameter('database_password');
         $pathActual = getcwd() . '/backups/'; //trae el path actual 
-        $backup_file = $pathActual . 'Fantasia-@-Fecha-' . date("d-m-Y") . '-@-Hora-'.date("H-i-s").'.sql';
+        $backup_file = $pathActual . 'Fantasia-@-Fecha-' . date("d-m-Y") . '-@-Hora-'.(date("H-i-s")).'.sql';
 
-        //Comando a ejecutar
         $command = "mysqldump --user=$dbuser --password=$dbpass $dbname > $backup_file";
 
-        //system($command,$sarasa);
         system($command,$output);
 
         if (($output =='1')){  //Si se creó con exito el BackUp

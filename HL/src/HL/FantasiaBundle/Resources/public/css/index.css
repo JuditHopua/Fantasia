@@ -45,7 +45,7 @@ body {
 }
 
 #titulo {
-	margin-left:40%;
+	margin-left:38%;
 }
 
 #divbase {
@@ -55,6 +55,7 @@ body {
 #tabla {
 	background-color: white;
     color: black;
+	text-align: center;
 }
 
 #tabla_filter {
@@ -82,10 +83,6 @@ body {
     margin-left: 10%;
 }
 
-option[value=””][disabled] {
-	display: none;
-}
-
 #addForm {
 	 width: 40%;
     margin-left: 31%;
@@ -103,4 +100,21 @@ option[value=””][disabled] {
 	text-align: center;
 	border: 2px solid black;
     padding: 4px;
+}
+
+option[value][disabled] {
+	display: none;
+}
+
+#thcenter {
+	text-align: center;
+}
+
+#sinaccion {
+	background-image: none;
+	cursor: auto;
+}
+
+#editAbertura {
+	max-width: 58%;
 }

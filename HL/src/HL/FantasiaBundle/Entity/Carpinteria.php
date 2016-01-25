@@ -3,6 +3,7 @@
 namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;    
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Carpinteria
@@ -22,16 +23,20 @@ class Carpinteria
     private $id;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="alto", type="decimal", scale=2)
+	 * @Assert\Range(min=0.01,
+	 *				minMessage = "La altura mínima es 0.01")
      */
     private $alto;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="ancho", type="decimal", scale=2)
+	 * @Assert\Range(min=0.01,
+	 *				minMessage = "El ancho mínimo es 0.01")
      */
     private $ancho;
 

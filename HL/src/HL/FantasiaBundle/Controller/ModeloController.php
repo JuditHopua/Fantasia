@@ -47,19 +47,26 @@ class ModeloController extends Controller
         $entity = new Modelo();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('modelo'));
-        }
-
-        return array(
+		if ($this::noExisteModelo($entity)) {
+			if ($form->isValid()) {
+				$em = $this->getDoctrine()->getManager();
+				$em->persist($entity);
+				$em->flush();
+				return $this->redirect($this->generateUrl('modelo'));
+			}
+			else {
+				return array(
+					'mensaje' => null,
+					'entity' => $entity,
+					'form'   => $form->createView(),
+				);
+				}
+		}
+		return array(
+		    'mensaje' => 'Ya existe el modelo. Ingrese uno diferente.',
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+			);
     }
 
     /**
@@ -134,20 +141,17 @@ class ModeloController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('FantasiaBundle:Modelo')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('No se pudo encontrar el modelo seleccionado');
         }
-
+		$_SESSION['entity_original']= $entity;
         $editForm = $this->createEditForm($entity);
-       //$deleteForm = $this->createDeleteForm($id);
-
+      
         return array(
+			'mensaje' => null,
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-        //    'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -166,7 +170,7 @@ class ModeloController extends Controller
         ));
 
         $form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
         
 		return $form;
     }
@@ -180,24 +184,27 @@ class ModeloController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('FantasiaBundle:Modelo')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Modelo entity.');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('modelo'));
-        }
-
+		if ($this::noExisteModeloEdit($_SESSION['entity_original'], $entity)) {
+			if ($editForm->isValid()) {
+				$em->flush();
+				return $this->redirect($this->generateUrl('modelo'));
+				}
+			else {
+				return array(
+					'mensaje' => null,
+					'entity'      => $entity,
+					'edit_form'   => $editForm->createView(),
+					);
+			}
+		}
         return array(
+			'mensaje' => 'Ya existe el modelo. Ingrese uno diferente.',
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
         );
@@ -239,4 +246,29 @@ class ModeloController extends Controller
             ->getForm()
         ;
     }
+	
+	private function noExisteModelo($entity)
+	{
+        $em = $this->getDoctrine()->getManager();
+        $nombre = $entity->getNombre();
+		$query = $em->createQuery("SELECT m FROM FantasiaBundle:Modelo m 
+        WHERE m.nombre = '$nombre' ");
+        $modelo = $query->getResult();
+        if (empty($modelo)) {
+            return true;
+		} else {
+            return false;}
+    }
+	
+    private function noExisteModeloEdit ($entity_original, $entity)
+	{
+	    $nombre_original = $entity_original->getNombre();
+		$nombre = $entity->getNombre();
+		if ($nombre<>$nombre_original) { 
+            return $this::noExisteModelo($entity);
+		} else {
+			return true;
+			}
+    }       
 }
+?>

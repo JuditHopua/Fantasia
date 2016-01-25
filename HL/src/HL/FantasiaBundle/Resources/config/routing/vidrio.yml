@@ -2,10 +2,6 @@ vidrio:
     path:     /
     defaults: { _controller: "FantasiaBundle:Vidrio:index" }
 
-vidrio_show:
-    path:     /{id}/show
-    defaults: { _controller: "FantasiaBundle:Vidrio:show" }
-
 vidrio_new:
     path:     /new
     defaults: { _controller: "FantasiaBundle:Vidrio:new" }
@@ -15,9 +11,9 @@ vidrio_edit:
     defaults: { _controller: "FantasiaBundle:Vidrio:edit" }
 
 vidrio_update:
-    path:     /{id}/update
-    defaults: { _controller: "FantasiaBundle:Vidrio:update" }
-    requirements: { _method: post|put }
+   path:     /{id}/update
+   defaults: { _controller: "FantasiaBundle:Vidrio:update" }
+   requirements: { _method: post|put }
 
 vidrio_delete:
     path:     /{id}/delete
@@ -25,7 +21,6 @@ vidrio_delete:
 
 vidrio_imprimir:
     path:     /{listado}.{_format}
-    defaults: { _controller: FantasiaBundle:Vidrio:imprimir, _format: pdf }
-#    param:    { module: listado, action: imprimir}
+    defaults: { _controller: "FantasiaBundle:Vidrio:imprimir", _format: pdf }
     requirements:
         _format: html|pdf

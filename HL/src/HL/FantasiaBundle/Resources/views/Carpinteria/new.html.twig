@@ -23,29 +23,40 @@
 						});
 					})
 				});
+			
     </script>
 
-	{% include 'FantasiaBundle:Default:menu.html.twig' %}
-    <h1 id="titulo">Agregar Carpinter&iacute;a</h1>
+{% include 'FantasiaBundle:Default:menu.html.twig' %}
+	
+	<h1 id="titulo">Agregar Carpinter&iacute;a</h1>
+		
+	{% if mensaje %}
+		<div class="form-group" id="addForm">
+			<div class="alert alert-danger">{{mensaje}}</div>
+		</div>
+	{%endif%}
+		
 	<div class="form-group" id="addForm">
-	<label>Modelos</label>
-	<select name="modelo" id="modelo" class="form-control input-sm">
-		<option value=”” disabled selected>Seleccione modelo...</option>
-	{%for mod in modelos%}
-		<option value="{{mod.id}}">{{mod.nombre}}</option>
-	{%endfor%}
-	</select>
+		<label>Modelos</label>
+		<select name="modelo" id="modelo" class="form-control input-sm" >
+			<option value disabled selected>Seleccione un modelo...</option>
+			{%for mod in modelos%}
+				<option value="{{mod.id}}">{{mod.nombre}}</option>
+			{%endfor%}
+		</select>
 	</div>
+	
 	<div class="form-group" id="addForm">
-	<label>Marcas</label>
-	<select name="marca" id="marca" class="form-control input-sm">
-		<option value=”” disabled selected>Seleccione marca...</option>
-	</select>
+		<label>Marcas</label>
+		<select name="marca" id="marca" class="form-control input-sm">
+			<option value disabled selected>Seleccione una marca...</option>
+		</select>
 	</div>
+	
 	<div class="form-group" id="addForm">
-	<label>Datos</label>
-	<table id="datos" name="datos">
-	</table>
+		<label>Datos</label>
+		<table id="datos" name="datos">
+		</table>
 	</div>
 	
     <div class="formAutogenerado">

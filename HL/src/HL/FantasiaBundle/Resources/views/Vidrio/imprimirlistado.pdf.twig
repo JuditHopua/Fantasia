@@ -1,23 +1,25 @@
 <pdf>
 	<dynamic-page page-size="letter-landscape">
-	
-	<h1>Vidrios</h1>
+	<img margin="0 auto" src="{{pdf_image('FantasiaBundle:logo.jpg')}}"></img>
+	<h1 text-align="center">CATALOGO DE VIDRIOS</h1>
+	<h1></h1>
 	
 	<table text-align="center" margin-top="10px">
-		<tr background.color="#E3680B" color="white">
+		<tr background.color="grey" color="white">
 		<td width="130px" font-style="bold" padding="8px">Tipo</td>
 		<td width="130px" font-style="bold" padding="8px">Precio por m2</td>
 		</tr>
 		{% for entity in entities %}
 		<tr>
 			<td padding="8px" color="black">{{entity.tipo}}</td>
-			<td>{{entity.precioxm2}}</td>
+			<td padding="8px" color="black">$ {{entity.precioxm2}}</td>
 		</tr>
 		
 		{%endfor%}
 		
 	</table>
-	
+	<h1></h1>
+	 <h3 text-align="center" >Fecha de impresión: {{"now"|date('d/m/Y')}} </h3>
 	</dynamic-page>
 	
 </pdf>

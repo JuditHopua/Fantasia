@@ -31,3 +31,13 @@ presupuesto_creando:
     path:     /{id}/creando
     defaults: { _controller: "FantasiaBundle:Presupuesto:creando" }
     requirements: { _method: post|put }
+
+presupuesto_mail:
+    path: /{id}/mail
+    defaults: {_controller: "FantasiaBundle:Presupuesto:mail"}
+
+presupuesto_imprimir:
+    path:     /{id}/{listado}.{_format}
+    defaults: { _controller: FantasiaBundle:Presupuesto:imprimir, _format: pdf }
+    requirements:
+        _format: html|pdf

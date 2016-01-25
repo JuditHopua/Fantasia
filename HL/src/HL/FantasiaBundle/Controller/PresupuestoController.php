@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use HL\FantasiaBundle\Entity\Presupuesto;
 use HL\FantasiaBundle\Form\PresupuestoType;
+use Ps\PdfBundle\Annotation\Pdf;
+use PHPPdf\Core\FacadeBuilder;
+use Swift_Attachment;
 
 /**
  * Presupuesto controller.
@@ -30,7 +33,15 @@ class PresupuestoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('FantasiaBundle:Presupuesto')->findAll();
-
+	
+		foreach($entities as $entity)
+		{
+			$id=$entity->getId();
+			$query = $em->createQuery("SELECT c
+                           FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
+			$carpinterias = $query->getResult();
+			$entity->setMontoTotalCarpinterias($this->calcularMonto($carpinterias));
+		}
         return array(
             'entities' => $entities,
         );
@@ -172,16 +183,16 @@ class PresupuestoController extends Controller
             'method' => 'PUT',
         ));
 		if ($boolean) {
-        $form->add('costoEnvio');
-		$form->add('costoColocacion');
+        $form->add('costoEnvio','money', array('currency'=>'$$$'));
+		$form->add('costoColocacion','money', array('currency'=>'$$$'));
 		$form->add('plazoEntrega');
 		$form->add('crear', 'submit', array('label' => 'Crear'));
 		$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria','attr'=>array('style'=>'display:none')));
 		$form->add('finalizar', 'submit', array('label' => 'Finalizar','attr'=>array('style'=>'display:none')));
 		}
 		else {
-			$form->add('costoEnvio', 'text', array('label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true)));
-			$form->add('costoColocacion', 'text', array('label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true)));
+			$form->add('costoEnvio','money', array('currency'=>'$$$', 'label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true)));
+			$form->add('costoColocacion','money', array('currency'=>'$$$', 'label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true)));
 			$form->add('plazoEntrega', 'text', array('label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true))); 
 			$form->add('crear', 'submit', array('label' => 'Crear','attr'=>array('style'=>'display:none')));
 			$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria'));
@@ -249,6 +260,7 @@ class PresupuestoController extends Controller
      */
     public function editAction($id)
     {
+		
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
@@ -286,12 +298,12 @@ class PresupuestoController extends Controller
             'method' => 'PUT',
         ));
 		
-        $form->add('costoEnvio');
-		$form->add('costoColocacion');
+        $form->add('costoEnvio','money', array('currency'=>'$$$'));
+		$form->add('costoColocacion','money', array('currency'=>'$$$'));
 		$form->add('plazoEntrega');	
 		$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria'));
 		$form->add('finalizar', 'submit', array('label' => 'Modificar'));
-		
+		//$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formaction'=>'../../presupuesto','formmethod'=>'GET','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
         return $form;
     }
     /**
@@ -389,17 +401,64 @@ class PresupuestoController extends Controller
 					$precioxML=$asignacion->getPrecioxML();
 					$vidrio=$carpinterias->getVidrio();
 					$precioxm2=$vidrio->getPrecioxm2();
-					$montoTotalCarpinterias=$montoTotalCarpinterias+((($alto+$ancho)*$precioxML)*$cantidad)+((($alto*$ancho)*$precioxm2)*$cantidad);
+					$montoTotalCarpinterias=$montoTotalCarpinterias+((($alto+$ancho)*2*$precioxML)*$cantidad)+((($alto*$ancho)*$precioxm2)*$cantidad);
 					if ($premarco==1){
 						$precioPremarco=$asignacion->getPrecioPremarcoML();
-						$montoTotalCarpinterias=$montoTotalCarpinterias+((($alto+$ancho)*$precioPremarco)*$cantidad);
+						$montoTotalCarpinterias=$montoTotalCarpinterias+((($alto+$ancho)*2*$precioPremarco)*$cantidad);
 						}
 					if ($contramarco==1){
 						$precioContramarco=$asignacion->getPrecioContramarcoML();
-						$montoTotalCarpinterias=$montoTotalCarpinterias+((($alto+$ancho)*$precioContramarco)*$cantidad);
+						$montoTotalCarpinterias=$montoTotalCarpinterias+((($alto+$ancho)*2*$precioContramarco)*$cantidad);
 						}
 				}
 				
 		return $montoTotalCarpinterias;
 	}
+	
+	/**
+     * @Route("/{id}/mail", name="presupuesto_mail")
+     */
+    public function mailAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+		
+
+        $entity = $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
+		$query = $em->createQuery("SELECT c
+                           FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
+					
+		$carpinterias = $query->getResult();
+		
+		//$file= 'C:\wamp\www\Symfony2\src\HL\FantasiaBundle\Resources\views\Presupuesto\imprimirlistado.pdf.twig';
+
+		$message = \Swift_Message::newInstance()
+			->setSubject('Presupuesto | Fantasia SA')
+			->setFrom('fantasia.sa.16@gmail.com')
+			->setTo('zurdolarrondo@hotmail.com')
+			//->setBody ('ejemplo')
+			->setBody ($this->renderView(
+            'FantasiaBundle:Presupuesto:imprimirlistado.pdf.twig', array('entity'=>$entity, 'carpinterias'=>$carpinterias)
+			), 'text/html');
+			//->attach(Swift_Attachment::fromPath($file));
+			
+    $this->get('mailer')->send($message);
+   
+	return $this->redirect($this->generateUrl('presupuesto'));
+	}
+	
+	/**
+	* @Pdf()
+	 * @Route("/{id}/{listado}.{_format}", name="presupuesto_imprimir")
+	*/
+	public function imprimirAction($id)
+	{
+		$em=$this->getDoctrine()->getManager();
+		$entity= $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
+		$query = $em->createQuery("SELECT c
+                           FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 			
+		$carpinterias = $query->getResult();
+		$formato=$this->get('request')->get('_format');
+		return $this->render(sprintf('FantasiaBundle:Presupuesto:imprimirlistado.%s.twig', $formato), array('entity'=>$entity, 'carpinterias'=>$carpinterias));
+	}
+
 }

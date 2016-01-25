@@ -19,14 +19,14 @@
     <table class="table table-striped" id="tabla">
         <thead>
             <tr>
-                <th>Fecha</th>
-				<th>Cliente</th>
-                <th>Costo envio</th>
-                <th>Costo colocacion</th>
-                <th>Plazo entrega</th>
-                <th>Monto carpinterias</th>
-				<th>Total Presupuesto</th>
-                <th></th>
+                <th id="thcenter">Fecha</th>
+				<th id="thcenter">Cliente</th>
+                <th id="thcenter">Costo envio</th>
+                <th id="thcenter">Costo colocacion</th>
+                <th id="thcenter">Plazo entrega</th>
+                <th id="thcenter">Monto carpinterias</th>
+				<th id="thcenter">Total Presupuesto</th>
+                <th id="sinaccion"></th>
             </tr>
         </thead>
         <tbody>
@@ -40,12 +40,14 @@
                 <td>$ {{ entity.montoTotalCarpinterias|number_format(2) }}</td>
 				<td>$ {{ (entity.costoEnvio+entity.costoColocacion+entity.montoTotalCarpinterias)|number_format(2) }}
                 <td>
-					<a href="{{ path('presupuesto_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
-					<a href="{{ path('presupuesto_show', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-eye-open"></span></a>
-					<a href="{{ path('presupuesto_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash"></span></a>
+					<a href="{{ path('presupuesto_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="{{ path('presupuesto_mail', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-envelope"></span></a>
+					<a href="{{ path('presupuesto')}}{{entity.id}}/imprimirlistado.pdf" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a>
+					<a href="{{ path('presupuesto_delete', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+	<a href="{{ path('presupuesto_new') }}" class="btn btn-primary">Nuevo Presupuesto</a>
     {% endblock %}

@@ -19,13 +19,13 @@
     <table class="table table-striped" id="tabla">
         <thead>
             <tr>
-                <th>Modelo</th>
-				<th>Marca</th>
-                <th>Preciopremarcoml</th>
-                <th>Preciocontramarcoml</th>
-                <th>Precioxml</th>
-                <th>Descripcion</th>
-                <th>Actions</th>
+                <th id="thcenter">Modelo</th>
+				<th id="thcenter">Marca</th>
+                <th id="thcenter">Preciopremarcoml</th>
+                <th id="thcenter">Preciocontramarcoml</th>
+                <th id="thcenter">Precioxml</th>
+                <th id="thcenter">Descripcion</th>
+                <th id="sinaccion"></th>
             </tr>
         </thead>
         <tbody>
@@ -49,7 +49,7 @@
         {% endfor %}
         </tbody>
     </table>
-	<ul>
-		<a href="{{ path('abertura') }}imprimirlistado.pdf" target="_blank" class="btn btn-default botonTabla">Imprimir</a>
-	</ul>
+	
+		<a href="{{ path('abertura_new') }}" class="btn btn-primary">Agregar Abertura</a>
+	
     {% endblock %}

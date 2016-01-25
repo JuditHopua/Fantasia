@@ -12,6 +12,14 @@
 		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
 		} );
 	});
+	
+	 function confirmar(){
+        if (confirm("¿Realmente desea realizar esta accion?") == true) {
+            return true;
+        }else{
+          return false;
+        }
+      }
 </script>	
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
     <h1>Listado de marcas</h1>
@@ -19,8 +27,8 @@
     <table class="table table-striped" id="tabla">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Acci&oacute;n</th>
+                <th id="thcenter">Nombre</th>
+                <th id="sinaccion"></th>
             </tr>
         </thead>
         <tbody>
@@ -30,14 +38,14 @@
 				<td>
 					<a href="{{ path('marca_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
 				
-					<a href="{{ path('marca_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash"></span></a>
+					<a href="{{ path('marca_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash" onclick="return confirmar()"></span></a>
 				</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-	<ul>
-		<a href="{{ path('marca_imprimir') }}" target="_blank" class="btn btn-default botonTabla">Imprimir</a>
-	</ul>
+	<a href="{{ path('marca_new') }}" class="btn btn-primary" >
+                Agregar Marca
+    </a>
 
     {% endblock %}

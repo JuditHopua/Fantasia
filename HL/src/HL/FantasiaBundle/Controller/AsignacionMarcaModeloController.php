@@ -78,7 +78,8 @@ class AsignacionMarcaModeloController extends Controller
             'action' => $this->generateUrl('asignacionmarcamodelo_create'),
             'method' => 'POST',
         ));
-
+		$form->add('file','file',array('label'=>'Foto', 'required'=>false, 'attr'=>array('accept'=>'image/*', 'class'=>'filestyle', 'data-buttonBefore'=>'true',
+																'data-buttonText'=>'Cargar imagen')));
         $form->add('submit', 'submit', array('label' => 'Crear'));
 
         return $form;
@@ -168,11 +169,10 @@ class AsignacionMarcaModeloController extends Controller
             'action' => $this->generateUrl('abertura_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-	
-		
-		
-        $form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+		$form->add('file','file',array('label'=>' ', 'required'=>false, 'attr'=>array('accept'=>'image/*', 'class'=>'filestyle', 'data-buttonBefore'=>'true',
+																'data-buttonText'=>'Cambiar imagen')));
+		$form->add('submit', 'submit', array('label' => 'Modificar'));
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
 		
         return $form;
     }
@@ -197,8 +197,16 @@ class AsignacionMarcaModeloController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->flush();
-
+           
+			if ($editForm->get('file')->getData()) {
+				$em = $this->getDoctrine()->getManager();
+				$entity->upload();
+				$em->persist($entity);
+				$em->flush();	
+			}
+			else {
+				 $em->flush();
+			}
             return $this->redirect($this->generateUrl('abertura'));
         }
 

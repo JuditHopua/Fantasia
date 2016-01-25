@@ -19,9 +19,9 @@
     <table class="table table-striped" id="tabla">
         <thead>
             <tr>
-                <th>Tipo</th>
-                <th>Precio por m2</th>
-                <th>Acci&oacute;n</th>
+                <th id="thcenter">Tipo</th>
+                <th id="thcenter">Precio por m2</th>
+                <th id="sinaccion"></th>
             </tr>
         </thead>
         <tbody>
@@ -39,8 +39,8 @@
         {% endfor %}
         </tbody>
     </table>
-	<ul>
-		<a href="{{ path('vidrio') }}imprimirlistado.pdf" target="_blank" class="btn btn-default botonTabla">Imprimir</a>
-	</ul>
+	<a href="{{ path('vidrio_new') }}" class="btn btn-primary" >
+                Agregar Vidrio
+    </a>
 
     {% endblock %}

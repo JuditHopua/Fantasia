@@ -1,10 +1,11 @@
 <pdf>
 	<dynamic-page page-size="letter-landscape">
 	<img margin="0 auto" src="{{pdf_image('FantasiaBundle:logo.jpg')}}"></img>
-	<h1>CATALOGO DE ABERTURAS</h1>
+	<h1 text-align="center">CATALOGO DE ABERTURAS</h1>
 	<h1>     </h1>
 		
 		{% for entity in entities %}
+		<div width="100%" >
 		<div float="left">
 		
 		<h3>Modelo: {{entity.modelo.nombre}}</h3>
@@ -12,15 +13,16 @@
 		<h3>Precio Premarco M.Lineal: {{ entity.precioPremarcoML }}</h3>
         <h3>Precio Contramarco M.Lineal: {{ entity.precioContramarcoML }}</h3>
         <h3>Precio M.Lineal: {{ entity.precioxML }}</h3>
-        <h3>Descipción: {{ entity.descripcion }}</h3>	
+        <h3>Descripción: {{ entity.descripcion }}</h3>	
 		
 		</div>
-		<img width="30%" float="rigth" src="{{pdf_image('FantasiaBundle:')}}{{entity.path}}"></img>
-		<br></br>
-		<h1></h1>
+		
+		<img width="30%" padding-bottom="20%" padding-top="20%" margin="30%" float="rigth"  src="{{pdf_image('FantasiaBundle:')}}{{entity.path}}"></img>
+		
+		</div>
 		{%endfor%}
 		
-	    <h3 text-align="center" float="right">Fecha de impresión: {{"now"|date('d/m/Y')}} </h3>
+	    <h3 text-align="center" >Fecha de impresión: {{"now"|date('d/m/Y')}} </h3>
 	
 	</dynamic-page>
 	

@@ -1,10 +1,10 @@
 {% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block title %} Editar Presupuesto {% endblock %}
+{% block title %} Modificar Presupuesto {% endblock %}
 
 {% block contenido %}
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
-    <h1 id="titulo">Editar Presupuesto</h1>
+    <h1 id="titulo">Modificar Presupuesto</h1>
 	<div class="formAutogenerado">
     {{ form(edit_form) }}
 	
@@ -24,15 +24,15 @@
    <table class="table table-striped" id="tabla">
         <thead>
             <tr>
-				<th>Modelo</th>
-				<th>Marca</th>
-                <th>Alto</th>
-                <th>Ancho</th>
-                <th>Premarco</th>
-                <th>Contramarco</th>
-                <th>Cantidad</th>
-				<th>Precio</th>
-                <th></th>
+				<th id="thcenter">Modelo</th>
+				<th id="thcenter">Marca</th>
+                <th id="thcenter">Alto</th>
+                <th id="thcenter">Ancho</th>
+                <th id="thcenter">Premarco</th>
+                <th id="thcenter">Contramarco</th>
+                <th id="thcenter">Cantidad</th>
+				<th id="thcenter">Precio</th>
+                <th id="sinaccion"></th>
             </tr>
         </thead>
         <tbody>
@@ -44,20 +44,20 @@
                 <td>{{ entity.alto }}</td>
                 <td>{{ entity.ancho }}</td>
 				{% if entity.premarco==1 %}
-					{% set suma = (((entity.alto+entity.ancho)*entity.asignacion.precioPremarcoML)*entity.cantidad) %}
+					{% set suma = (((entity.alto+entity.ancho)*2*entity.asignacion.precioPremarcoML)*entity.cantidad) %}
 					<td>Si</td>
 				{% else %}
 					<td>No</td>
 				{% endif %}
 				{% if entity.contramarco==1 %}
-					{% set suma = suma + (((entity.alto+entity.ancho)*entity.asignacion.precioContramarcoML)*entity.cantidad) %}
+					{% set suma = suma + (((entity.alto+entity.ancho)*2*entity.asignacion.precioContramarcoML)*entity.cantidad) %}
 					<td>Si</td>
 				{% else %}
 					<td>No</td>
 				{% endif %}
                 <td>{{ entity.cantidad }}</td>
 				
-				{% set suma = suma + (((entity.alto+entity.ancho)*entity.asignacion.precioxML)*entity.cantidad)%}
+				{% set suma = suma + (((entity.alto+entity.ancho)*2*entity.asignacion.precioxML)*entity.cantidad)%}
 				{% set suma = suma + (((entity.alto*entity.ancho)*entity.vidrio.precioxm2)*entity.cantidad) %}
 				<td>$ {{suma|number_format(2)}}</td>
 				{% set total = (total + suma) %}
@@ -78,7 +78,7 @@
 				<th></th>
 				<th></th>
 				<th></th>
-				<th>Total:</th>
+				<th id="thcenter">Total:</th>
 				<td>$ {{total|number_format(2)}}</td>
 				<th></th>
 			</tr>

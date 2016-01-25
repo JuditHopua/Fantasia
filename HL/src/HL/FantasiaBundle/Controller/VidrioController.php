@@ -49,19 +49,26 @@ class VidrioController extends Controller
         $entity = new Vidrio();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('vidrio'));
-        }
+		if ($this::noExisteVidrio($entity)) {
+			if ($form->isValid()) {
+				$em = $this->getDoctrine()->getManager();
+				$em->persist($entity);
+				$em->flush();
+				return $this->redirect($this->generateUrl('vidrio'));
+			} else {
+				return array(
+					'mensaje' => null,
+					'entity' => $entity,
+					'form'   => $form->createView(),
+					);
+			}
+		}
 
         return array(
+			'mensaje' => 'Ya existe el vidrio. Ingrese uno diferente.',
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+			);
     }
 
     /**
@@ -96,36 +103,12 @@ class VidrioController extends Controller
         $form   = $this->createCreateForm($entity);
 
         return array(
+			'mensaje' => null,
             'entity' => $entity,
             'form'   => $form->createView(),
         );
     }
-
-    /**
-     * Finds and displays a Vidrio entity.
-     *
-     * @Route("/{id}", name="vidrio_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('FantasiaBundle:Vidrio')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Vidrio entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
+	
     /**
      * Displays a form to edit an existing Vidrio entity.
      *
@@ -142,14 +125,13 @@ class VidrioController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('No se pudo encontrar el vidrio seleccionado');
         }
-
+		 $_SESSION['entity_original']= $entity;
         $editForm = $this->createEditForm($entity);
-        //$deleteForm = $this->createDeleteForm($id);
-
+       
         return array(
+			'mensaje' =>null,
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-         //   'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -168,7 +150,7 @@ class VidrioController extends Controller
         ));
 
         $form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
         
 		return $form;
     }
@@ -182,29 +164,35 @@ class VidrioController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('FantasiaBundle:Vidrio')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('No se pudo encontrar el vidrio seleccionado');
         }
 
-        //$deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('vidrio'));
-        }
+		if ($this::noExisteClienteEdit($_SESSION['entity_original'], $entity)) {
+			if ($editForm->isValid()) {
+				$em->flush();
+				return $this->redirect($this->generateUrl('vidrio'));
+			}
+			else {
+				return array(
+					'mensaje' => null,
+					'entity'      => $entity,
+					'edit_form'   => $editForm->createView(),
+				);
+			}
+		}
 
         return array(
+			'mensaje' => 'Ya existe el vidrio. Ingrese uno diferente.',
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            //'delete_form' => $deleteForm->createView(),
         );
     }
+	
     /**
      * Deletes a Vidrio entity.
      *
@@ -245,6 +233,7 @@ class VidrioController extends Controller
 	
 	/**
 	* @Pdf()
+	* @Route("/{listado}.{_format}", name="vidrio_imprimir")
 	*/
 	public function imprimirAction()
 	{
@@ -252,5 +241,30 @@ class VidrioController extends Controller
 		$entities= $em->getRepository('FantasiaBundle:Vidrio')->findAll();
 		$formato=$this->get('request')->get('_format');
 		return $this->render(sprintf('FantasiaBundle:Vidrio:imprimirlistado.%s.twig', $formato), array('entities'=>$entities));
+	}
+	
+	private function noExisteCliente ($entity)
+	{
+        $em = $this->getDoctrine()->getManager();
+        $tipo = $entity->getTipo();
+		$query = $em->createQuery("SELECT v FROM FantasiaBundle:Vidrio v
+                                   WHERE v.tipo = '$tipo' ");
+        $cliente = $query->getResult();
+        if (empty($cliente)) { 
+            return true;
+        } else {
+            return false;
+			}
+    }
+	
+   private function noExisteClienteEdit ($entity_original, $entity)
+	{
+	    $tipo_original = $entity_original->getTipo();
+		$tipo = $entity->getTipo();
+		if ($tipo<>$tipo_original) { 
+            return $this::noExisteVidrio($entity);
+		} else {  
+            return true;
+			}
 	}
 }

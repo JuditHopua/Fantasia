@@ -20,11 +20,18 @@ class PresupuestoType extends AbstractType
             ->add('fecha','date', ['widget' => 'single_text', 
 									'format' => 'dd-MM-yyyy','attr' => ['class' => 'form-control input-inline datepicker',
 																		'data-provide' => 'datepicker',
+																		
 																		'data-date-format' => 'dd-mm-yyyy' ] ] )
 																										
             ->add('cliente','entity',array(   'label'=>'Cliente: ',
                                                 'class'=>'FantasiaBundle:Cliente',
+												'query_builder' => function(\HL\FantasiaBundle\Entity\ClienteRepository $clientes) {
+																	 return $clientes->createQueryBuilder('c')
+																	->orderBy('c.apellido', 'ASC');
+																	},
                                                 'property'=>'apellido'+'nombre',
+												'placeholder'=>'Seleccione un cliente...',
+												
                                                 'attr'=>array( 'required'=>'true','class'=>"chzn-select") ));	
 			
 		

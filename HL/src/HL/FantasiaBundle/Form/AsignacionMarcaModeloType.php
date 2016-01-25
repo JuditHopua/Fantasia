@@ -5,6 +5,7 @@ namespace HL\FantasiaBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
 class AsignacionMarcaModeloType extends AbstractType
 {
@@ -14,21 +15,31 @@ class AsignacionMarcaModeloType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
-			->add('modelos','entity',array(   'label'=>'Modelo: ',
+			->add('modelo','entity',array(   'label'=>'Modelo: ',
                                                 'class'=>'FantasiaBundle:Modelo',
+												'query_builder' => function(\HL\FantasiaBundle\Entity\ModeloRepository $modelo) {
+																 return $modelo->createQueryBuilder('m')
+																->orderBy('m.nombre', 'ASC');
+																},
                                                 'property'=>'nombre',
+												'placeholder'=>'Seleccione un modelo...',
                                                 'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
-            ->add('marcas','entity',array(   'label'=>'Marcas: ',
+            ->add('marca','entity',array(   'label'=>'Marcas: ',
                                                 'class'=>'FantasiaBundle:Marca',
+												'query_builder' => function(\HL\FantasiaBundle\Entity\MarcaRepository $marca) {
+																 return $marca->createQueryBuilder('m')
+																->orderBy('m.nombre', 'ASC');
+																},
                                                 'property'=>'nombre',
+												'placeholder'=>'Seleccione una marca...',
                                                 'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
             ->add('precioPremarcoML')
             ->add('precioContramarcoML')
             ->add('precioxML')
             ->add('descripcion')
-			->add('file')
-            //->add('carpinterias')
+			
 			
             
         ;

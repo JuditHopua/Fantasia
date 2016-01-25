@@ -4,8 +4,20 @@
 
 {% block contenido %}
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
-    <h1 id="titulo">Modficar Cliente</h1>
+	
+    <h1 id="titulo">Modificar Cliente</h1>
+	
+	<div id="dialog" style="display:none;">
+		<p>Usted va a modificar los datos del cliente. Confirma la acción?</p>
+    </div>
+	
+	{% if mensaje %}
+		<div class="form-group" id="addForm">
+			<div class="alert alert-danger">{{mensaje}}</div>
+		</div>
+	{%endif%}
+	
 	<div class="formAutogenerado">
-    {{ form(edit_form) }}
+		{{ form(edit_form) }}
 	</div>
 {% endblock %}

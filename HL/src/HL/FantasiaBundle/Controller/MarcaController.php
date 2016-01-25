@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use HL\FantasiaBundle\Entity\Marca;
 use HL\FantasiaBundle\Form\MarcaType;
-use Ps\PdfBundle\Annotation\Pdf;
 
 /**
  * Marca controller.
@@ -48,16 +47,22 @@ class MarcaController extends Controller
         $entity = new Marca();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('marca'));
+		if ($this::noExisteMarca($entity)) {
+			if ($form->isValid()) {
+				$em = $this->getDoctrine()->getManager();
+				$em->persist($entity);
+				$em->flush();
+				return $this->redirect($this->generateUrl('marca'));
+			} else {
+				return array(
+					'mensaje' => null,
+					'entity' => $entity,
+					'form'   => $form->createView(),
+				   );
+				}
         }
-
         return array(
+			'mensaje' => 'Ya existe la marca. Ingrese una diferente.',
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -93,8 +98,8 @@ class MarcaController extends Controller
     {
         $entity = new Marca();
         $form   = $this->createCreateForm($entity);
-
         return array(
+			'mensaje' => null,
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -141,14 +146,13 @@ class MarcaController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('No se pudo encontrar la marca seleccionada');
         }
-
+		$_SESSION['entity_original']= $entity;
         $editForm = $this->createEditForm($entity);
-        //$deleteForm = $this->createDeleteForm($id);
 
         return array(
+			'mensaje'     => null,
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-           // 'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -167,7 +171,7 @@ class MarcaController extends Controller
         ));
 
         $form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
 		
         return $form;
     }
@@ -187,18 +191,24 @@ class MarcaController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('No se pudo encontrar la marca seleccionada');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('marca'));
-        }
-
+       if ($this::noExisteMarcaEdit($_SESSION['entity_original'], $entity)) {
+			if ($editForm->isValid()) {
+				$em->flush();
+				return $this->redirect($this->generateUrl('marca'));
+				}
+			else {
+				return array(
+					'mensaje' => null,
+					'entity'      => $entity,
+					'edit_form'   => $editForm->createView(),
+					);
+			}
+		}
         return array(
+			'mensaje' => 'Ya existe la marca. Ingrese una diferente.',
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
         );
@@ -248,4 +258,28 @@ class MarcaController extends Controller
 		$formato=$this->get('request')->get('_format');
 		return $this->render(sprintf('FantasiaBundle:Marca:imprimirlistado.pdf.twig', $formato), array('entities'=>$entities));
 	}
+	
+	private function noExisteMarca($entity)
+	{
+        $em = $this->getDoctrine()->getManager();
+        $nombre = $entity->getNombre();
+		$query = $em->createQuery("SELECT m FROM FantasiaBundle:Marca m 
+        WHERE m.nombre = '$nombre' ");
+        $marca = $query->getResult();
+        if (empty($marca)) {
+            return true;
+		} else {
+            return false;}
+    }
+	
+    private function noExisteMarcaEdit ($entity_original, $entity)
+	{
+	    $nombre_original = $entity_original->getNombre();
+		$nombre = $entity->getNombre();
+		if ($nombre<>$nombre_original) { 
+            return $this::noExisteMarca($entity);
+		} else {
+			return true;
+			}
+    }       
 }

@@ -1,20 +1,19 @@
 <pdf>
 	<dynamic-page page-size="letter-landscape">
 	
-	<table text-allign="center" margin-top="10px">
-		<thead>
+	<table text-align="center" margin-top="10px">
+		
 		<tr>
-			<th>MARCA</th>
+			<h1>MARCA</h1>
 		</tr>
-		</thead>
-		<tbody>
+		
 		{% for entity in entities %}
 		<tr>
 			<td>{{entity.nombre}}</td>
 		</tr>
 		
 		{%endfor%}
-		</tbody>
+		
 	</table>
 	
 	</dynamic-page>

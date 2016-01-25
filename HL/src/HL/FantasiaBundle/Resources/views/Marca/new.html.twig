@@ -4,10 +4,17 @@
 
 {% block contenido %}
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+	
     <h1 id="titulo">Agregar Marca</h1>
-    <div class="formAutogenerado">
-		
-			{{ form(form) }}
+	
+	{% if mensaje %}
+		<div class="form-group" id="addForm">
+			<div class="alert alert-danger">{{mensaje}}</div>
 		</div>
+	{%endif%}
+	
+    <div class="formAutogenerado">
+		{{ form(form) }}
+	</div>
 
 {% endblock %}

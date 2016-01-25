@@ -48,24 +48,6 @@ class User extends BaseUser
      * @Assert\NotBlank(message="Por favor ingrese su dni", groups={"Registration", "Profile"})
 	 */
     private $dni;
-
-	 /**
-     * @ORM\OneToMany(targetEntity="Presupuesto", mappedBy="usuario")
-     */
-    protected $presupuestos;
-	
-	 public function __construct()
-    {
-        $this->presupuestos = new ArrayCollection();
-	}	
-	
-	public function getPresupuestos() {
-		return $this->presupuestos;
-	}
-	
-	public function addPresupuestos(Presupuesto $presupuestos) {
-		$this->presupuestos[]=$presupuestos;
-	}
 	 
 	 /**
      * Get id
