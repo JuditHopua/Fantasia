@@ -8,26 +8,31 @@
 	<link href="{{ asset('bundles/fantasia/css/index.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ asset('bundles/fantasia/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />	
 	<link href="{{ asset('bundles/fantasia/css/bootstrap-datepicker.css') }}" rel="stylesheet" type="text/css" />	
-	<link href="{{ asset('bundles/fantasia/css/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
 	<script src="{{ asset('bundles/fantasia/js/jquery-1.11.1.js') }}"></script>
 	<script src="{{ asset('bundles/fantasia/js/bootstrap.js' ) }}"></script>
 	<script src="{{ asset('bundles/fantasia/js/twitter-bootstrap-hover-dropdown.min.js') }}"></script>
 	<script src="{{ asset('bundles/fantasia/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('bundles/fantasia/js/bootstrap-datepicker.js') }}"></script>
 	<script src="{{ asset('bundles/fantasia/js/bootstrap-filestyle.min.js') }}"></script>
-	<script src="{{ asset('bundles/fantasia/js/jquery-ui.js') }}"></script>
-	<script src="{{ asset('bundles/fantasia/js/confirmar.js') }}"></script>
 	{% block stylesheets %}{% endblock %}
 	{% block javascripts %}{% endblock %}
 	<title>{% block title %}{% endblock %} | Fantas&iacute;a S.A.</title>
 </head>
 <body>
-	<div class="container" id="divbase">
+	<div style="padding-bottom:60px" class="container" id="divbase">
 	{%block contenido%}
 		{%block fos_user_content%} {% endblock fos_user_content %}
 	{%endblock%}
 	</div>
 </body>
-<footer>{%block footer%}{%endblock%}</footer>
+<footer>
+<div  class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+<div  class="container">
+<div style="margin-left:40%" class="navbar-text pull-left">
+<span class="glyphicon glyphicon-copyright-mark"> <label>Hopua-Larrondo (2016)</label></span>
+</div>
+</div>
+</div>
+</footer>
 </html>	
 			

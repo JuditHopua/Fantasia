@@ -149,8 +149,7 @@ class VidrioController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+        $form->add('submit', 'submit', array('label' => 'Modificar', 'attr'=>array('onclick'=>'return confirmar()')));
         
 		return $form;
     }
@@ -172,7 +171,7 @@ class VidrioController extends Controller
 
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-		if ($this::noExisteClienteEdit($_SESSION['entity_original'], $entity)) {
+		if ($this::noExisteVidrioEdit($_SESSION['entity_original'], $entity)) {
 			if ($editForm->isValid()) {
 				$em->flush();
 				return $this->redirect($this->generateUrl('vidrio'));
@@ -243,7 +242,7 @@ class VidrioController extends Controller
 		return $this->render(sprintf('FantasiaBundle:Vidrio:imprimirlistado.%s.twig', $formato), array('entities'=>$entities));
 	}
 	
-	private function noExisteCliente ($entity)
+	private function noExisteVidrio ($entity)
 	{
         $em = $this->getDoctrine()->getManager();
         $tipo = $entity->getTipo();
@@ -257,7 +256,7 @@ class VidrioController extends Controller
 			}
     }
 	
-   private function noExisteClienteEdit ($entity_original, $entity)
+   private function noExisteVidrioEdit ($entity_original, $entity)
 	{
 	    $tipo_original = $entity_original->getTipo();
 		$tipo = $entity->getTipo();

@@ -22,16 +22,16 @@
                 <td>{{ entity.precioxML }}</td>
             </tr>
             <tr>
-                <th>Descripcion</th>
+                <th>Descripci&oacute;n</th>
                 <td>{{ entity.descripcion }}</td>
             </tr>
             <tr>
                 <th>Foto</th>
-                <td> 
-		
-			<img src="{{ asset('bundles/fantasia/images/'~ entity.path) }}" > 
-				
-				</td>
+				{% if entity.path %}
+                <td><img src="{{ asset('bundles/fantasia/images/'~ entity.path) }}"></td>
+				{%else%}
+				<td><img src="{{ asset('bundles/fantasia/images/Sin_imagen.jpg') }}" id="editAbertura" ></td>
+				{%endif%}
             </tr>
         </tbody>
     </table>

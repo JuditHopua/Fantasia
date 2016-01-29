@@ -1,9 +1,8 @@
 <!-- <header class="col-md-12 col-sm-12 col-xs-12"> -->
 
 <div class="container">
-		{%  image  '@FantasiaBundle/Resources/public/images/logo.jpg'  %} 
-			<img  src= "{{  asset_url  }}"  alt= "Example" /> 
-		{%  endimage  %}
+		<img src="{{ asset('bundles/fantasia/images/logo.jpg') }}">
+		
 		<div id="user">
 		<span>Usuario: {{ app.user.username}} | </span>
 			<a href="{{ path('fos_user_security_logout') }}">
@@ -72,7 +71,7 @@
 								</a>
 								<ul class="dropdown-menu">	
 									<li><a href="{{ path('presupuesto_new') }}">Agregar Presupuesto</a></li>
-									<li><a href="{{ path('presupuesto') }}">Filtrar Presupuesto</a></li>
+									<li><a href="{{ path('presupuesto') }}">Presupuestos</a></li>
 								</ul>
 							</li>
 							<li class="dropdown"> 
@@ -80,7 +79,6 @@
 									Contacto <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">	
-									<li><a href="#">Datos</a></li>
 									<li><a href="{{ path ('_dump') }}">Dump de Datos</a></li>								
 								</ul>
 							</li>

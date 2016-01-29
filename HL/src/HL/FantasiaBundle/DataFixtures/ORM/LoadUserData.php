@@ -16,7 +16,7 @@ class LoadUserData implements FixtureInterface
 		$userAdmin->setNombre('admin');
 		$userAdmin->setApellido('admin');  
 		$userAdmin->setDni('21785949');
-		$userAdmin->setEmail('zurdolarrondo@hotmail.com');
+		$userAdmin->setEmail('fantasia.sa.16@gmail.com');
 		$userAdmin->setEnabled(true);
 
         $manager->persist($userAdmin);

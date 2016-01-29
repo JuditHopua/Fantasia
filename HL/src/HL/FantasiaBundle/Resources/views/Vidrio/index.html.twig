@@ -12,8 +12,22 @@
 		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
 		} );
 	});
+	
+	function confirmar(){
+        if (confirm("¿Realmente desea realizar esta accion?") == true) {
+			if (confirm("Se borrara el vidrio y se modificaran los presupuestos que la utilizan") == true) {
+				return true;
+				}
+				else {
+				return false;
+				}
+        }else{
+          return false;
+        }
+    }
 </script>	
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+	<div id="tablachica">
     <h1>Listado Vidrios</h1>
 
     <table class="table table-striped" id="tabla">
@@ -28,11 +42,11 @@
         {% for entity in entities %}
             <tr>
                 <td>{{ entity.tipo }}</td>
-                <td>{{ entity.precioxm2 }}</td>
+                <td>$ {{ entity.precioxm2 }}</td>
                 <td>
                     <a href="{{ path('vidrio_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
                     
-					<a href="{{ path('vidrio_delete', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-trash"></span></a>
+					<a href="{{ path('vidrio_delete', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-trash" onclick="return confirmar()"></span></a>
                  
                 </td>
             </tr>
@@ -42,5 +56,5 @@
 	<a href="{{ path('vidrio_new') }}" class="btn btn-primary" >
                 Agregar Vidrio
     </a>
-
+	</div>
     {% endblock %}

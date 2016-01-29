@@ -101,6 +101,7 @@ class ModeloController extends Controller
         $form   = $this->createCreateForm($entity);
 
         return array(
+			'mensaje' => null,
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -169,9 +170,8 @@ class ModeloController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
-        
+        $form->add('submit', 'submit', array('label' => 'Modificar', 'attr'=>array('onclick'=>'return confirmar()')));
+		
 		return $form;
     }
     /**

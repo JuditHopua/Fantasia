@@ -12,6 +12,26 @@
 		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
 		} );
 	});
+	
+	function confirmar(){
+        if (confirm("¿Realmente desea borrar el presupuesto?") == true) {
+           return true;
+		}
+		else
+		{
+          return false;
+        }
+    }
+	
+	function confirmarMail(){
+        if (confirm("Se enviara el email al cliente del presupuesto") == true) {
+           return true;
+		}
+		else
+		{
+          return false;
+        }
+    }
 </script>	
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
     <h1>Presupuestos</h1>
@@ -21,15 +41,16 @@
             <tr>
                 <th id="thcenter">Fecha</th>
 				<th id="thcenter">Cliente</th>
-                <th id="thcenter">Costo envio</th>
-                <th id="thcenter">Costo colocacion</th>
+                <th id="thcenter">Costo env&iacute;o</th>
+                <th id="thcenter">Costo colocaci&oacuten</th>
                 <th id="thcenter">Plazo entrega</th>
-                <th id="thcenter">Monto carpinterias</th>
+                <th id="thcenter">Monto carpinter&iacute;as</th>
 				<th id="thcenter">Total Presupuesto</th>
                 <th id="sinaccion"></th>
             </tr>
         </thead>
         <tbody>
+		{% if entities %}
         {% for entity in entities %}
             <tr>
                 <td>{{ entity.fecha|date('d-m-Y')}}</td>
@@ -41,12 +62,13 @@
 				<td>$ {{ (entity.costoEnvio+entity.costoColocacion+entity.montoTotalCarpinterias)|number_format(2) }}
                 <td>
 					<a href="{{ path('presupuesto_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
-					<a href="{{ path('presupuesto_mail', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-envelope"></span></a>
+					<a href="{{ path('presupuesto_mail', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-envelope" onclick="return confirmarMail()"></span></a>
 					<a href="{{ path('presupuesto')}}{{entity.id}}/imprimirlistado.pdf" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a>
-					<a href="{{ path('presupuesto_delete', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-trash"></span></a>
+					<a href="{{ path('presupuesto_delete', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-trash" onclick="return confirmar()"></span></a>
                 </td>
             </tr>
         {% endfor %}
+		{% endif %}
         </tbody>
     </table>
 	<a href="{{ path('presupuesto_new') }}" class="btn btn-primary">Nuevo Presupuesto</a>

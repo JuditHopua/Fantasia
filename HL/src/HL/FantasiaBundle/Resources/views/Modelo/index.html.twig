@@ -1,6 +1,6 @@
 {% extends 'FantasiaBundle:Default:base.html.twig' %}
 
-{% block title %} Listado Clientes {% endblock %}
+{% block title %} Listado Modelos {% endblock %}
 
 {% block contenido %}
 <script type="text/javascript">
@@ -12,9 +12,22 @@
 		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
 		} );
 	});
+	function confirmar(){
+        if (confirm("¿Realmente desea realizar esta accion?") == true) {
+			if (confirm("Se borrara el modelo y se modificaran los presupuestos que la utilizan") == true) {
+				return true;
+				}
+				else {
+				return false;
+				}
+        }else{
+          return false;
+        }
+    }
 </script>	
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
-    <h1>Listado de clientes</h1>
+	<div id="tablachica">
+    <h1>Listado de modelos</h1>
 	
     <table class="table table-striped" id="tabla">
         <thead>
@@ -30,7 +43,7 @@
                 <td>
 					<a href="{{ path('modelo_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
 				
-					<a href="{{ path('modelo_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash"></span></a>
+					<a href="{{ path('modelo_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash" onclick="return confirmar()"></span></a>
 				</td>
             </tr>
         {% endfor %}
@@ -39,4 +52,5 @@
 	<a href="{{ path('modelo_new') }}" class="btn btn-primary" >
                 Agregar Modelo
     </a>
+	</div>
     {% endblock %}

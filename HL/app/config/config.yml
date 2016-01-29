@@ -119,13 +119,16 @@ fos_user:
     registration:
         form:
             type:     hl_user_registration 
+    from_email:
+        address:        fantasia.sa.16@gmail.com
+        sender_name:    Fantasia SA
  # AGREGAMOS REGISTRATION ..............
  
 braincrafted_bootstrap:
     output_dir:
     assets_dir: %kernel.root_dir%/../vendor/twbs/bootstrap
     jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.10.2.js
-    less_filter: less 
+    #less_filter: less 
     #"less", "lessphp", "sass" or "none"
     fonts_dir: %kernel.root_dir%/../web/fonts
     auto_configure:
@@ -140,3 +143,10 @@ braincrafted_bootstrap:
 
 ps_pdf:
     markdown_stylesheet_filepath: css/index.css
+
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     %kernel.root_dir%/../web/wkhtmltopdf/wkhtmltopdf.exe
+        options:   
+            page-size: A4

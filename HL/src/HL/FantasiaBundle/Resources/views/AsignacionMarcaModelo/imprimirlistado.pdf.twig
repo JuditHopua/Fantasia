@@ -1,27 +1,46 @@
 <pdf>
-	<dynamic-page page-size="letter-landscape">
+	<dynamic-page page-size="A4">
+	
 	<img margin="0 auto" src="{{pdf_image('FantasiaBundle:logo.jpg')}}"></img>
-	<h1 text-align="center">CATALOGO DE ABERTURAS</h1>
+	<h1 text-align="center">CATÁLOGO DE ABERTURAS</h1>
 	<h1>     </h1>
 		
 		{% for entity in entities %}
-		<div width="100%" >
+		<div>
+            <stylesheet>         
+                <complex-attribute name="border" color="grey" type="top+bottom" size="1px" />
+            </stylesheet>
+        </div>
+	
+		<div breakable="false" margin-top="10%">
+		
 		<div float="left">
 		
 		<h3>Modelo: {{entity.modelo.nombre}}</h3>
 		<h3>Marca: {{entity.marca.nombre}}</h3>
-		<h3>Precio Premarco M.Lineal: {{ entity.precioPremarcoML }}</h3>
-        <h3>Precio Contramarco M.Lineal: {{ entity.precioContramarcoML }}</h3>
-        <h3>Precio M.Lineal: {{ entity.precioxML }}</h3>
+		<h3>Precio Premarco M.Lineal: $ {{ entity.precioPremarcoML }}</h3>
+        <h3>Precio Contramarco M.Lineal: $ {{ entity.precioContramarcoML }}</h3>
+        <h3>Precio M.Lineal: $ {{ entity.precioxML }}</h3>
         <h3>Descripción: {{ entity.descripcion }}</h3>	
 		
 		</div>
-		
-		<img width="30%" padding-bottom="20%" padding-top="20%" margin="30%" float="rigth"  src="{{pdf_image('FantasiaBundle:')}}{{entity.path}}"></img>
+		{% if entity.path %}
+			<img width="30%" padding-bottom="20%" padding-top="20%" margin="30%" float="rigth"  src="{{pdf_image('FantasiaBundle:')}}{{entity.path}}"></img>
+		{%else%}
+			<img width="30%" padding-bottom="20%" padding-top="20%" margin="30%" float="rigth"  src="{{ pdf_image('FantasiaBundle:Sin_imagen.jpg') }}"></img> 
+		{%endif%}
 		
 		</div>
-		{%endfor%}
+		{%else%}
 		
+			<h1 color="red" text-align="center">No hay aberturas cargadas en el sistema</h1>
+		
+		{%endfor%}
+		<div>
+            <stylesheet>         
+                <complex-attribute name="border" color="grey" type="top+bottom" size="1px" />
+            </stylesheet>
+        </div>
 	    <h3 text-align="center" >Fecha de impresión: {{"now"|date('d/m/Y')}} </h3>
 	
 	</dynamic-page>

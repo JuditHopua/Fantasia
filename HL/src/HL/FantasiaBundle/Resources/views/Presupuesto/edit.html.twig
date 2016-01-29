@@ -8,6 +8,10 @@
 	<div class="formAutogenerado">
     {{ form(edit_form) }}
 	
+	<div class="form-group" id="addForm" style="margin-left:30%">
+		<a href="{{ path('presupuesto') }}" class="btn btn-primary">Volver a la lista</a>
+	</div>
+	
 	<script type="text/javascript">
     $( document ).ready(function() {
 	    $('#tabla').dataTable( {
@@ -17,6 +21,28 @@
 		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
 		} );
 	});
+	
+	function confirmar(){
+        if (confirm("¿Realmente desea modificar el presupuesto?") == true) {
+			return true
+			}
+			else{
+				return false;
+			}     
+    }
+
+	function confirmar2(){
+        if (confirm("¿Realmente desea realizar esta accion?") == true) {
+			if (confirm("Se borrara la carpinteria del presupuesto") == true) {
+				return true;
+				}
+				else {
+				return false;
+				}
+        }else{
+          return false;
+        }
+    }
 </script>	
     <h1>Carpinter&iacute;as</h1>
 	
@@ -26,8 +52,8 @@
             <tr>
 				<th id="thcenter">Modelo</th>
 				<th id="thcenter">Marca</th>
-                <th id="thcenter">Alto</th>
-                <th id="thcenter">Ancho</th>
+                <th id="thcenter">Alto (mts.)</th>
+                <th id="thcenter">Ancho (mts.)</th>
                 <th id="thcenter">Premarco</th>
                 <th id="thcenter">Contramarco</th>
                 <th id="thcenter">Cantidad</th>
@@ -64,7 +90,7 @@
                 <td>
 					<a href="{{ path('carpinteria_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
 				
-					<a href="{{ path('carpinteria_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash"></span></a>
+					<a href="{{ path('carpinteria_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash" onclick="return confirmar2()"></span></a>
                 </td>
             </tr>
         {% endfor %}

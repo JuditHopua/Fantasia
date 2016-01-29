@@ -4,7 +4,7 @@ namespace HL\FantasiaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Cliente
  *
@@ -40,13 +40,15 @@ class Cliente
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=100)
+	 * @Assert\Email(message="El email no es válido.", checkMX=true) 
      */
     private $email;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="telefono", type="integer")
+     * @ORM\Column(name="telefono", type="string", length=15)
+	 *
      */
     private $telefono;
 
@@ -60,7 +62,7 @@ class Cliente
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="text")
+     * @ORM\Column(name="observaciones", type="text", length=255, nullable=true)
      */
     private $observaciones;
 	

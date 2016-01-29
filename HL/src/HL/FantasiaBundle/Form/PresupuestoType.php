@@ -14,8 +14,6 @@ class PresupuestoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-		$fechaActual=new \DateTime();
-        $fechaActual->format('Y-m-d');
         $builder
             ->add('fecha','date', ['widget' => 'single_text', 
 									'format' => 'dd-MM-yyyy','attr' => ['class' => 'form-control input-inline datepicker',

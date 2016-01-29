@@ -3,13 +3,19 @@
 {% block title %} Modificar Cliente {% endblock %}
 
 {% block contenido %}
+<script>
+	function confirmar(){
+        if (confirm("¿Realmente desea modificar el cliente?") == true) {
+			return true
+			}
+			else{
+				return false;
+			}     
+    }
+</script>
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
 	
     <h1 id="titulo">Modificar Cliente</h1>
-	
-	<div id="dialog" style="display:none;">
-		<p>Usted va a modificar los datos del cliente. Confirma la acción?</p>
-    </div>
 	
 	{% if mensaje %}
 		<div class="form-group" id="addForm">
@@ -19,5 +25,9 @@
 	
 	<div class="formAutogenerado">
 		{{ form(edit_form) }}
+	</div>
+	
+	<div class="form-group" id="addForm">
+		<a href="{{ path('cliente') }}" class="btn btn-primary">Volver a la lista</a>
 	</div>
 {% endblock %}

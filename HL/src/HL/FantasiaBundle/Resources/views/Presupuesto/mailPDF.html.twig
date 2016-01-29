@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+	<link href="{{ asset('bundles/fantasia/css/bootstrap.css', absolute=true) }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('bundles/fantasia/css/bootstrap-theme.css', absolute=true) }}" rel="stylesheet" type="text/css" />	
+	<link href="{{ asset('bundles/fantasia/css/mail.css', absolute=true) }}" rel="stylesheet" type="text/css" />	
+</head>
+<body>
+	<div id="titulo">
+	<img id="logo"  src="{{pdf_image('FantasiaBundle:logo.jpg')}}"></img>
+	</div>
+	
+	<div class="cliente" id="izquierda">
+	<h3 id="negrita">Sr/a. {{presupuesto.cliente.apellido}}, {{presupuesto.cliente.nombre}}</h2>
+	</div>
+	<div class="cliente" id="derecha">
+	<h3 id="negrita">{{presupuesto.fecha|date('d/m/Y')}}</h2>
+	</div>
+	
+	
+	<div id="presupuesto"><h3>Presupuesto</h3></div>
+	<div id="detalle"><h3 id="bordedoble">Detalle de aberturas</h3></div>
+	
+		{% set articulo = 0 %}
+		{% for carpinteria in carpinterias %}
+		<div id="abertura">
+		{% set unitario = 0 %}
+		{% if carpinteria.premarco %}
+			{% set unitario = ((carpinteria.alto + carpinteria.ancho) * 2 * carpinteria.asignacion.precioPremarcoML) %}
+		{% endif %}	
+		{% if carpinteria.contramarco %}
+			{% set unitario = unitario +((carpinteria.alto + carpinteria.ancho) * 2 * carpinteria.asignacion.precioContramarcoML) %}
+		{% endif %}
+		{% set unitario = unitario + ((carpinteria.alto + carpinteria.ancho) * 2 * carpinteria.asignacion.precioxML)%}
+		{% set unitario = unitario + (carpinteria.alto * carpinteria.ancho * carpinteria.vidrio.precioxm2) %}
+		{% set articulo = articulo + 1 %}
+		<div id="linea">
+		<h4 id="h4izq" class="border">v{{ articulo }}</h4>
+		<h4 id="monto" class="border">Monto Unitario: ARS {{unitario|number_format(2)}}</h4>
+		</div>
+		<div id="linea">
+		<h4  id="h4izq" class="border">Cantidad: {{carpinteria.cantidad}}</h4>
+		<h4 id="monto" class="border">Subtotal: ARS {{(unitario * carpinteria.cantidad)|number_format(2)}} </h4>
+		</div>
+		
+		<h4 class="border">{{carpinteria.asignacion.modelo.nombre}} {{carpinteria.asignacion.descripcion}} 
+		 {{carpinteria.ancho}} x {{carpinteria.alto}} mts. {{carpinteria.asignacion.marca.nombre}}</h4>
+		<h4 class="border">Vidrio: {{carpinteria.vidrio.tipo}}</h4>
+		{% if carpinteria.premarco %}	
+			<h4 class="border">Premarco</h4>
+		{% endif %}
+		{% if carpinteria.contramarco %}	
+			<h4 class="border">Contramarco</h4>
+		{% endif %}
+		
+		{% if carpinteria.asignacion.path %}
+		<img id="imgabertura" src="{{pdf_image('FantasiaBundle:')}}{{carpinteria.asignacion.path}}"></img>
+		{%else%}
+		<img width="30%" src="{{ pdf_image('FantasiaBundle:Sin_imagen.jpg') }}"></img> 
+		{%endif%}
+		</div>
+		
+		{%endfor%}
+		
+		<div id="abertura">
+			<div>
+				<h4 id="h4izq" class="ultimos">Total Carpinterías:</h4>
+				<h4 id="monto" class="ultimos">ARS {{presupuesto.montoTotalCarpinterias}}</h4>
+			</div>
+			
+			<div>
+				<h4 id="h4izq" class="ultimos">Colocación:</h4>
+				<h4 id="monto" class="ultimos">ARS {{presupuesto.costoColocacion}}</h4>
+			</div>
+			<div>
+				<h4 id="h4izq" class="ultimos">Envío:</h4>
+				<h4 id="monto" class="ultimos">ARS {{presupuesto.costoEnvio}}</h4>
+			</div>
+			
+			<div>
+				<h4 id="h4izq" class="ultimos">Total Presupuesto:</h4>
+				<h4 id="monto" class="ultimos">ARS {{ (presupuesto.costoEnvio+presupuesto.costoColocacion+presupuesto.montoTotalCarpinterias)|number_format(2) }}</h4>  
+			</div>
+			
+			<div>
+				<h4 id="h4izq" class="ultimos">Plazo de entrega:</h4>
+				<h4 id="monto" class="ultimos">{{presupuesto.plazoEntrega}} días</h4>
+			</div>
+				
+		</div>
+	</body>
+</html>	

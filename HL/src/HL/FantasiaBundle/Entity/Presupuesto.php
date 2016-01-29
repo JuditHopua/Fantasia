@@ -59,7 +59,7 @@ class Presupuesto
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="presupuestos")
-     * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $cliente;
 	

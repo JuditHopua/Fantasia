@@ -176,7 +176,6 @@ class ClienteController extends Controller
         ));
 
         $form->add('submit', 'submit', array('label' => 'Modificar', 'attr'=>array('onclick'=>'return confirmar()')));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
 
         return $form;
     }
@@ -276,7 +275,7 @@ class ClienteController extends Controller
 		}
 	}
 	
-	private function noExisteClienteEdit($entity_orginal, $entity)
+	private function noExisteClienteEdit($entity_original, $entity)
 	{
 		$nombre=$entity->getNombre();
 		$apellido=$entity->getApellido();

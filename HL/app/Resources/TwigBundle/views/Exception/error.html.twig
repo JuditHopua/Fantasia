@@ -1,0 +1,11 @@
+{% extends 'FantasiaBundle:Default:base.html.twig' %}
+{% block title %} Error 500 {% endblock %}
+{% block contenido %}
+<center>
+<h1>ERROR {{ status_code }}</h1>
+<h3>OCURRIÓ UN ERROR</h3>
+<h4> {{ status_text }} </h4>
+<h5>Por favor contacte al desarrollador del sistema</h5>
+</center>
+
+{% endblock %}

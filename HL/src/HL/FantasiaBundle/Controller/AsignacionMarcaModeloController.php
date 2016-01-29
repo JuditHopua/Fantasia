@@ -146,12 +146,10 @@ class AsignacionMarcaModeloController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        //$deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-          //  'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -171,8 +169,7 @@ class AsignacionMarcaModeloController extends Controller
         ));
 		$form->add('file','file',array('label'=>' ', 'required'=>false, 'attr'=>array('accept'=>'image/*', 'class'=>'filestyle', 'data-buttonBefore'=>'true',
 																'data-buttonText'=>'Cambiar imagen')));
-		$form->add('submit', 'submit', array('label' => 'Modificar'));
-		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+		$form->add('submit', 'submit', array('label' => 'Modificar', 'attr'=>array('onclick'=>'return confirmar()')));
 		
         return $form;
     }

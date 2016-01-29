@@ -13,17 +13,23 @@
 		} );
 	});
 	
-	 function confirmar(){
+	function confirmar(){
         if (confirm("¿Realmente desea realizar esta accion?") == true) {
-            return true;
+			if (confirm("Se borrara la marca y se modificaran los presupuestos que la utilizan") == true) {
+				return true;
+				}
+				else {
+				return false;
+				}
         }else{
           return false;
         }
-      }
+    }
 </script>	
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
+	<div id="tablachica">
     <h1>Listado de marcas</h1>
-
+	
     <table class="table table-striped" id="tabla">
         <thead>
             <tr>
@@ -44,8 +50,9 @@
         {% endfor %}
         </tbody>
     </table>
+	
 	<a href="{{ path('marca_new') }}" class="btn btn-primary" >
                 Agregar Marca
     </a>
-
+	</div>
     {% endblock %}

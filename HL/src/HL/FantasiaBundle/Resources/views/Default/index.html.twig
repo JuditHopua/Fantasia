@@ -8,9 +8,7 @@
 		{% include 'FantasiaBundle:Default:carousel.html.twig' %}
 	{% else %}
 			<div class="container" id="login">
-			{%  image  '@FantasiaBundle/Resources/public/images/logo.jpg'  %} 
-				<img src= "{{  asset_url  }}"  alt= "Example"  /> 
-			{%  endimage  %}
+			<img src="{{ asset('bundles/fantasia/images/logo.jpg') }}">
 		
 			{% block fos_user_content %}
 				{% render controller("FOSUserBundle:Security:login") %}

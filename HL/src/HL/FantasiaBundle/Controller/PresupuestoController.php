@@ -13,6 +13,7 @@ use Ps\PdfBundle\Annotation\Pdf;
 use PHPPdf\Core\FacadeBuilder;
 use Swift_Attachment;
 
+
 /**
  * Presupuesto controller.
  *
@@ -40,7 +41,15 @@ class PresupuestoController extends Controller
 			$query = $em->createQuery("SELECT c
                            FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
 			$carpinterias = $query->getResult();
+			if (empty($carpinterias)){
+				$em->remove($entity);
+				$em->flush();
+				 return $this->redirect($this->generateUrl('presupuesto'));
+			}
+			else {
 			$entity->setMontoTotalCarpinterias($this->calcularMonto($carpinterias));
+			$em->flush();
+			}
 		}
         return array(
             'entities' => $entities,
@@ -156,7 +165,7 @@ class PresupuestoController extends Controller
 		
 		$query = $em->createQuery("SELECT c
                            FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
-					
+		$_SESSION['editando']=0;			
         $carpinterias = $query->getResult();
 		$entity->setMontoTotalCarpinterias($this->calcularMonto($carpinterias));
 		$_SESSION['id_presup']=$id;
@@ -183,9 +192,11 @@ class PresupuestoController extends Controller
             'method' => 'PUT',
         ));
 		if ($boolean) {
-        $form->add('costoEnvio','money', array('currency'=>'$$$'));
-		$form->add('costoColocacion','money', array('currency'=>'$$$'));
-		$form->add('plazoEntrega');
+        $form->add('costoEnvio','money', array('label'=>'Costo Colocación','currency'=>'ARS',
+											'attr'=>(array('placeholder'=>'0.00','pattern'=>"[0-9]|(.|,)+([0-9][0-9]?)?"))));
+		$form->add('costoColocacion','money', array('label'=>'Costo Colocación','currency'=>'ARS',
+											'attr'=>(array('placeholder'=>'0.00','pattern'=>"[0-9]|(.|,)+([0-9][0-9]?)?"))));
+		$form->add('plazoEntrega','integer', array('label'=>'Plazo de entrega', 'data'=>15));
 		$form->add('crear', 'submit', array('label' => 'Crear'));
 		$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria','attr'=>array('style'=>'display:none')));
 		$form->add('finalizar', 'submit', array('label' => 'Finalizar','attr'=>array('style'=>'display:none')));
@@ -193,7 +204,7 @@ class PresupuestoController extends Controller
 		else {
 			$form->add('costoEnvio','money', array('currency'=>'$$$', 'label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true)));
 			$form->add('costoColocacion','money', array('currency'=>'$$$', 'label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true)));
-			$form->add('plazoEntrega', 'text', array('label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true))); 
+			$form->add('plazoEntrega', 'integer', array('label_attr'=>array('style'=>'display:none'),'attr'=>array('style'=>'display:none', 'disabled'=>true))); 
 			$form->add('crear', 'submit', array('label' => 'Crear','attr'=>array('style'=>'display:none')));
 			$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria'));
 			$form->add('finalizar', 'submit', array('label' => 'Finalizar'));
@@ -271,7 +282,7 @@ class PresupuestoController extends Controller
 		
 		$query = $em->createQuery("SELECT c
                            FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
-					
+		$_SESSION['editando']=1;			
         $carpinterias = $query->getResult();
 		$entity->setMontoTotalCarpinterias($this->calcularMonto($carpinterias));
 		$_SESSION['id_presup']=$id;
@@ -298,12 +309,14 @@ class PresupuestoController extends Controller
             'method' => 'PUT',
         ));
 		
-        $form->add('costoEnvio','money', array('currency'=>'$$$'));
-		$form->add('costoColocacion','money', array('currency'=>'$$$'));
-		$form->add('plazoEntrega');	
+        $form->add('costoEnvio','money', array('label'=>'Costo Colocación','currency'=>'ARS',
+											'attr'=>(array('pattern'=>"[0-9]|(.|,)+([0-9][0-9]?)?"))));
+		$form->add('costoColocacion','money', array('label'=>'Costo Colocación','currency'=>'ARS',
+											'attr'=>(array('pattern'=>"[0-9]|(.|,)+([0-9][0-9]?)?"))));
+		$form->add('plazoEntrega','integer', array('label'=>'Plazo de entrega'));
 		$form->add('agregar', 'submit', array('label' => 'Agregar Carpinteria'));
-		$form->add('finalizar', 'submit', array('label' => 'Modificar'));
-		//$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('formaction'=>'../../presupuesto','formmethod'=>'GET','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
+		$form->add('finalizar', 'submit', array('label' => 'Modificar', 'attr'=>array('onclick'=>'return confirmar()')));
+		
         return $form;
     }
     /**
@@ -420,30 +433,38 @@ class PresupuestoController extends Controller
      */
     public function mailAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+		$em = $this->getDoctrine()->getManager();
 		
-
         $entity = $em->getRepository('FantasiaBundle:Presupuesto')->find($id);
 		$query = $em->createQuery("SELECT c
                            FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 
 					
 		$carpinterias = $query->getResult();
+		$cliente=$entity->getCliente();
+		$mail=$cliente->getEmail();
+		$nombre=$cliente->__toString();
+		$hora=date("H-i-s");
+		$this->get('knp_snappy.pdf')->generateFromHtml(
+			$this->renderView('FantasiaBundle:Presupuesto:mailPDF.html.twig',array('presupuesto'=>$entity, 'carpinterias'=>$carpinterias)),
+				'presupuestos/'.$nombre.'/Num('.$id.')-@-Fecha-' . date("d-m-Y") . '-@-Hora-'.($hora).'.pdf'
+			);
 		
-		//$file= 'C:\wamp\www\Symfony2\src\HL\FantasiaBundle\Resources\views\Presupuesto\imprimirlistado.pdf.twig';
-
 		$message = \Swift_Message::newInstance()
 			->setSubject('Presupuesto | Fantasia SA')
-			->setFrom('fantasia.sa.16@gmail.com')
-			->setTo('zurdolarrondo@hotmail.com')
-			//->setBody ('ejemplo')
-			->setBody ($this->renderView(
-            'FantasiaBundle:Presupuesto:imprimirlistado.pdf.twig', array('entity'=>$entity, 'carpinterias'=>$carpinterias)
-			), 'text/html');
-			//->attach(Swift_Attachment::fromPath($file));
+			->setFrom(array('fantasia.sa.16@gmail.com'=>'Fantasia SA'))
+			->setTo(array($mail=>$nombre))
+			->setBody ('¡Gracias por confiar en nuestra empresa!
 			
+Estamos a su disposición, Atte. Fantasia SA
+	
+Dirección: Las Heras 620 
+(7500) Tres Arroyos 
+Pcia de Bs As')
+			->attach(Swift_Attachment::fromPath( 'presupuestos/'.$nombre.'/Num('.$id.')-@-Fecha-' . date("d-m-Y") . '-@-Hora-'.($hora).'.pdf')->setFilename('Presupuesto.pdf'));
+		
     $this->get('mailer')->send($message);
    
-	return $this->redirect($this->generateUrl('presupuesto'));
+	return $this->render('FantasiaBundle:Presupuesto:exitomail.html.twig', array('mail'=>$mail));
 	}
 	
 	/**
@@ -458,7 +479,7 @@ class PresupuestoController extends Controller
                            FROM FantasiaBundle:Carpinteria c WHERE c.presupuesto=$id"); 			
 		$carpinterias = $query->getResult();
 		$formato=$this->get('request')->get('_format');
-		return $this->render(sprintf('FantasiaBundle:Presupuesto:imprimirlistado.%s.twig', $formato), array('entity'=>$entity, 'carpinterias'=>$carpinterias));
+		return $this->render(sprintf('FantasiaBundle:Presupuesto:imprimirlistado.pdf.twig', $formato), array('presupuesto'=>$entity, 'carpinterias'=>$carpinterias));
 	}
 
 }

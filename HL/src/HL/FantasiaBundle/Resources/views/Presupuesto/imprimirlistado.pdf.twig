@@ -1,26 +1,110 @@
 <pdf>
-	<dynamic-page page-size="letter-landscape">
+	<dynamic-page page-size="A4">
+	
 	<img margin="0 auto" src="{{pdf_image('FantasiaBundle:logo.jpg')}}"></img>
 	
-	<h1>Sr. {{entity.cliente.apellido}} {{entity.cliente.nombre}}</h1><h1 float="rigth">{{entity.fecha|date('d/m/Y')}}</h1>
+	<h1 float="left">Sr. {{presupuesto.cliente.apellido}} {{presupuesto.cliente.nombre}}</h1><h1 float="rigth">{{presupuesto.fecha|date('d/m/Y')}}</h1>
 	
 	<h1>PRESUPUESTO</h1>
-	<h4>Detalle de aberturas</h4>
-		
+
+	<h2>Detalle de aberturas</h2>
+	<h2></h2>	
+		{%set articulo = 0%}
 		{% for carpinteria in carpinterias %}
 		
-		<h3>Cantidad: {{carpinteria.cantidad}}</h3>
-		<h3>{{carpinteria.asignacion.modelo.nombre}} {{carpinteria.asignacion.descripcion}} 
-		 {{carpinteria.ancho}} x {{carpinteria.alto}} mts. {{carpinteria.asignacion.marca.nombre}}</h3>
-		<h3>Vidrio: {{carpinteria.vidrio.tipo}}</h3>
-       
+		<div breakable="false">
+		<div>
+            <stylesheet>         
+                <complex-attribute name="border" color="grey" type="top+bottom" size="1px" />
+            </stylesheet>
+        </div>
 		
+		
+		     {%set unitario = 0%}
+		     {%set subtotal = 0%}
+		     {% if carpinteria.premarco%}
+		         {%set unitario =((carpinteria.alto + carpinteria.ancho) * 2 * carpinteria.asignacion.precioPremarcoML)%}
+		     {%endif%}
+		     {% if carpinteria.premarco%}
+		         {%set unitario = unitario +((carpinteria.alto + carpinteria.ancho) * 2 * carpinteria.asignacion.precioContramarcoML)%}
+		     {%endif%}
+		     {%set unitario = unitario + ((carpinteria.alto + carpinteria.ancho) * 2 * carpinteria.asignacion.precioxML)%}
+		     {%set unitario = unitario + (carpinteria.alto * carpinteria.ancho * carpinteria.vidrio.precioxm2)%}
+			 
+		<div float="right" width="50%">
+			<div float="left" width="45%">
+			    <h3 float="left">Monto unitario: </h3>
+				<h3 float="left">Subtotal: </h3> 
+			</div>
+		
+			<div float="right" width="30%">
+				<div float="left">
+					<h3 float="left">AR$ </h3>
+					<h3 float="left">AR$ </h3>
+				</div>
+				<div float="right"> 			
+					<h3 float="right">{{unitario|number_format(2)}}</h3>
+					<h3 float="right">{{(unitario * carpinteria.cantidad)|number_format(2)}}</h3>
+				</div>
+			</div>
+		</div>
+		
+		<div float="left" width="40%">
+		    {%set articulo = articulo + 1 %}
+			<h3 > v{{articulo}} </h3>
+			<h3 >Cantidad: {{carpinteria.cantidad}}</h3>
+			<h3 >{{carpinteria.asignacion.modelo.nombre}} {{carpinteria.asignacion.descripcion}} 
+			{{carpinteria.ancho}} x {{carpinteria.alto}} mts. {{carpinteria.asignacion.marca.nombre}}</h3>
+			<h3>Vidrio: {{carpinteria.vidrio.tipo}}</h3>
+			{% if carpinteria.premarco%}
+			<h3>Premarco</h3>
+			{%endif%}
+			{% if carpinteria.contramarco%}
+			<h3>Contramarco</h3>
+		{%endif%}
+		</div>
+		{% if carpinteria.asignacion.path %}
 		<img width="30%" src="{{pdf_image('FantasiaBundle:')}}{{carpinteria.asignacion.path}}"></img>
+		{%else%}
+		<img width="30%" src="{{ pdf_image('FantasiaBundle:Sin_imagen.jpg') }}"></img> 
+		{%endif%}
+		
+		</div>
 		
 		
-		{%endfor%}
+		{%endfor%} 
+		<div breakable="false">
+		<div>
+            <stylesheet>         
+                <complex-attribute name="border" color="grey" type="top+bottom" size="1px" />
+            </stylesheet>
+        </div>
+		<div float="left">
+			<h3>Total Carpinterias: </h3>
+			<h3>Colocacion: </h3>
+			<h3>Envio: </h3>
+			<h3>Total Presupuesto: </h3> 
+			<h3>Plazo de entrega: {{ presupuesto.plazoEntrega }} dias </h3>
+			<h3>Forma de pago 70% y 30% restante contra entrega</h3>
+		</div>
+		<div float="right" width="20%">
+			<div float="left">
+				<h3>AR$ </h3>
+				<h3>AR$ </h3>
+				<h3>AR$ </h3>
+				<h3>AR$ </h3>
+			</div>
+			<div float="right" margin-right="10%">
+				<h3 float="right">{{ presupuesto.montoTotalCarpinterias|number_format(2) }}</h3>
+				<h3 float="right">{{ presupuesto.costoColocacion|number_format(2) }}</h3>
+				<h3 float="right">{{ presupuesto.costoEnvio|number_format(2) }}</h3>
+				<h3 float="right">{{ (presupuesto.montoTotalCarpinterias + presupuesto.costoColocacion + presupuesto.costoEnvio)|number_format(2)}}</h3>
+			</div>
+		</div>
+		</div>
 		
-	    <h3 text-align="center" >Fecha de impresión: {{"now"|date('d/m/Y')}} </h3>
+		
+		<h3 text-align="center" >Fecha de impresión: {{"now"|date('d/m/Y')}} </h3>
 	
 	</dynamic-page>
 	

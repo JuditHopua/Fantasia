@@ -48,7 +48,7 @@ class AsignacionMarcaModelo
     /**
      * @var string
      *
-     * @ORM\Column(name="descripcion", type="text")
+     * @ORM\Column(name="descripcion", type="text", nullable=true)
     */
     private $descripcion;
 	
@@ -69,13 +69,13 @@ class AsignacionMarcaModelo
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Modelo", inversedBy="asignaciones")
-     * @ORM\JoinColumn(name="modelo_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="modelo_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $modelo;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Marca", inversedBy="asignaciones")
-	  * @ORM\JoinColumn(name="marca_id", referencedColumnName="id")
+	  * @ORM\JoinColumn(name="marca_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $marca;
  

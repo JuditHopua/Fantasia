@@ -19,7 +19,8 @@ class AppKernel extends Kernel
             new HL\FantasiaBundle\FantasiaBundle(),
             new FOS\UserBundle\FOSUserBundle(),
 			new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
-			new Ps\PdfBundle\PsPdfBundle()
+			new Ps\PdfBundle\PsPdfBundle(),
+			new Knp\Bundle\SnappyBundle\KnpSnappyBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

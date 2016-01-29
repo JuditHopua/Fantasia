@@ -35,7 +35,8 @@
         "twbs/bootstrap": "3.0.*",
 		"braincrafted/bootstrap-bundle":"~2.0",
 		"jquery/jquery":"1.11.*",
-        "psliwa/pdf-bundle": "^1.0"
+        "psliwa/pdf-bundle": "^1.0",
+		"knplabs/knp-snappy-bundle": "dev-master"
 	
     },
     "require-dev": {

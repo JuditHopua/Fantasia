@@ -23,20 +23,16 @@ class Carpinteria
     private $id;
 
     /**
-     * @var float
+     * @var string
      *
      * @ORM\Column(name="alto", type="decimal", scale=2)
-	 * @Assert\Range(min=0.01,
-	 *				minMessage = "La altura mínima es 0.01")
      */
     private $alto;
 
     /**
-     * @var float
+     * @var string
      *
      * @ORM\Column(name="ancho", type="decimal", scale=2)
-	 * @Assert\Range(min=0.01,
-	 *				minMessage = "El ancho mínimo es 0.01")
      */
     private $ancho;
 
@@ -63,19 +59,19 @@ class Carpinteria
 
 	/**
      * @ORM\ManyToOne(targetEntity="Vidrio", inversedBy="carpinterias")
-     * @ORM\JoinColumn(name="vidrio_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="vidrio_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $vidrio;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="AsignacionMarcaModelo", inversedBy="carpinterias")
-     * @ORM\JoinColumn(name="asignacion_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="asignacion_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $asignacion;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Presupuesto", inversedBy="carpinterias")
-     * @ORM\JoinColumn(name="presupuesto_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="presupuesto_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $presupuesto;
 	

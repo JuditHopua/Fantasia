@@ -16,8 +16,8 @@ class VidrioType extends AbstractType
     {
         $builder
             ->add('tipo')
-            ->add('precioxm2')
-           // ->add('carpinterias')
+            ->add('precioxm2','money', array('label'=>'Precio x m2','currency'=>'ARS',
+											'attr'=>(array('placeholder'=>'0.00','pattern'=>"[0-9]|(.|,)+([0-9][0-9]?)?"))))
         ;
     }
     

@@ -12,6 +12,19 @@
 		"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>"
 		} );
 	});
+	
+	function confirmar(){
+        if (confirm("¿Realmente desea realizar esta accion?") == true) {
+			if (confirm("Se borrara la abertura y se modificaran los presupuestos que la utilizan") == true) {
+				return true;
+				}
+				else {
+				return false;
+				}
+        }else{
+          return false;
+        }
+    }
 </script>	
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
     <h1>Listado de Aberturas</h1>
@@ -21,10 +34,10 @@
             <tr>
                 <th id="thcenter">Modelo</th>
 				<th id="thcenter">Marca</th>
-                <th id="thcenter">Preciopremarcoml</th>
-                <th id="thcenter">Preciocontramarcoml</th>
-                <th id="thcenter">Precioxml</th>
-                <th id="thcenter">Descripcion</th>
+                <th id="thcenter">Precio Premarco ML</th>
+                <th id="thcenter">Precio Contramarco ML</th>
+                <th id="thcenter">Precio x ML</th>
+                <th id="thcenter">Descripci&oacute;n</th>
                 <th id="sinaccion"></th>
             </tr>
         </thead>
@@ -33,16 +46,16 @@
             <tr>
                 <td>{{ entity.modelo.nombre }}</td>
 				<td>{{ entity.marca.nombre }}</td>
-                <td>{{ entity.precioPremarcoML }}</td>
-                <td>{{ entity.precioContramarcoML }}</td>
-                <td>{{ entity.precioxML }}</td>
+                <td>$ {{ entity.precioPremarcoML }}</td>
+                <td>$ {{ entity.precioContramarcoML }}</td>
+                <td>$ {{ entity.precioxML }}</td>
                 <td>{{ entity.descripcion }}</td>
                 <td>
 					<a href="{{ path('abertura_edit', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-pencil"></span></a>
 					
 					<a href="{{ path('abertura_show', { 'id': entity.id }) }}" <span class="glyphicon glyphicon-eye-open"></span></a>
 				
-					<a href="{{ path('abertura_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash"></span></a>
+					<a href="{{ path('abertura_delete', { 'id': entity.id }) }}"<span class="glyphicon glyphicon-trash" onclick="return confirmar()"></span></a>
 				
 				</td>
             </tr>

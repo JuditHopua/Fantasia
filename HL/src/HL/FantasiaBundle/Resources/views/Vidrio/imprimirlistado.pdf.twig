@@ -1,9 +1,9 @@
 <pdf>
-	<dynamic-page page-size="letter-landscape">
+	<dynamic-page page-size="A4">
 	<img margin="0 auto" src="{{pdf_image('FantasiaBundle:logo.jpg')}}"></img>
 	<h1 text-align="center">CATALOGO DE VIDRIOS</h1>
 	<h1></h1>
-	
+	{% if entities %}
 	<table text-align="center" margin-top="10px">
 		<tr background.color="grey" color="white">
 		<td width="130px" font-style="bold" padding="8px">Tipo</td>
@@ -18,6 +18,9 @@
 		{%endfor%}
 		
 	</table>
+	{%else%}
+		<h1 color="red" text-align="center">No hay vidrios cargados en el sistema</h1>
+	{%endif%}
 	<h1></h1>
 	 <h3 text-align="center" >Fecha de impresión: {{"now"|date('d/m/Y')}} </h3>
 	</dynamic-page>

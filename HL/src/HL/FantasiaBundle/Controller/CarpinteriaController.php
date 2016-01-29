@@ -68,14 +68,14 @@ class CarpinteriaController extends Controller
 				}
         }
 		}
-		
+		$_SESSION['asignacion']=null;
 		$em = $this->getDoctrine()->getManager();
 		$query = $em->createQuery("SELECT DISTINCT m.id, m.nombre FROM FantasiaBundle:AsignacionMarcaModelo a, FantasiaBundle:Modelo m
 									WHERE m.id=a.modelo ORDER BY m.nombre ASC"); 
 		$modelos = $query->getResult();
 		
         return array(
-			'mensaje' =>'Todos los campos deben ser completados',
+			'mensaje' =>'Todos los campos deben ser completados y válidos',
 			'modelos' => $modelos,
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -191,7 +191,7 @@ class CarpinteriaController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Modificar'));
+        $form->add('submit', 'submit', array('label' => 'Modificar', 'attr'=>array('onclick'=>'return confirmar()')));
 		
 		$form->add('button', 'submit', array('label' => 'Volver la lista','attr'=>array('onclick'=>'history.back()','formnovalidate'=>'formnovalidate','class'=>'btn btn-primary')));
 		

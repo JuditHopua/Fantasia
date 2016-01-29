@@ -3,26 +3,37 @@
 {% block title %} Modificar Abertura {% endblock %}
 
 {% block contenido %}
-	<script>
+<script>
 	 $(document).ready(function(){
 		$(":file").filestyle('placeholder', '{{entity.path}}');
 	
 	 })
 	 
 	$(function() {
-	
 		 $("input:file").change(function (){
-		   $( "#addForm" ).css( "display", "none" );
-		 
+		   $( "#addForm" ).css( "display", "none" );		 
 		 });
 	});
-	</script>
+	
+	function confirmar(){
+        if (confirm("¿Realmente desea modificar la abertura?") == true) {
+			return true
+			}
+			else{
+				return false;
+			}     
+    }
+</script>
 	{% include 'FantasiaBundle:Default:menu.html.twig' %}
 	
     <h1 id="titulo">Modificar Abertura</h1>
 	
 	<div class="form-group" id="addForm">
+	{%if entity.path%}
 		<img src="{{ asset('bundles/fantasia/images/'~ entity.path) }}" id="editAbertura" > 
+	{%else%}
+		<img src="{{ asset('bundles/fantasia/images/Sin_imagen.jpg') }}" id="editAbertura" > 
+	{%endif%}
 	</div>
 	
 	<div class="formAutogenerado">
@@ -31,4 +42,7 @@
 		{{ form_end(edit_form) }}  
 	</div>
 	
+	<div class="form-group" id="addForm">
+		<a href="{{ path('abertura') }}" class="btn btn-primary">Volver a la lista</a>
+	</div>
 {% endblock %}

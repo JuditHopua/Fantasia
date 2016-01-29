@@ -118,3 +118,17 @@ option[value][disabled] {
 #editAbertura {
 	max-width: 58%;
 }
+
+#cambiarContraseña {
+	margin-left: 17%;
+}
+
+#tablachica {
+	width: 60%;
+    margin: 0 auto;
+}
+
+#carousel-example-generic {
+	width: 50%;
+    margin: 0 auto;
+}

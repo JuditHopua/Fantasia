@@ -1,0 +1,8 @@
+{% extends "FantasiaBundle:Default:base.html.twig" %}
+
+{% block title %}Email enviado{% endblock %}
+{% block contenido %}
+	<div class='alert alert-success'>
+    	El email fue enviado con exito a {{mail}}  <a class="btn btn-primary" href= "{{ path('presupuesto') }}">Volver</a> 
+    </div>
+{% endblock %}

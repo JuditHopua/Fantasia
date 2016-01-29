@@ -24,8 +24,8 @@ class CarpinteriaType extends AbstractType
                                              'property'=>'tipo',
 											 'placeholder'=>'Seleccione un vidrio...',
                                              'attr'=>array( 'required'=>'true','class'=>"chzn-select") ))
-            ->add('alto')//,'integer',array ('label'=>'Alto (mts)', 'attr'=>array('step'=>'0.01', 'min'=>'0.01', 'formnovalidate'=>'formnovalidate')))
-            ->add('ancho')//,'integer',array ('label'=>'Ancho (mts)', 'attr'=>array('step'=>'0.01', 'min'=>'0.01', 'formnovalidate'=>'formnovalidate')))
+            ->add('alto','money',array('label'=>'Alto (mts.)', 'currency'=>'$$$', 'attr'=>(array('placeholder'=>'0.00','pattern'=>"[0-9]|(.|,)+([0-9][0-9]?)?"))))
+            ->add('ancho','money',array('label'=>'Ancho (mts.)', 'currency'=>'$$$', 'attr'=>(array('placeholder'=>'0.00','pattern'=>"[0-9]|(.|,)+([0-9][0-9]?)?"))))
             ->add('premarco')
             ->add('contramarco')
             ->add('cantidad','integer',array ('label'=>'Cantidad', 'attr'=>array('min'=>'1')))

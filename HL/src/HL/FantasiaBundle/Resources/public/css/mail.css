@@ -1,0 +1,75 @@
+#titulo {
+	background-color:black;
+	width:100%;
+}
+
+#logo {
+	margin: 0 auto;
+	display: table-cell;
+}
+
+.cliente {
+	margin-top:8%;
+}
+
+#izquierda {
+	float: left;	
+}
+
+#derecha {
+	float: right;	
+}
+
+#negrita {
+	font-weight:bold;
+}
+
+#detalle {
+	margin-top:5%;	
+}
+
+#bordedoble {
+	border-bottom: solid #CCC 1px;
+	border-top: solid #CCC 1px;
+}
+
+#presupuesto {
+	margin-top:20%;
+	margin-left:0%;
+}
+
+.border {
+	border-bottom: solid #CCC 1px;
+}
+
+#abertura {
+	page-break-inside:avoid;
+	margin-top:5%;
+}
+
+#h4izq {
+	width:50%;
+	float: left;
+}
+
+#monto {
+	font-weight:bold;
+	width: 50%;
+	float: right;
+	text-align: right;
+}
+
+#imgabertura {
+	max-width:40%;
+}
+
+.total {
+	font-weight:bold;
+	border-bottom: solid #CCC 1px;
+	border-top: solid #CCC 1px;
+}
+
+.ultimos {
+	font-weight:bold;
+	border-bottom: solid #CCC 1px;
+}
