@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use HL\FantasiaBundle\Entity\Carpinteria;
 use HL\FantasiaBundle\Entity\AsignacionMarcaModelo;
 use HL\FantasiaBundle\Form\CarpinteriaType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Carpinteria controller.
@@ -126,31 +127,6 @@ class CarpinteriaController extends Controller
     }
 
     /**
-     * Finds and displays a Carpinteria entity.
-     *
-     * @Route("/{id}", name="carpinteria_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('FantasiaBundle:Carpinteria')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Carpinteria entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
      * Displays a form to edit an existing Carpinteria entity.
      *
      * @Route("/{id}/edit", name="carpinteria_edit")
@@ -231,9 +207,9 @@ class CarpinteriaController extends Controller
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            //'delete_form' => $deleteForm->createView(),
         );
     }
+	
     /**
      * Deletes a Carpinteria entity.
      *
@@ -277,5 +253,68 @@ class CarpinteriaController extends Controller
             ->getForm()
         ;
     }
+	
+	/**                                                                                   
+	 * @Route("/marcas", name="carpinteria_marcas")
+	 * @Method("POST")
+	 */
+	 public function marcasAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+		
+		$request = $this->get('request');
+		
+		$id_modelo = $request->get('id_modelo');
+        
+		$html = '<option value=”” disabled selected>Seleccione marca...</option>';
+		$query = $em->createQuery("SELECT ma FROM FantasiaBundle:AsignacionMarcaModelo a, FantasiaBundle:Marca ma
+						WHERE ma.id=a.marca and a.modelo=$id_modelo ORDER BY ma.nombre ASC"); 
+		$marcas = $query->getResult();
+		foreach($marcas as $marcas){
+				$id=$marcas->getId();
+				$nombre=$marcas->getNombre();
+				$html .= '<option value="'.$id.'">'.$nombre.'</option>';
+			}
+		 return new Response($html);
+    }
 
+	/**                                                                                   
+	 * @Route("/datos", name="carpinteria_datos")
+	
+	 */
+	 public function datosAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+		$html = '';
+		$request = $this->get('request');
+		
+		$id_modelo = $request->get('id_modelo');
+        $id_marca = $request->get('id_marca');
+		
+		$query = $em->createQuery("SELECT a FROM FantasiaBundle:AsignacionMarcaModelo a
+						WHERE a.marca=$id_marca and a.modelo=$id_modelo");
+						
+		$datos = $query->getResult();
+		
+		$_SESSION['asignacion'] = $datos[0]->getId();	
+		
+		$html = '<thead>
+				  <tr>
+					
+					<th id="datosthtd">Precio metro lineal</th>
+					<th id="datosthtd">Precio premarco</th>
+					<th id="datosthtd">Precio contramarco</th>
+				 </tr>
+					</thead>
+					<tbody>
+						<tr>
+							
+							<td id="datosthtd">$'.$datos[0]->getPrecioxML().'</td>
+							<td id="datosthtd">$'.$datos[0]->getPrecioPremarcoML().'</td>
+							<td id="datosthtd">$'.$datos[0]->getPrecioContramarcoML().'</td>
+						</tr>
+					</tbody>';
+			
+		 return new Response($html);
+    }
 }

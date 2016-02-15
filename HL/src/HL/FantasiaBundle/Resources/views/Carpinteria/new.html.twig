@@ -8,13 +8,13 @@
                  $("#modelo").change(function () {
                        $("#modelo option:selected").each(function () {
 							id_modelo=$(this).val();
-							$.post("{{ asset('bundles/fantasia/marca.php' ) }}", { id_modelo: id_modelo }, function(data){
+							$.post("marcas", { id_modelo: id_modelo }, function(data){
 								$("#marca").html(data);
 								$("#datos").html('');
 								$("#marca").change(function () {
 									$("#marca option:selected").each(function () {
 										id_marca = $(this).val();
-										$.post("{{ asset('bundles/fantasia/datos.php' ) }}", { id_marca: id_marca, id_modelo: id_modelo }, function(data){
+										$.post("datos", { id_marca: id_marca, id_modelo: id_modelo }, function(data){
 											$("#datos").html(data);
 										});			
 									});

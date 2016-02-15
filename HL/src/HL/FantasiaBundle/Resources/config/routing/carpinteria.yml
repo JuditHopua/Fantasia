@@ -2,10 +2,6 @@ carpinteria:
     path:     /
     defaults: { _controller: "FantasiaBundle:Carpinteria:index" }
 
-carpinteria_show:
-    path:     /{id}/show
-    defaults: { _controller: "FantasiaBundle:Carpinteria:show" }
-
 carpinteria_new:
     path:     /new
     defaults: { _controller: "FantasiaBundle:Carpinteria:new" }
@@ -22,3 +18,11 @@ carpinteria_update:
 carpinteria_delete:
     path:     /{id}/delete
     defaults: { _controller: "FantasiaBundle:Carpinteria:delete" }
+
+carpinteria_marca:
+    path:    /marcas
+    defaults: { _controller: "FantasiaBundle:Carpinteria:marcas" }
+
+carpinteria_datos:
+    path:    /datos
+    defaults: { _controller: "FantasiaBundle:Carpinteria:datos" }
